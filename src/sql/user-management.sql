@@ -6,7 +6,7 @@
 DROP TABLE IF EXISTS User;
 
 -- Create User table
-CREATE TABLE User (
+CREATE TABLE Users (
                       id INT AUTO_INCREMENT PRIMARY KEY,
                       first_name VARCHAR(50) NOT NULL,
                       last_name VARCHAR(50) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE User (
 );
 
 -- Insert some sample users
-INSERT INTO User (first_name, last_name, email, password, role)
+INSERT INTO Users (first_name, last_name, email, password, role)
 VALUES
     ('System', 'Admin', 'admin@example.com', 'admin123', 'ADMIN'),
     ('John', 'Smith', 'teacher1@example.com', 'teach123', 'TEACHER'),

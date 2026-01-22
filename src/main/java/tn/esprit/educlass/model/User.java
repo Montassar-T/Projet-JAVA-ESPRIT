@@ -1,25 +1,45 @@
 package tn.esprit.educlass.model;
 
 import tn.esprit.educlass.enums.Role;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "users")
 public class User extends BaseEntity {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private Role role;  // using enum now
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    // Default constructor
     public User() {}
 
-    public User(int id,String firstName, String lastName, String email,Role role, String fullName) {
-        this.id = id;
+    // Constructor without ID (for new entities)
+    public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.role = role;
     }
 
+    // Getters and setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
