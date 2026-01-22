@@ -1,35 +1,22 @@
 package tn.esprit.educlass.model;
 
 import tn.esprit.educlass.enums.Role;
-import jakarta.persistence.*;
 import tn.esprit.educlass.enums.UserStatus;
 
-@Entity
-@Table(name = "users")
 public class User extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private UserStatus status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
 
     // Default constructor
