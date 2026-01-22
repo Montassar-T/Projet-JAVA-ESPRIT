@@ -2,19 +2,33 @@ package tn.esprit.educlass.utlis;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Properties;
+import java.io.InputStream;
 
 public class DataSource {
     private static DataSource dataSource;
-    private  Connection con;
-    private  String url="jdbc:mysql://localhost:3306/educlass";
-    private  String username="root";
-    private  String password="";
-    private DataSource (){
-        try {
+    private Connection con;
+
+    private String url;
+    private String username;
+    private String password;
+
+    private DataSource() {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
+            Properties prop = new Properties();
+            if (input == null) {
+                throw new RuntimeException("Unable to find application.properties");
+            }
+            prop.load(input);
+
+            this.url = prop.getProperty("db.url");
+            this.username = prop.getProperty("db.username");
+            this.password = prop.getProperty("db.password");
+
             con = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to connect to database");
         }
     }
 
@@ -22,10 +36,10 @@ public class DataSource {
         return con;
     }
 
-    public static DataSource getInstance(){
-      if(dataSource==null){
-          dataSource=new DataSource();
-      }
+    public static DataSource getInstance() {
+        if (dataSource == null) {
+            dataSource = new DataSource();
+        }
         return dataSource;
     }
 }
