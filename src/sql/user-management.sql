@@ -22,7 +22,7 @@ CREATE TABLE `users` (
 CREATE INDEX idx_role ON `users` (`role`);
 
 -- Insert some sample users
-INSERT INTO 'users' (first_name, last_name, email, password, role)
+INSERT INTO `users` (first_name, last_name, email, password, role)
 VALUES
     ('System', 'Admin', 'admin@example.com', 'admin123', 'ADMIN'),
     ('John', 'Smith', 'teacher1@example.com', 'teach123', 'TEACHER'),
