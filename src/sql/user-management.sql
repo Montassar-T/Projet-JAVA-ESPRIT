@@ -24,8 +24,8 @@ CREATE INDEX idx_role ON `users` (`role`);
 -- Insert some sample users
 INSERT INTO `users` (first_name, last_name, email, password, role)
 VALUES
-    ('System', 'Admin', 'admin@example.com', 'admin123', 'ADMIN'),
-    ('John', 'Smith', 'teacher1@example.com', 'teach123', 'TEACHER'),
-    ('Jane', 'Doe', 'teacher2@example.com', 'teach123', 'TEACHER'),
-    ('Alice', 'Brown', 'student1@example.com', 'stud123', 'STUDENT'),
-    ('Bob', 'Green', 'student2@example.com', 'stud123', 'STUDENT');
+    ('System', 'Admin', 'admin@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'ADMIN'),
+    ('John', 'Smith', 'teacher1@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'TEACHER'),
+    ('Jane', 'Doe', 'teacher2@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'TEACHER'),
+    ('Alice', 'Brown', 'student1@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'STUDENT'),
+    ('Bob', 'Green', 'student2@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'STUDENT');
