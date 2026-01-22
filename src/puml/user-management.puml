@@ -1,0 +1,26 @@
+@startuml
+
+enum Role {
+    ADMIN
+    TEACHER
+    STUDENT
+}
+
+class User {
+    +int id
+    +String username
+    +String email
+    +String password
+    +Role role
+    +String fullName
+}
+
+class Admin
+class Teacher
+class Student
+
+Admin -|> User
+Teacher -|> User
+Student -|> User
+
+@enduml
