@@ -1,0 +1,49 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "EduClass - Online Evaluations" {
+
+class Evaluation {
+  -id : int
+  -title : String
+  -description : String
+  -type : EvaluationType
+  -teacherId : int
+  -duration : int
+  -dueDate : Date
+  -status : String
+}
+
+enum EvaluationType {
+  QUIZ
+  ASSIGNMENT
+  EXAM
+}
+
+class Question {
+  -id : int
+  -evaluationId : int
+  -text : String
+  -questionType : QuestionType
+  -points : double
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  SINGLE_CHOICE
+  OPEN
+}
+
+class Choice {
+  -id : int
+  -questionId : int
+  -text : String
+  -isCorrect : boolean
+}
+
+Evaluation "1" o-- "*" Question
+Question "1" o-- "*" Choice
+
+}
+@enduml
+
