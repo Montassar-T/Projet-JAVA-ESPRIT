@@ -2,6 +2,7 @@ package tn.esprit.educlass.model;
 
 import tn.esprit.educlass.enums.Role;
 import jakarta.persistence.*;
+import tn.esprit.educlass.enums.UserStatus;
 
 @Entity
 @Table(name = "users")
@@ -22,6 +23,9 @@ public class User extends BaseEntity {
 
     @Column
     private String password;
+
+    @Column
+    private UserStatus status;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,6 +61,9 @@ public class User extends BaseEntity {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public UserStatus getStatus() { return status; }
+    public void setStatus(UserStatus status) { this.status = status; }
 
     // Convenience method
     public String getFullName() {
