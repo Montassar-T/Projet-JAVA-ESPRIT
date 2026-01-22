@@ -9,7 +9,11 @@ import java.sql.*;
 
 public class AuthService {
 
-    private Connection con = DataSource.getInstance().getCon();
+    private Connection con;
+
+    public AuthService() {
+        this.con = DataSource.getInstance().getCon();
+    }
 
     public User login(String email, String password) throws SQLException {
         String sql = "SELECT * FROM users WHERE email=?";
