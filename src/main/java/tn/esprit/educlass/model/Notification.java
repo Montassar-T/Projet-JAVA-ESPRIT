@@ -11,7 +11,6 @@ public class Notification extends BaseEntity {
     private String message;
     private NotificationType type;
     private boolean read;
-    private Date createdAt;
     private Date readAt;
 
     public Notification() {
@@ -63,14 +62,6 @@ public class Notification extends BaseEntity {
 
     public void setRead(boolean read) {
         this.read = read;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Date getReadAt() {
