@@ -1,0 +1,32 @@
+@startuml
+
+' =======================
+' COURSE MANAGEMENT
+' =======================
+
+class Course {
+  -id: Long
+  -title: String
+  -description: String
+  -creationDate: Date
+}
+
+class Chapter {
+  -id: Long
+  -title: String
+  -orderIndex: Integer
+}
+
+class Lesson {
+  -id: Long
+  -title: String
+  -content: String
+  -durationMinutes: Integer
+}
+
+Teacher "1" -- "0..*" Course : creates
+Course "1" -- "1..*" Chapter : contains
+Chapter "1" -- "1..*" Lesson : contains
+Student "0..*" -- "0..*" Course : enrolls_in
+
+@enduml
