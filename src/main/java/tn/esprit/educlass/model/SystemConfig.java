@@ -2,16 +2,16 @@ package tn.esprit.educlass.model;
 
 import java.util.Date;
 
-public class SystemeConfig extends BaseEntity {
+public class SystemConfig extends BaseEntity {
   private Long idConfig;
   private String nomPlateforme;
-  private String langueDefaut;
+  private String langueDefault;
   private String fuseauHoraire;
   private Boolean modeMaintenance;
   private String emailSupport;
   private Date dateMaj;
 
-  public SystemeConfig() {
+  public SystemConfig() {
   }
 
   public Long getIdConfig() {
@@ -30,12 +30,12 @@ public class SystemeConfig extends BaseEntity {
     this.nomPlateforme = nomPlateforme;
   }
 
-  public String getLangueDefaut() {
-    return langueDefaut;
+  public String getLangueDefault() {
+    return langueDefault;
   }
 
-  public void setLangueDefaut(String langueDefaut) {
-    this.langueDefaut = langueDefaut;
+  public void setLangueDefault(String langueDefault) {
+    this.langueDefault = langueDefault;
   }
 
   public String getFuseauHoraire() {

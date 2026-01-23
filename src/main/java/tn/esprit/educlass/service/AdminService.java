@@ -6,7 +6,7 @@ import tn.esprit.educlass.mapper.SystemeConfigMapper;
 import tn.esprit.educlass.mapper.SupervisionMapper;
 import tn.esprit.educlass.model.Etablissement;
 import tn.esprit.educlass.model.StructureAcademique;
-import tn.esprit.educlass.model.SystemeConfig;
+import tn.esprit.educlass.model.SystemConfig;
 import tn.esprit.educlass.model.Supervision;
 
 import java.sql.Connection;
@@ -30,7 +30,7 @@ public class AdminService {
    * =====================================================
    */
 
-  public void upsertConfig(SystemeConfig config) throws SQLException {
+  public void upsertConfig(SystemConfig config) throws SQLException {
     String sql;
     if (config.getIdConfig() == null) {
       sql = """
@@ -46,7 +46,7 @@ public class AdminService {
 
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       ps.setString(1, config.getNomPlateforme());
-      ps.setString(2, config.getLangueDefaut());
+      ps.setString(2, config.getLangueDefault());
       ps.setString(3, config.getFuseauHoraire());
       ps.setBoolean(4, config.getModeMaintenance());
       ps.setString(5, config.getEmailSupport());
@@ -59,7 +59,7 @@ public class AdminService {
     }
   }
 
-  public SystemeConfig getConfig() throws SQLException {
+  public SystemConfig getConfig() throws SQLException {
     String sql = "SELECT * FROM systeme_config LIMIT 1";
     try (PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery()) {

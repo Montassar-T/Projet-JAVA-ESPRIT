@@ -2,7 +2,7 @@
 CREATE TABLE systeme_config (
     id_config BIGINT AUTO_INCREMENT PRIMARY KEY,
     nom_plateforme VARCHAR(255) NOT NULL,
-    langue_defaut VARCHAR(50),
+    langue_default VARCHAR(50),
     fuseau_horaire VARCHAR(50),
     mode_maintenance BOOLEAN DEFAULT FALSE,
     email_support VARCHAR(255),
