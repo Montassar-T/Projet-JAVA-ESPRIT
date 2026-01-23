@@ -1,0 +1,24 @@
+@startuml
+
+class Notification {
+  -id: Long
+  -userId: int
+  -title: String
+  -message: String
+  -type: NotificationType
+  -read: boolean
+  -createdAt: Date
+  -readAt: Date
+}
+
+enum NotificationType {
+  SYSTEM
+  COURSE
+  EVALUATION
+}
+
+User "1" -- "0..*" Notification : receives
+
+Notification ..> NotificationType : type
+
+@enduml
