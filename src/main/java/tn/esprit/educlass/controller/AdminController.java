@@ -2,7 +2,7 @@ package tn.esprit.educlass.controller;
 
 import tn.esprit.educlass.model.Etablissement;
 import tn.esprit.educlass.model.StructureAcademique;
-import tn.esprit.educlass.model.SystemeConfig;
+import tn.esprit.educlass.model.SystemConfig;
 import tn.esprit.educlass.model.Supervision;
 import tn.esprit.educlass.service.AdminService;
 
@@ -23,11 +23,11 @@ public class AdminController {
    * =====================================================
    */
 
-  public void modifierParametre(SystemeConfig config) throws SQLException {
+  public void modifierParametre(SystemConfig config) throws SQLException {
     service.upsertConfig(config);
   }
 
-  public SystemeConfig obtenirConfig() throws SQLException {
+  public SystemConfig obtenirConfig() throws SQLException {
     return service.getConfig();
   }
 

@@ -14,7 +14,7 @@ public class UserMapper {
         u.setId(rs.getInt("id"));
         u.setFirstName(rs.getString("first_name"));
         u.setLastName(rs.getString("last_name"));
-        u.setPassword(rs.getString("password").trim());
+        u.setPassword(rs.getString("password"));
         u.setEmail(rs.getString("email"));
         u.setRole(Role.valueOf(rs.getString("role")));
         u.setStatus(UserStatus.valueOf(rs.getString("status")));
