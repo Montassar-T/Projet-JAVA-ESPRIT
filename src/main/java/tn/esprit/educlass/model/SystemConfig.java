@@ -3,78 +3,78 @@ package tn.esprit.educlass.model;
 import java.util.Date;
 
 public class SystemConfig extends BaseEntity {
-  private Long idConfig;
-  private String nomPlateforme;
-  private String langueDefault;
-  private String fuseauHoraire;
-  private Boolean modeMaintenance;
-  private String emailSupport;
-  private Date dateMaj;
+  private Long id;
+  private String platformName;
+  private String defaultLanguage;
+  private String timezone;
+  private Boolean maintenanceMode;
+  private String supportEmail;
+  private Date updatedAt;
 
   public SystemConfig() {
   }
 
-  public Long getIdConfig() {
-    return idConfig;
+  public Long getId() {
+    return id;
   }
 
-  public void setIdConfig(Long idConfig) {
-    this.idConfig = idConfig;
+  public void setId(Long id) {
+    this.id = id;
   }
 
-  public String getNomPlateforme() {
-    return nomPlateforme;
+  public String getPlatformName() {
+    return platformName;
   }
 
-  public void setNomPlateforme(String nomPlateforme) {
-    this.nomPlateforme = nomPlateforme;
+  public void setPlatformName(String platformName) {
+    this.platformName = platformName;
   }
 
-  public String getLangueDefault() {
-    return langueDefault;
+  public String getDefaultLanguage() {
+    return defaultLanguage;
   }
 
-  public void setLangueDefault(String langueDefault) {
-    this.langueDefault = langueDefault;
+  public void setDefaultLanguage(String defaultLanguage) {
+    this.defaultLanguage = defaultLanguage;
   }
 
-  public String getFuseauHoraire() {
-    return fuseauHoraire;
+  public String getTimezone() {
+    return timezone;
   }
 
-  public void setFuseauHoraire(String fuseauHoraire) {
-    this.fuseauHoraire = fuseauHoraire;
+  public void setTimezone(String timezone) {
+    this.timezone = timezone;
   }
 
-  public Boolean getModeMaintenance() {
-    return modeMaintenance;
+  public Boolean getMaintenanceMode() {
+    return maintenanceMode;
   }
 
-  public void setModeMaintenance(Boolean modeMaintenance) {
-    this.modeMaintenance = modeMaintenance;
+  public void setMaintenanceMode(Boolean maintenanceMode) {
+    this.maintenanceMode = maintenanceMode;
   }
 
-  public String getEmailSupport() {
-    return emailSupport;
+  public String getSupportEmail() {
+    return supportEmail;
   }
 
-  public void setEmailSupport(String emailSupport) {
-    this.emailSupport = emailSupport;
+  public void setSupportEmail(String supportEmail) {
+    this.supportEmail = supportEmail;
   }
 
-  public Date getDateMaj() {
-    return dateMaj;
+  public Date getUpdatedAt() {
+    return updatedAt;
   }
 
-  public void setDateMaj(Date dateMaj) {
-    this.dateMaj = dateMaj;
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
   }
 
-  public void activerMaintenance() {
-    this.modeMaintenance = true;
+  public void activateMaintenance() {
+    this.maintenanceMode = true;
   }
 
-  public void modifierParametre() {
-    this.dateMaj = new Date();
+  public void modifyParameter() {
+    this.updatedAt = new Date();
   }
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.AdminController"
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 20;">
+            <Label text="Supervision Logs" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-padding: 15;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="supervisionSearchField" promptText="Search logs..." prefWidth="300"
+                           style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                <Button text="Refresh" fx:id="refreshLogsBtn"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Export CSV"
+                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+
+            <TableView fx:id="supervisionTable" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="idActionCol" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="actionCol" text="Action" prefWidth="250"/>
+                    <TableColumn fx:id="userCol" text="User" prefWidth="150"/>
+                    <TableColumn fx:id="typeActionCol" text="Type" prefWidth="100"/>
+                    <TableColumn fx:id="resultatCol" text="Result" prefWidth="100"/>
+                    <TableColumn fx:id="timestampCol" text="Date" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

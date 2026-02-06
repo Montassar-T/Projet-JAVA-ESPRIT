@@ -1,0 +1,69 @@
+@startuml
+
+class BaseEntity {
+    +Date createdAt
+    +Date updatedAt
+}
+
+class SystemConfig {
+    +Long id
+    +String platformName
+    +String defaultLanguage
+    +String timezone
+    +Boolean maintenanceMode
+    +String supportEmail
+    +Date updatedAt
+    +void activateMaintenance()
+    +void modifyParameter()
+}
+
+class AcademicStructure {
+    +Long id
+    +String name
+    +StructureType type
+    +String code
+    +String address
+    +String manager
+    +Date createdAt
+    +void updateStructure()
+    +void deleteStructure()
+}
+
+enum InstitutionStatus {
+    PUBLIC
+    PRIVATE
+}
+
+class Institution {
+    +Long id
+    +String name
+    +String code
+    +String city
+    +InstitutionStatus status
+    +Integer studentCapacity
+    +Date openingDate
+    +AcademicStructure structure
+    +void open()
+    +void close()
+}
+
+class Supervision {
+    +Long id
+    +String action
+    +String user
+    +ActionType type
+    +ActionResult result
+    +Date timestamp
+    +void saveAction()
+    +void generateReport()
+}
+
+SystemConfig --|> BaseEntity
+AcademicStructure --|> BaseEntity
+Institution --|> BaseEntity
+Supervision --|> BaseEntity
+
+Institution "0..*" -- "1" AcademicStructure : belongs to
+Institution ..> InstitutionStatus
+
+@enduml

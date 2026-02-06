@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.AdminController"
+            prefHeight="600.0" prefWidth="900.0"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 20;">
+            <Label text="Institutions Management" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0, 5); -fx-padding: 15;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="institutionSearchField" promptText="Filter institutions..." prefWidth="250"
+                           style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                <ComboBox fx:id="filterStructureCombo" promptText="All Structures" prefWidth="200"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="+ Add Institution" fx:id="openAddInstBtn"
+                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+
+            <TableView fx:id="institutionTable" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="instNameCol" text="Name" prefWidth="200"/>
+                    <TableColumn fx:id="instCodeCol" text="Code" prefWidth="100"/>
+                    <TableColumn fx:id="instCityCol" text="City" prefWidth="150"/>
+                    <TableColumn fx:id="instStatusCol" text="Status" prefWidth="100"/>
+                    <TableColumn fx:id="instCapacityCol" text="Capacity" prefWidth="100"/>
+                    <TableColumn fx:id="instDateCol" text="Opening Date" prefWidth="120"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Edit Selected"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button text="Delete"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

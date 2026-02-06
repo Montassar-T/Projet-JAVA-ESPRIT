@@ -5,22 +5,22 @@ import tn.esprit.educlass.enums.ActionResult;
 import java.util.Date;
 
 public class Supervision extends BaseEntity {
-  private Long idAction;
+  private Long id;
   private String action;
-  private String utilisateur;
-  private ActionType typeAction;
-  private ActionResult resultat;
-  private Date dateAction;
+  private String user;
+  private ActionType type;
+  private ActionResult result;
+  private Date timestamp;
 
   public Supervision() {
   }
 
-  public Long getIdAction() {
-    return idAction;
+  public Long getId() {
+    return id;
   }
 
-  public void setIdAction(Long idAction) {
-    this.idAction = idAction;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getAction() {
@@ -31,43 +31,43 @@ public class Supervision extends BaseEntity {
     this.action = action;
   }
 
-  public String getUtilisateur() {
-    return utilisateur;
+  public String getUser() {
+    return user;
   }
 
-  public void setUtilisateur(String utilisateur) {
-    this.utilisateur = utilisateur;
+  public void setUser(String user) {
+    this.user = user;
   }
 
-  public ActionType getTypeAction() {
-    return typeAction;
+  public ActionType getType() {
+    return type;
   }
 
-  public void setTypeAction(ActionType typeAction) {
-    this.typeAction = typeAction;
+  public void setType(ActionType type) {
+    this.type = type;
   }
 
-  public ActionResult getResultat() {
-    return resultat;
+  public ActionResult getResult() {
+    return result;
   }
 
-  public void setResultat(ActionResult resultat) {
-    this.resultat = resultat;
+  public void setResult(ActionResult result) {
+    this.result = result;
   }
 
-  public Date getDateAction() {
-    return dateAction;
+  public Date getTimestamp() {
+    return timestamp;
   }
 
-  public void setDateAction(Date dateAction) {
-    this.dateAction = dateAction;
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
   }
 
-  public void enregistrerAction() {
-    this.dateAction = new Date();
+  public void saveAction() {
+    this.timestamp = new Date();
   }
 
-  public void genererRapport() {
+  public void generateReport() {
     // Implementation logic
   }
 }

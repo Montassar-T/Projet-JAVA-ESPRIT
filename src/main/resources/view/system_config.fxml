@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.AdminController"
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 20;">
+            <Label text="System Configuration" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-padding: 15;" maxWidth="600" alignment="TOP_CENTER">
+                <padding>
+                    <Insets top="30" right="30" bottom="30" left="30"/>
+                </padding>
+
+                <GridPane vgap="15" hgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="150"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="Platform Name:"/>
+                    <TextField fx:id="platformNameField" GridPane.columnIndex="1"
+                               style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+
+                    <Label text="Default Language:" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="languageCombo" GridPane.columnIndex="1" prefWidth="200"/>
+
+                    <Label text="Timezone:" GridPane.rowIndex="2"/>
+                    <TextField fx:id="timezoneField" GridPane.columnIndex="1"
+                               style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+
+                    <Label text="Support Email:" GridPane.rowIndex="3"/>
+                    <TextField fx:id="supportEmailField" GridPane.columnIndex="1"
+                               style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+
+                    <Label text="Maintenance Mode:" GridPane.rowIndex="4"/>
+                    <ToggleButton fx:id="maintenanceToggle" text="Inactive" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Reset"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    <Button text="Save Changes" fx:id="saveConfigBtn"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
