@@ -10,12 +10,12 @@ public class SupervisionMapper {
 
   public static Supervision map(ResultSet rs) throws SQLException {
     Supervision supervision = new Supervision();
-    supervision.setIdAction(rs.getLong("id_action"));
+    supervision.setId(rs.getLong("id"));
     supervision.setAction(rs.getString("action"));
-    supervision.setUtilisateur(rs.getString("utilisateur"));
-    supervision.setTypeAction(ActionType.valueOf(rs.getString("type_action")));
-    supervision.setResultat(ActionResult.valueOf(rs.getString("resultat")));
-    supervision.setDateAction(rs.getTimestamp("date_action"));
+    supervision.setUser(rs.getString("user"));
+    supervision.setType(ActionType.valueOf(rs.getString("type")));
+    supervision.setResult(ActionResult.valueOf(rs.getString("result")));
+    supervision.setTimestamp(rs.getTimestamp("timestamp"));
     return supervision;
   }
 }

@@ -1,6 +1,6 @@
 package tn.esprit.educlass.enums;
 
-public enum StatutEtablissement {
+public enum InstitutionStatus {
   PUBLIC,
-  PRIVE
+  PRIVATE
 }

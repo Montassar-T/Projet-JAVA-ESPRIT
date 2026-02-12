@@ -1,11 +1,11 @@
 package tn.esprit.educlass.service;
 
-import tn.esprit.educlass.mapper.EtablissementMapper;
-import tn.esprit.educlass.mapper.StructureAcademiqueMapper;
-import tn.esprit.educlass.mapper.SystemeConfigMapper;
+import tn.esprit.educlass.mapper.InstitutionMapper;
+import tn.esprit.educlass.mapper.AcademicStructureMapper;
+import tn.esprit.educlass.mapper.SystemConfigMapper;
 import tn.esprit.educlass.mapper.SupervisionMapper;
-import tn.esprit.educlass.model.Etablissement;
-import tn.esprit.educlass.model.StructureAcademique;
+import tn.esprit.educlass.model.Institution;
+import tn.esprit.educlass.model.AcademicStructure;
 import tn.esprit.educlass.model.SystemConfig;
 import tn.esprit.educlass.model.Supervision;
 
@@ -32,38 +32,38 @@ public class AdminService {
 
   public void upsertConfig(SystemConfig config) throws SQLException {
     String sql;
-    if (config.getIdConfig() == null) {
+    if (config.getId() == null) {
       sql = """
-              INSERT INTO systeme_config (nom_plateforme, langue_defaut, fuseau_horaire, mode_maintenance, email_support, date_maj)
+              INSERT INTO system_config (platform_name, default_language, timezone, maintenance_mode, support_email, updated_at)
               VALUES (?, ?, ?, ?, ?, ?)
           """;
     } else {
       sql = """
-              UPDATE systeme_config SET nom_plateforme = ?, langue_defaut = ?, fuseau_horaire = ?, mode_maintenance = ?, email_support = ?, date_maj = ?
-              WHERE id_config = ?
+              UPDATE system_config SET platform_name = ?, default_language = ?, timezone = ?, maintenance_mode = ?, support_email = ?, updated_at = ?
+              WHERE id = ?
           """;
     }
 
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-      ps.setString(1, config.getNomPlateforme());
-      ps.setString(2, config.getLangueDefault());
-      ps.setString(3, config.getFuseauHoraire());
-      ps.setBoolean(4, config.getModeMaintenance());
-      ps.setString(5, config.getEmailSupport());
+      ps.setString(1, config.getPlatformName());
+      ps.setString(2, config.getDefaultLanguage());
+      ps.setString(3, config.getTimezone());
+      ps.setBoolean(4, config.getMaintenanceMode());
+      ps.setString(5, config.getSupportEmail());
       ps.setTimestamp(6, new java.sql.Timestamp(
-          config.getDateMaj() != null ? config.getDateMaj().getTime() : new java.util.Date().getTime()));
-      if (config.getIdConfig() != null) {
-        ps.setLong(7, config.getIdConfig());
+          config.getUpdatedAt() != null ? config.getUpdatedAt().getTime() : new java.util.Date().getTime()));
+      if (config.getId() != null) {
+        ps.setLong(7, config.getId());
       }
       ps.executeUpdate();
     }
   }
 
   public SystemConfig getConfig() throws SQLException {
-    String sql = "SELECT * FROM systeme_config LIMIT 1";
+    String sql = "SELECT id, platform_name, default_language, timezone, maintenance_mode, support_email, updated_at FROM system_config LIMIT 1";
     try (PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery()) {
-      return rs.next() ? SystemeConfigMapper.map(rs) : null;
+      return rs.next() ? SystemConfigMapper.map(rs) : null;
     }
   }
 
@@ -73,35 +73,35 @@ public class AdminService {
    * =====================================================
    */
 
-  public void createStructure(StructureAcademique structure) throws SQLException {
-    String sql = "INSERT INTO structure_academique (nom_structure, type_structure, code_structure, adresse, responsable, date_creation) VALUES (?, ?, ?, ?, ?, ?)";
+  public void createStructure(AcademicStructure structure) throws SQLException {
+    String sql = "INSERT INTO academic_structure (name, type, code, address, manager, created_at) VALUES (?, ?, ?, ?, ?, ?)";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-      ps.setString(1, structure.getNomStructure());
-      ps.setString(2, structure.getTypeStructure().name());
-      ps.setString(3, structure.getCodeStructure());
-      ps.setString(4, structure.getAdresse());
-      ps.setString(5, structure.getResponsable());
+      ps.setString(1, structure.getName());
+      ps.setString(2, structure.getType().name());
+      ps.setString(3, structure.getCode());
+      ps.setString(4, structure.getAddress());
+      ps.setString(5, structure.getManager());
       ps.setTimestamp(6,
-          new java.sql.Timestamp(structure.getDateCreation() != null ? structure.getDateCreation().getTime()
+          new java.sql.Timestamp(structure.getCreatedAt() != null ? structure.getCreatedAt().getTime()
               : new java.util.Date().getTime()));
       ps.executeUpdate();
     }
   }
 
-  public List<StructureAcademique> getAllStructures() throws SQLException {
-    String sql = "SELECT * FROM structure_academique";
-    List<StructureAcademique> list = new ArrayList<>();
+  public List<AcademicStructure> getAllStructures() throws SQLException {
+    String sql = "SELECT id, name, type, code, address, manager, created_at FROM academic_structure";
+    List<AcademicStructure> list = new ArrayList<>();
     try (PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery()) {
       while (rs.next()) {
-        list.add(StructureAcademiqueMapper.map(rs));
+        list.add(AcademicStructureMapper.map(rs));
       }
     }
     return list;
   }
 
   public void deleteStructure(Long id) throws SQLException {
-    String sql = "DELETE FROM structure_academique WHERE id_structure = ?";
+    String sql = "DELETE FROM academic_structure WHERE id = ?";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       ps.setLong(1, id);
       ps.executeUpdate();
@@ -114,28 +114,28 @@ public class AdminService {
    * =====================================================
    */
 
-  public void createEtablissement(Etablissement etab) throws SQLException {
-    String sql = "INSERT INTO etablissement (nom_etab, code_etab, ville, statut, capacite_etudiants, date_ouverture, structure_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  public void createInstitution(Institution inst) throws SQLException {
+    String sql = "INSERT INTO institution (name, code, city, status, student_capacity, opening_date, structure_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-      ps.setString(1, etab.getNomEtab());
-      ps.setString(2, etab.getCodeEtab());
-      ps.setString(3, etab.getVille());
-      ps.setString(4, etab.getStatut().name());
-      ps.setInt(5, etab.getCapaciteEtudiants());
-      ps.setDate(6, new java.sql.Date(etab.getDateOuverture().getTime()));
-      ps.setLong(7, etab.getStructure().getIdStructure());
+      ps.setString(1, inst.getName());
+      ps.setString(2, inst.getCode());
+      ps.setString(3, inst.getCity());
+      ps.setString(4, inst.getStatus().name());
+      ps.setInt(5, inst.getStudentCapacity());
+      ps.setDate(6, new java.sql.Date(inst.getOpeningDate().getTime()));
+      ps.setLong(7, inst.getStructure().getId());
       ps.executeUpdate();
     }
   }
 
-  public List<Etablissement> getEtablissementsByStructure(Long structureId) throws SQLException {
-    String sql = "SELECT * FROM etablissement WHERE structure_id = ?";
-    List<Etablissement> list = new ArrayList<>();
+  public List<Institution> getInstitutionsByStructure(Long structureId) throws SQLException {
+    String sql = "SELECT id, name, code, city, status, student_capacity, opening_date, structure_id FROM institution WHERE structure_id = ?";
+    List<Institution> list = new ArrayList<>();
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       ps.setLong(1, structureId);
       try (ResultSet rs = ps.executeQuery()) {
         while (rs.next()) {
-          list.add(EtablissementMapper.map(rs));
+          list.add(InstitutionMapper.map(rs));
         }
       }
     }
@@ -149,19 +149,19 @@ public class AdminService {
    */
 
   public void registerAction(Supervision supervision) throws SQLException {
-    String sql = "INSERT INTO supervision (action, utilisateur, type_action, resultat, date_action) VALUES (?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO supervision (action, user, type, result, timestamp) VALUES (?, ?, ?, ?, ?)";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       ps.setString(1, supervision.getAction());
-      ps.setString(2, supervision.getUtilisateur());
-      ps.setString(3, supervision.getTypeAction().name());
-      ps.setString(4, supervision.getResultat().name());
+      ps.setString(2, supervision.getUser());
+      ps.setString(3, supervision.getType().name());
+      ps.setString(4, supervision.getResult().name());
       ps.setTimestamp(5, new java.sql.Timestamp(new java.util.Date().getTime()));
       ps.executeUpdate();
     }
   }
 
   public List<Supervision> getAllLogs() throws SQLException {
-    String sql = "SELECT * FROM supervision ORDER BY date_action DESC";
+    String sql = "SELECT id, action, user, type, result, timestamp FROM supervision ORDER BY timestamp DESC";
     List<Supervision> list = new ArrayList<>();
     try (PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery()) {
