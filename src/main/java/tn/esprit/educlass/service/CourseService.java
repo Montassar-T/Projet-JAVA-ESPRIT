@@ -6,6 +6,7 @@ import tn.esprit.educlass.mapper.LessonMapper;
 import tn.esprit.educlass.model.Chapter;
 import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
+import tn.esprit.educlass.utlis.DataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +19,8 @@ public class CourseService {
 
     private final Connection connection;
 
-    public CourseService(Connection connection) {
-        this.connection = connection;
+    public CourseService() {
+        this.connection = DataSource.getInstance().getCon();
     }
 
     /* =====================================================

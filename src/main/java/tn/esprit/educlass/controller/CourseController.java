@@ -10,11 +10,7 @@ import java.util.List;
 
 public class CourseController {
 
-    private final CourseService service;
-
-    public CourseController(CourseService service) {
-        this.service = service;
-    }
+    private CourseService service = new CourseService();
 
     /* =====================================================
        COURSE ENDPOINTS

@@ -18,7 +18,6 @@ public class MainController {
     @FXML private Label initialsLabel;
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
-    @FXML private Circle avatarCircle;
     @FXML private StackPane contentPane;
 
     private User user;
