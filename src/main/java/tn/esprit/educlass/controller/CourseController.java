@@ -3,7 +3,10 @@ package tn.esprit.educlass.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import tn.esprit.educlass.model.Chapter;
 import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
@@ -17,25 +20,17 @@ public class CourseController {
     @FXML
     private TextField searchField;
     @FXML
-    private Button searchBtn;
-    @FXML
-    private ComboBox<String> categoryFilter;
-    @FXML
     private ComboBox<String> levelFilter;
-    @FXML
-    private Button applyFilterBtn;
-    @FXML
-    private Button resetFilterBtn;
     @FXML
     private GridPane courseGrid;
 
-    private CourseService service = new CourseService();
+    private final CourseService service = new CourseService();
 
     @FXML
     public void initialize() {
-        levelFilter.getItems().addAll("1","2","3","4","5");
+        levelFilter.getItems().addAll("All Levels", "1","2","3","4","5");
         levelFilter.getSelectionModel().select(0);
-
+        
         // Load initial data
         loadCourses();
     }
@@ -54,15 +49,62 @@ public class CourseController {
         int row = 0;
         int col = 0;
         for (Course course : courses) {
-            // Placeholder for course card creation
-            Label label = new Label(course.getTitle());
-            courseGrid.add(label, col, row);
+            VBox courseCard = createCourseCard(course);
+            courseGrid.add(courseCard, col, row);
             col++;
-            if (col > 3) {
+            if (col > 1) { // Reduced to 2 columns for better visibility of details
                 col = 0;
                 row++;
             }
         }
+    }
+
+    private VBox createCourseCard(Course course) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(15));
+        card.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);");
+        card.setPrefWidth(350);
+
+        Label titleLabel = new Label(course.getTitle());
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        titleLabel.setWrapText(true);
+
+        Label descLabel = new Label(course.getDescription());
+        descLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #7f8c8d;");
+        descLabel.setWrapText(true);
+
+        Accordion chaptersAccordion = new Accordion();
+        try {
+            List<Chapter> chapters = service.getChaptersByCourse(course.getId());
+            for (Chapter chapter : chapters) {
+                VBox lessonsBox = new VBox(5);
+                lessonsBox.setPadding(new Insets(5, 10, 5, 10));
+                
+                List<Lesson> lessons = service.getLessonsByChapter(chapter.getId());
+                if (lessons.isEmpty()) {
+                    lessonsBox.getChildren().add(new Label("No lessons yet."));
+                } else {
+                    for (Lesson lesson : lessons) {
+                        Hyperlink lessonLink = new Hyperlink(lesson.getTitle());
+                        lessonLink.setStyle("-fx-text-fill: #3498db; -fx-font-size: 13px;");
+                        lessonLink.setOnAction(e -> System.out.println("Opening lesson: " + lesson.getTitle()));
+                        lessonsBox.getChildren().add(lessonLink);
+                    }
+                }
+
+                TitledPane chapterPane = new TitledPane(chapter.getTitle(), lessonsBox);
+                chapterPane.setAnimated(true);
+                chaptersAccordion.getPanes().add(chapterPane);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            card.getChildren().add(new Label("Error loading chapters."));
+        }
+
+        VBox.setVgrow(chaptersAccordion, Priority.ALWAYS);
+        card.getChildren().addAll(titleLabel, descLabel, new Separator(), new Label("Chapters:"), chaptersAccordion);
+        
+        return card;
     }
 
     /* =====================================================
@@ -139,37 +181,39 @@ public class CourseController {
 
     @FXML
     public void onSearch(ActionEvent actionEvent) {
-        String query = searchField.getText();
-        if (query == null || query.isEmpty()) {
-            loadCourses();
-            return;
-        }
+        onApplyFilters(actionEvent);
+    }
+
+    @FXML
+    public void onApplyFilters(ActionEvent actionEvent) {
+        String level = levelFilter.getValue();
+        System.out.println("Applying filters: Level=" + level);
+
         try {
-            List<Course> courses = service.getAllCourses();
-            List<Course> filtered = courses.stream()
-                    .filter(c -> c.getTitle().toLowerCase().contains(query.toLowerCase()))
-                    .toList();
-            displayCourses(filtered);
+            List<Course> courses;
+            if (level == null || level.equals("All Levels")) {
+                courses = service.getAllCourses();
+            } else {
+                courses = service.getCoursesByLevel(Integer.parseInt(level));
+            }
+
+            // Apply search filter if present
+            String query = searchField.getText();
+            if (query != null && !query.isEmpty()) {
+                courses = courses.stream()
+                        .filter(c -> c.getTitle().toLowerCase().contains(query.toLowerCase()))
+                        .toList();
+            }
+
+            displayCourses(courses);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void onApplyFilters(ActionEvent actionEvent) {
-        String category = categoryFilter.getValue();
-        String level = levelFilter.getValue();
-
-        // For now, filtering is limited as the model doesn't have these fields.
-        // In a real scenario, we would pass these to the service or filter the list here.
-        System.out.println("Applying filters: Category=" + category + ", Level=" + level);
-        loadCourses(); // Refresh list for now
-    }
-
-    @FXML
     public void onResetFilters(ActionEvent actionEvent) {
         searchField.clear();
-        categoryFilter.getSelectionModel().select(0);
         levelFilter.getSelectionModel().select(0);
         loadCourses();
     }

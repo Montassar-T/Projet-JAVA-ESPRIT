@@ -29,13 +29,14 @@ public class CourseService {
 
     public void createCourse(Course course) throws SQLException {
         String sql = """
-            INSERT INTO course (title, description, creation_date)
-            VALUES (?, ?, ?)
+            INSERT INTO course (title, description, level, creation_date)
+            VALUES (?, ?, ?, ?)
         """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
+            ps.setInt(3, course.getLevel());
             ps.executeUpdate();
         }
     }
@@ -65,17 +66,33 @@ public class CourseService {
         return courses;
     }
 
+    public List<Course> getCoursesByLevel(int level) throws SQLException {
+        String sql = "SELECT * FROM course WHERE level = ?";
+        List<Course> courses = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, level);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    courses.add(CourseMapper.map(rs));
+                }
+            }
+        }
+        return courses;
+    }
+
     public void updateCourse(Course course) throws SQLException {
         String sql = """
             UPDATE course
-            SET title = ?, description = ?, creation_date = ?
+            SET title = ?, description = ?, level = ?, creation_date = ?
             WHERE id = ?
         """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
-            ps.setLong(4, course.getId());
+            ps.setInt(3, course.getLevel());
+            ps.setLong(5, course.getId());
             ps.executeUpdate();
         }
     }

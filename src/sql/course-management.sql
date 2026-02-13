@@ -6,6 +6,7 @@ CREATE TABLE course (
     id BIGINT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    level INT DEFAULT 1,
     creation_date DATETIME NOT NULL,
 
     PRIMARY KEY (id)
@@ -61,13 +62,15 @@ CREATE TABLE lesson (
 -- INSERT SAMPLE DATA
 -- =========================================================
 
-INSERT INTO course (title, description, creation_date) VALUES
+INSERT INTO course (title, description, level, creation_date) VALUES
 ('Java Fundamentals',
  'Introduction to core Java concepts and object-oriented programming.',
+ 1,
  '2025-01-10 09:00:00'),
 
 ('Web Development Basics',
  'Foundations of HTML, CSS, and JavaScript for beginners.',
+ 2,
  '2025-01-15 10:30:00');
 
 

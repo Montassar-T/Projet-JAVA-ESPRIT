@@ -46,8 +46,8 @@
         <ScrollPane fitToWidth="true" pannable="true">
             <content>
                 <GridPane fx:id="courseGrid"
-                          hgap="20"
-                          vgap="20">
+                          hgap="30"
+                          vgap="30">
                     <padding>
                         <Insets top="20" right="20" bottom="20" left="20"/>
                     </padding>

@@ -13,6 +13,7 @@ public class CourseMapper {
         course.setId(rs.getLong("id"));
         course.setTitle(rs.getString("title"));
         course.setDescription(rs.getString("description"));
+        course.setLevel(rs.getInt("level"));
 
         Date creationDate = rs.getTimestamp("creation_date");
 
