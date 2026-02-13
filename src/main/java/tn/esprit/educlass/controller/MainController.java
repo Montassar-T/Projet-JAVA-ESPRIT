@@ -58,8 +58,8 @@ public class MainController {
     }
 
     @FXML
-    private void showNotes(ActionEvent event) {
-        loadSection("/view/notes.fxml");
+    private void showSettings(ActionEvent event) {
+        loadSection("/view/settings.fxml");
     }
 
     private void loadSection(String fxmlPath) {

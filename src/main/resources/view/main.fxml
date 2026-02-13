@@ -37,7 +37,7 @@
                 <Button onAction="#showCours" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Cours"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
-                <Button onAction="#showNotes" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Notes"
+                <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
             </VBox>

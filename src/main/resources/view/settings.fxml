@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="800" prefHeight="500">
+
+    <center>
+        <Label text="Paramètres"
+               style="-fx-font-size: 36px; -fx-font-weight: bold;" />
+    </center>
+
+</BorderPane>
