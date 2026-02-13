@@ -1,6 +1,5 @@
 package tn.esprit.educlass.model;
 
-import tn.esprit.educlass.enums.StructureType;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public class AcademicStructure extends BaseEntity {
   private Long id;
   private String name;
-  private StructureType type;
+  private String type;
   private String code;
   private String address;
   private String manager;
@@ -35,11 +34,11 @@ public class AcademicStructure extends BaseEntity {
     this.name = name;
   }
 
-  public StructureType getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(StructureType type) {
+  public void setType(String type) {
     this.type = type;
   }
 
@@ -89,5 +88,23 @@ public class AcademicStructure extends BaseEntity {
 
   public void deleteStructure() {
     // Implementation logic
+  }
+
+  @Override
+  public String toString() {
+    return name != null ? name : "Unnamed Structure";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    AcademicStructure that = (AcademicStructure) o;
+    return id != null && id.equals(that.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : 0;
   }
 }

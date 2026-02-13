@@ -1,60 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="tn.esprit.educlass.controller.AdminController"
-            prefHeight="600.0" prefWidth="800.0"
-            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+<BorderPane prefHeight="600.0" prefWidth="800.0" style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;                    -fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.AdminController">
 
+    <!-- ================= HEADER ================= -->
     <top>
-        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 20;">
-            <Label text="System Configuration" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <VBox spacing="10" style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af);                      -fx-padding: 20;">
+            <Label style="-fx-font-size: 24px;                           -fx-font-weight: bold;                           -fx-text-fill: white;" text="System Configuration" />
         </VBox>
     </top>
 
+    <!-- ================= CONTENT ================= -->
     <center>
-        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
-            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-padding: 15;" maxWidth="600" alignment="TOP_CENTER">
-                <padding>
-                    <Insets top="30" right="30" bottom="30" left="30"/>
-                </padding>
+        <ScrollPane fitToWidth="true" prefHeight="458.0" prefWidth="800.0" style="-fx-background-color: transparent;">
+            <content>
+                <VBox alignment="TOP_CENTER" maxWidth="810.0" prefHeight="543.0" prefWidth="785.0" spacing="25" style="-fx-background-color: white;                              -fx-background-radius: 10;                              -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);                              -fx-padding: 30;">
 
-                <GridPane vgap="15" hgap="15">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" minWidth="150"/>
-                        <ColumnConstraints hgrow="ALWAYS"/>
-                    </columnConstraints>
+                    <GridPane hgap="15" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" minWidth="160" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                        </columnConstraints>
 
-                    <Label text="Platform Name:"/>
-                    <TextField fx:id="platformNameField" GridPane.columnIndex="1"
-                               style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                        <!-- Row 0 -->
+                        <Label text="Platform Name:" GridPane.rowIndex="0" />
+                        <TextField fx:id="platformNameField" style="-fx-background-radius: 5;                                           -fx-border-radius: 5;                                           -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Label text="Default Language:" GridPane.rowIndex="1"/>
-                    <ComboBox fx:id="languageCombo" GridPane.columnIndex="1" prefWidth="200"/>
+                        <!-- Row 1 -->
+                        <Label text="Default Language:" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="languageCombo" prefWidth="200" promptText="select the language" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Timezone:" GridPane.rowIndex="2"/>
-                    <TextField fx:id="timezoneField" GridPane.columnIndex="1"
-                               style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                        <!-- Row 2 -->
+                        <Label text="Timezone:" GridPane.rowIndex="2" />
+                        <TextField fx:id="timezoneField" style="-fx-background-radius: 5;                                           -fx-border-radius: 5;                                           -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                    <Label text="Support Email:" GridPane.rowIndex="3"/>
-                    <TextField fx:id="supportEmailField" GridPane.columnIndex="1"
-                               style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                        <!-- Row 3 -->
+                        <Label text="Support Email:" GridPane.rowIndex="3" />
+                        <TextField fx:id="supportEmailField" style="-fx-background-radius: 5;                                           -fx-border-radius: 5;                                           -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                    <Label text="Maintenance Mode:" GridPane.rowIndex="4"/>
-                    <ToggleButton fx:id="maintenanceToggle" text="Inactive" GridPane.columnIndex="1"/>
-                </GridPane>
+                        <!-- Row 4 -->
+                        <Label text="Maintenance Mode:" GridPane.rowIndex="4" />
+                        <ToggleButton fx:id="maintenanceToggle" text="Inactive" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
 
-                <HBox spacing="10" alignment="CENTER_RIGHT">
-                    <Button text="Reset"
-                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
-                    <Button text="Save Changes" fx:id="saveConfigBtn"
-                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
-                </HBox>
-            </VBox>
+                    <!-- ================= ACTION BUTTONS ================= -->
+                    <HBox alignment="CENTER_RIGHT" spacing="12">
+                        <Button style="-fx-background-color: #e74c3c;                                        -fx-text-fill: white;                                        -fx-font-weight: bold;                                        -fx-background-radius: 5;                                        -fx-cursor: hand;" text="Reset" />
+
+                        <Button fx:id="saveConfigBtn" onAction="#handleSaveConfig" style="-fx-background-color: #3498db;                                        -fx-text-fill: white;                                        -fx-font-weight: bold;                                        -fx-background-radius: 5;                                        -fx-cursor: hand;" text="Save Changes" />
+                    </HBox>
+
+                </VBox>
+            </content>
         </ScrollPane>
     </center>
 

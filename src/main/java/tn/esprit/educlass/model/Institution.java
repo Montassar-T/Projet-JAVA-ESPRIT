@@ -1,6 +1,5 @@
 package tn.esprit.educlass.model;
 
-import tn.esprit.educlass.enums.InstitutionStatus;
 import java.util.Date;
 
 public class Institution extends BaseEntity {
@@ -8,7 +7,7 @@ public class Institution extends BaseEntity {
   private String name;
   private String code;
   private String city;
-  private InstitutionStatus status;
+  private String status;
   private Integer studentCapacity;
   private Date openingDate;
 
@@ -49,11 +48,11 @@ public class Institution extends BaseEntity {
     this.city = city;
   }
 
-  public InstitutionStatus getStatus() {
+  public String getStatus() {
     return status;
   }
 
-  public void setStatus(InstitutionStatus status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 
@@ -87,5 +86,23 @@ public class Institution extends BaseEntity {
 
   public void close() {
     // Implementation logic
+  }
+
+  @Override
+  public String toString() {
+    return name != null ? name : "Unnamed Institution";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Institution that = (Institution) o;
+    return id != null && id.equals(that.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : 0;
   }
 }

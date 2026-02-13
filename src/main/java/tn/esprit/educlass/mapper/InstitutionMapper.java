@@ -1,6 +1,5 @@
 package tn.esprit.educlass.mapper;
 
-import tn.esprit.educlass.enums.InstitutionStatus;
 import tn.esprit.educlass.model.Institution;
 import tn.esprit.educlass.model.AcademicStructure;
 import java.sql.ResultSet;
@@ -14,7 +13,7 @@ public class InstitutionMapper {
     inst.setName(rs.getString("name"));
     inst.setCode(rs.getString("code"));
     inst.setCity(rs.getString("city"));
-    inst.setStatus(InstitutionStatus.valueOf(rs.getString("status")));
+    inst.setStatus(rs.getString("status"));
     inst.setStudentCapacity(rs.getInt("student_capacity"));
     inst.setOpeningDate(rs.getDate("opening_date"));
 

@@ -17,7 +17,8 @@ public class DataSource {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
             Properties prop = new Properties();
             if (input == null) {
-                throw new RuntimeException("Unable to find application.properties");
+                System.err.println("CRITICAL: Unable to find application.properties");
+                return;
             }
             prop.load(input);
 
@@ -26,9 +27,9 @@ public class DataSource {
             this.password = prop.getProperty("db.password");
 
             con = DriverManager.getConnection(url, username, password);
+            System.out.println("Database connection established successfully.");
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to connect to database");
+            System.err.println("CRITICAL: Failed to connect to database: " + e.getMessage());
         }
     }
 
