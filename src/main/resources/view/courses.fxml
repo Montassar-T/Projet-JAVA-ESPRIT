@@ -26,11 +26,8 @@
                         fx:id="searchBtn"
                         onAction="#onSearch"/>
 
-                <Label text="Category:"/>
-                <ComboBox fx:id="categoryFilter" prefWidth="150"/>
-
                 <Label text="Level:"/>
-                <ComboBox fx:id="levelFilter" prefWidth="130"/>
+                <ComboBox fx:id="levelFilter" prefWidth="130" promptText="Select Level"/>
 
                 <Button text="Apply"
                         fx:id="applyFilterBtn"

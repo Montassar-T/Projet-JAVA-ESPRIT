@@ -15,7 +15,6 @@ public class CourseMapper {
         course.setDescription(rs.getString("description"));
 
         Date creationDate = rs.getTimestamp("creation_date");
-        course.setCreationDate(creationDate);
 
         return course;
     }

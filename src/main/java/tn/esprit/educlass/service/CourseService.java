@@ -36,8 +36,6 @@ public class CourseService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
-            ps.setTimestamp(3,
-                    new java.sql.Timestamp(course.getCreationDate().getTime()));
             ps.executeUpdate();
         }
     }
@@ -77,8 +75,6 @@ public class CourseService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
-            ps.setTimestamp(3,
-                    new java.sql.Timestamp(course.getCreationDate().getTime()));
             ps.setLong(4, course.getId());
             ps.executeUpdate();
         }
