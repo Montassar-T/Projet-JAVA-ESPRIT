@@ -1,16 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educlass.controller.CourseController"
             prefWidth="800" prefHeight="500">
 
+    <!-- TOP SEARCH / FILTER BAR -->
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+
+                <TextField fx:id="searchField"
+                           promptText="Search courses..."
+                           HBox.hgrow="ALWAYS"/>
+
+                <Button text="Search"
+                        fx:id="searchBtn"
+                        onAction="#onSearch"/>
+
+                <Label text="Category:"/>
+                <ComboBox fx:id="categoryFilter" prefWidth="150"/>
+
+                <Label text="Level:"/>
+                <ComboBox fx:id="levelFilter" prefWidth="130"/>
+
+                <Button text="Apply"
+                        fx:id="applyFilterBtn"
+                        onAction="#onApplyFilters"/>
+
+                <Button text="Reset"
+                        fx:id="resetFilterBtn"
+                        onAction="#onResetFilters"/>
+
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- GRID CONTENT -->
     <center>
-        <Label text="Cours"
-               style="-fx-font-size: 36px; -fx-font-weight: bold;" />
+        <ScrollPane fitToWidth="true" pannable="true">
+            <content>
+                <GridPane fx:id="courseGrid"
+                          hgap="20"
+                          vgap="20">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                </GridPane>
+            </content>
+        </ScrollPane>
     </center>
 
 </BorderPane>
