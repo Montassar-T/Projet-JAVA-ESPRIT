@@ -9,7 +9,6 @@
             prefHeight="700.0" prefWidth="600.0"
             style="-fx-font-family: 'Segoe UI'; -fx-background-color: #ECF0F1;">
 
-    <!-- 🔵 Header -->
     <top>
         <VBox spacing="10"
               alignment="CENTER"
@@ -21,52 +20,63 @@
         </VBox>
     </top>
 
-    <!-- 📝 Center Login Form -->
     <center>
         <VBox spacing="20"
               alignment="CENTER"
               style="-fx-padding: 40;">
 
-            <Label text="Adresse email"
-                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
-
-            <TextField fx:id="emailField"
-                       promptText="Email Address"
-                       prefHeight="40"
+            <!-- Email Block -->
+            <VBox spacing="5" maxWidth="350" alignment="CENTER_LEFT">
+                <Label text="Adresse email"
                        maxWidth="350"
-                       style="-fx-font-size: 14px;
+                       style="-fx-font-size: 13px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #2C3E50;"/>
+
+                <TextField fx:id="emailField"
+                           promptText="Email Address"
+                           prefHeight="40"
+                           maxWidth="350"
+                           style="-fx-font-size: 14px;
                               -fx-padding: 10;
                               -fx-border-radius: 5;
                               -fx-border-color: #BDC3C7;
                               -fx-border-width: 1;"/>
+            </VBox>
 
-            <Label text="Mot de passe"
-                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"/>
+            <!-- Password Block -->
+            <VBox spacing="5" maxWidth="350" alignment="CENTER_LEFT">
+                <Label text="Mot de passe"
+                       maxWidth="350"
+                       style="-fx-font-size: 13px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #2C3E50;"/>
 
-            <PasswordField fx:id="passwordField"
-                           promptText="Password"
-                           prefHeight="40"
-                           maxWidth="350"
-                           style="-fx-font-size: 14px;
+                <PasswordField fx:id="passwordField"
+                               promptText="Password"
+                               prefHeight="40"
+                               maxWidth="350"
+                               style="-fx-font-size: 14px;
                                   -fx-padding: 10;
                                   -fx-border-radius: 5;
                                   -fx-border-color: #BDC3C7;
                                   -fx-border-width: 1;"/>
+            </VBox>
 
             <Label fx:id="messageLabel"
                    style="-fx-text-fill: red;
-                          -fx-font-size: 13px;"/>
+                      -fx-font-size: 13px;"/>
 
             <Button text="LOGIN"
                     prefHeight="45"
                     maxWidth="350"
                     onAction="#handleLogin"
                     style="-fx-font-size: 14px;
-                           -fx-font-weight: bold;
-                           -fx-background-color: #3498DB;
-                           -fx-text-fill: white;
-                           -fx-background-radius: 5;
-                           -fx-cursor: hand;"/>
+                       -fx-font-weight: bold;
+                       -fx-background-color: #3498DB;
+                       -fx-text-fill: white;
+                       -fx-background-radius: 5;
+                       -fx-cursor: hand;"/>
 
         </VBox>
     </center>
