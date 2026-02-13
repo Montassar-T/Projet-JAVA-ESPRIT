@@ -37,6 +37,13 @@
                         fx:id="resetFilterBtn"
                         onAction="#onResetFilters"/>
 
+                <Pane HBox.hgrow="ALWAYS" />
+
+                <Button text="Ajouter un cours"
+                        fx:id="addCourseBtn"
+                        onAction="#onAddCourse"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
             </HBox>
         </VBox>
     </top>

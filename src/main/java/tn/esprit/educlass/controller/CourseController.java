@@ -12,6 +12,13 @@ import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
 import tn.esprit.educlass.service.CourseService;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -87,7 +94,7 @@ public class CourseController {
                     for (Lesson lesson : lessons) {
                         Hyperlink lessonLink = new Hyperlink(lesson.getTitle());
                         lessonLink.setStyle("-fx-text-fill: #3498db; -fx-font-size: 13px;");
-                        lessonLink.setOnAction(e -> System.out.println("Opening lesson: " + lesson.getTitle()));
+                        lessonLink.setOnAction(e -> showLessonPopup(lesson));
                         lessonsBox.getChildren().add(lessonLink);
                     }
                 }
@@ -107,12 +114,28 @@ public class CourseController {
         return card;
     }
 
+    private void showLessonPopup(Lesson lesson) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Détails de la leçon");
+        alert.setHeaderText(lesson.getTitle());
+        
+        // Use a ScrollPane for the content in case it's long
+        TextArea textArea = new TextArea(lesson.getContent());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setPrefHeight(300);
+        textArea.setPrefWidth(400);
+        
+        alert.getDialogPane().setContent(textArea);
+        alert.showAndWait();
+    }
+
     /* =====================================================
        COURSE ENDPOINTS
        ===================================================== */
 
-    public void createCourse(Course course) throws SQLException {
-        service.createCourse(course);
+    public long createCourse(Course course) throws SQLException {
+        return service.createCourse(course);
     }
 
     public Course getCourseById(long id) throws SQLException {
@@ -135,8 +158,8 @@ public class CourseController {
        CHAPTER ENDPOINTS
        ===================================================== */
 
-    public void createChapter(Chapter chapter) throws SQLException {
-        service.createChapter(chapter);
+    public long createChapter(Chapter chapter) throws SQLException {
+        return service.createChapter(chapter);
     }
 
     public Chapter getChapterById(long id) throws SQLException {
@@ -177,6 +200,33 @@ public class CourseController {
 
     public void deleteLesson(long id) throws SQLException {
         service.deleteLesson(id);
+    }
+
+    @FXML
+    public void onAddCourse(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/add_course.fxml"));
+            Parent root = loader.load();
+            
+            AddCourseController controller = loader.getController();
+            
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un nouveau cours");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            
+            if (controller.isSaved()) {
+                loadCourses(); // Refresh the list
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de l'ouverture du formulaire");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML

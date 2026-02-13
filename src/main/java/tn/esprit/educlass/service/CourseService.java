@@ -27,18 +27,26 @@ public class CourseService {
        COURSE CRUD
        ===================================================== */
 
-    public void createCourse(Course course) throws SQLException {
+    public long createCourse(Course course) throws SQLException {
         String sql = """
             INSERT INTO course (title, description, level, creation_date)
             VALUES (?, ?, ?, ?)
         """;
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
             ps.setInt(3, course.getLevel());
+            ps.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
             ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+            }
         }
+        return -1;
     }
 
     public Course getCourseById(long id) throws SQLException {
@@ -92,6 +100,7 @@ public class CourseService {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
             ps.setInt(3, course.getLevel());
+            ps.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
             ps.setLong(5, course.getId());
             ps.executeUpdate();
         }
@@ -110,18 +119,25 @@ public class CourseService {
        CHAPTER CRUD
        ===================================================== */
 
-    public void createChapter(Chapter chapter) throws SQLException {
+    public long createChapter(Chapter chapter) throws SQLException {
         String sql = """
             INSERT INTO chapter (title, order_index, course_id)
             VALUES (?, ?, ?)
         """;
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, chapter.getTitle());
             ps.setInt(2, chapter.getOrderIndex());
             ps.setLong(3, chapter.getCourse().getId());
             ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+            }
         }
+        return -1;
     }
 
     public Chapter getChapterById(long id) throws SQLException {

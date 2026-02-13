@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.educlass.controller.AddCourseController"
+      spacing="15" prefWidth="600" prefHeight="700">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Ajouter un nouveau cours" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Titre:"/>
+        <TextField fx:id="titleField" GridPane.columnIndex="1" HBox.hgrow="ALWAYS"/>
+
+        <Label text="Niveau:" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="levelCombo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Description:" GridPane.rowIndex="2"/>
+        <TextArea fx:id="descriptionArea" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="1" wrapText="true"/>
+    </GridPane>
+
+    <Separator/>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Chapitres et Leçons" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Button text="+ Ajouter Chapitre" onAction="#handleAddChapter" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <VBox fx:id="chaptersContainer" spacing="15">
+            <!-- Chapters will be added here dynamically -->
+        </VBox>
+    </ScrollPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel"/>
+        <Button text="Enregistrer" onAction="#handleSave" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+</VBox>
