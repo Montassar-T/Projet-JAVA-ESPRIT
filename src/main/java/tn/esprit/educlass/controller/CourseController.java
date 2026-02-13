@@ -1,5 +1,6 @@
 package tn.esprit.educlass.controller;
 
+import javafx.event.ActionEvent;
 import tn.esprit.educlass.model.Chapter;
 import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
@@ -83,4 +84,15 @@ public class CourseController {
     public void deleteLesson(long id) throws SQLException {
         service.deleteLesson(id);
     }
+
+    public void onSearch(ActionEvent actionEvent) {
+    }
+
+    public void onApplyFilters(ActionEvent actionEvent) {
+    }
+
+    public void onResetFilters(ActionEvent actionEvent) {
+    }
+
+
 }
