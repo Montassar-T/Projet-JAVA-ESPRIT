@@ -57,7 +57,7 @@
             </HBox>
 
             <!-- Content Render Area -->
-            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1;" VBox.vgrow="ALWAYS">
+            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1; -fx-padding: 20;" VBox.vgrow="ALWAYS">
                 <!-- Dynamic content will be loaded here -->
             </StackPane>
 
