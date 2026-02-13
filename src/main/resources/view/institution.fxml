@@ -1,54 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educlass.controller.AdminController"
-            prefHeight="600.0" prefWidth="900.0"
-            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+            prefHeight="600.0"
+            prefWidth="900.0"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+                   -fx-background-color: #f4f7f6;">
 
+    <!-- ================= HEADER ================= -->
     <top>
-        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 20;">
-            <Label text="Institutions Management" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af);
+                     -fx-padding: 20;">
+            <Label text="Institutions Management"
+                   style="-fx-font-size: 24px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: white;"/>
         </VBox>
     </top>
 
+    <!-- ================= CONTENT ================= -->
     <center>
-        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0, 5); -fx-padding: 15;">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <TextField fx:id="institutionSearchField" promptText="Filter institutions..." prefWidth="250"
-                           style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
-                <ComboBox fx:id="filterStructureCombo" promptText="All Structures" prefWidth="200"/>
-                <Region HBox.hgrow="ALWAYS" />
-                <Button text="+ Add Institution" fx:id="openAddInstBtn"
-                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            </HBox>
+        <SplitPane dividerPositions="0.6">
+            <!-- ===== LIST VIEW ===== -->
+            <VBox spacing="15"
+                  style="-fx-background-color: white;
+                         -fx-padding: 20;">
+                
+                <Label text="Institutions List" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
-            <TableView fx:id="institutionTable" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background-radius: 5;">
-                <columns>
-                    <TableColumn fx:id="instNameCol" text="Name" prefWidth="200"/>
-                    <TableColumn fx:id="instCodeCol" text="Code" prefWidth="100"/>
-                    <TableColumn fx:id="instCityCol" text="City" prefWidth="150"/>
-                    <TableColumn fx:id="instStatusCol" text="Status" prefWidth="100"/>
-                    <TableColumn fx:id="instCapacityCol" text="Capacity" prefWidth="100"/>
-                    <TableColumn fx:id="instDateCol" text="Opening Date" prefWidth="120"/>
-                </columns>
-            </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="institutionSearchField"
+                               promptText="Search institution..."
+                               prefWidth="250"/>
 
-            <HBox spacing="10" alignment="CENTER_RIGHT">
-                <Button text="Edit Selected"
-                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
-                <Button text="Delete"
-                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            </HBox>
-        </VBox>
+                    <ComboBox fx:id="filterStructureCombo"
+                              promptText="Filter by Structure"
+                              prefWidth="180"/>
+                    
+                    <Region HBox.hgrow="ALWAYS"/>
+                    
+                    <Button text="Refresh" onAction="#handleRefreshInstitutions"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <TableView fx:id="institutionTable"
+                           VBox.vgrow="ALWAYS"
+                           style="-fx-background-radius: 5;">
+                    <columns>
+                        <TableColumn fx:id="instNameCol" text="Name" prefWidth="150"/>
+                        <TableColumn fx:id="instCodeCol" text="Code" prefWidth="80"/>
+                        <TableColumn fx:id="instCityCol" text="City" prefWidth="100"/>
+                        <TableColumn fx:id="instStatusCol" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="instCapacityCol" text="Cap." prefWidth="60"/>
+                        <TableColumn fx:id="instDateCol" text="Opening Date" prefWidth="120"/>
+                    </columns>
+                </TableView>
+                
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="deleteInstitutionBtn"
+                            text="🗑 Delete Selected"
+                            onAction="#handleDeleteInstitution"
+                            style="-fx-background-color: #e74c3c;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 5;"/>
+                </HBox>
+            </VBox>
+
+            <!-- ===== DETAIL FORM ===== -->
+            <VBox spacing="20"
+                  style="-fx-background-color: #fcfcfc;
+                         -fx-padding: 20;">
+                
+                <Label text="Institution Details" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+                <GridPane hgap="10" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="100" halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="Name:" GridPane.rowIndex="0"/>
+                    <TextField fx:id="instNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Code:" GridPane.rowIndex="1"/>
+                    <TextField fx:id="instCodeField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="City:" GridPane.rowIndex="2"/>
+                    <TextField fx:id="instCityField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Status:" GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="instStatusCombo" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Capacity:" GridPane.rowIndex="4"/>
+                    <TextField fx:id="instCapacityField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                    <Label text="Opening Date:" GridPane.rowIndex="5"/>
+                    <DatePicker fx:id="instDateField" prefWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <Label text="Structure:" GridPane.rowIndex="6"/>
+                    <ComboBox fx:id="instMainStructureCombo" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Clear" onAction="#handleClearInstitutionFields"
+                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    
+                    <Button fx:id="addInstitutionBtn"
+                            text="Save / Update"
+                            onAction="#handleAddInstitution"
+                            style="-fx-background-color: #2ecc71;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 5;"/>
+                </HBox>
+            </VBox>
+        </SplitPane>
     </center>
 
 </BorderPane>

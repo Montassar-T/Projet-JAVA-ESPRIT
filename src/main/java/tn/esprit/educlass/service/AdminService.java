@@ -77,13 +77,26 @@ public class AdminService {
     String sql = "INSERT INTO academic_structure (name, type, code, address, manager, created_at) VALUES (?, ?, ?, ?, ?, ?)";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       ps.setString(1, structure.getName());
-      ps.setString(2, structure.getType().name());
+      ps.setString(2, structure.getType());
       ps.setString(3, structure.getCode());
       ps.setString(4, structure.getAddress());
       ps.setString(5, structure.getManager());
       ps.setTimestamp(6,
           new java.sql.Timestamp(structure.getCreatedAt() != null ? structure.getCreatedAt().getTime()
               : new java.util.Date().getTime()));
+      ps.executeUpdate();
+    }
+  }
+
+  public void updateStructure(AcademicStructure structure) throws SQLException {
+    String sql = "UPDATE academic_structure SET name = ?, type = ?, code = ?, address = ?, manager = ? WHERE id = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, structure.getName());
+      ps.setString(2, structure.getType());
+      ps.setString(3, structure.getCode());
+      ps.setString(4, structure.getAddress());
+      ps.setString(5, structure.getManager());
+      ps.setLong(6, structure.getId());
       ps.executeUpdate();
     }
   }
@@ -120,10 +133,33 @@ public class AdminService {
       ps.setString(1, inst.getName());
       ps.setString(2, inst.getCode());
       ps.setString(3, inst.getCity());
-      ps.setString(4, inst.getStatus().name());
+      ps.setString(4, inst.getStatus());
       ps.setInt(5, inst.getStudentCapacity());
       ps.setDate(6, new java.sql.Date(inst.getOpeningDate().getTime()));
       ps.setLong(7, inst.getStructure().getId());
+      ps.executeUpdate();
+    }
+  }
+
+  public void updateInstitution(Institution inst) throws SQLException {
+    String sql = "UPDATE institution SET name = ?, code = ?, city = ?, status = ?, student_capacity = ?, opening_date = ?, structure_id = ? WHERE id = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setString(1, inst.getName());
+      ps.setString(2, inst.getCode());
+      ps.setString(3, inst.getCity());
+      ps.setString(4, inst.getStatus());
+      ps.setInt(5, inst.getStudentCapacity());
+      ps.setDate(6, new java.sql.Date(inst.getOpeningDate().getTime()));
+      ps.setLong(7, inst.getStructure().getId());
+      ps.setLong(8, inst.getId());
+      ps.executeUpdate();
+    }
+  }
+
+  public void deleteInstitution(Long id) throws SQLException {
+    String sql = "DELETE FROM institution WHERE id = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+      ps.setLong(1, id);
       ps.executeUpdate();
     }
   }
@@ -142,6 +178,18 @@ public class AdminService {
     return list;
   }
 
+  public List<Institution> getAllInstitutions() throws SQLException {
+    String sql = "SELECT id, name, code, city, status, student_capacity, opening_date, structure_id FROM institution";
+    List<Institution> list = new ArrayList<>();
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()) {
+      while (rs.next()) {
+        list.add(InstitutionMapper.map(rs));
+      }
+    }
+    return list;
+  }
+
   /*
    * =====================================================
    * SUPERVISION
@@ -153,8 +201,8 @@ public class AdminService {
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
       ps.setString(1, supervision.getAction());
       ps.setString(2, supervision.getUser());
-      ps.setString(3, supervision.getType().name());
-      ps.setString(4, supervision.getResult().name());
+      ps.setString(3, supervision.getType());
+      ps.setString(4, supervision.getResult());
       ps.setTimestamp(5, new java.sql.Timestamp(new java.util.Date().getTime()));
       ps.executeUpdate();
     }

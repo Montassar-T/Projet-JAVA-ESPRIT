@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educlass.controller.AdminController"
             prefHeight="600.0" prefWidth="800.0"
@@ -25,7 +25,7 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <TextField fx:id="supervisionSearchField" promptText="Search logs..." prefWidth="300"
                            style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
-                <Button text="Refresh" fx:id="refreshLogsBtn"
+                <Button text="Refresh" fx:id="refreshLogsBtn" onAction="#handleRefreshLogs"
                         style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
                 <Region HBox.hgrow="ALWAYS" />
                 <Button text="Export CSV"

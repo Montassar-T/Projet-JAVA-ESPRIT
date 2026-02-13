@@ -1,15 +1,13 @@
 package tn.esprit.educlass.model;
 
-import tn.esprit.educlass.enums.ActionType;
-import tn.esprit.educlass.enums.ActionResult;
 import java.util.Date;
 
 public class Supervision extends BaseEntity {
   private Long id;
   private String action;
   private String user;
-  private ActionType type;
-  private ActionResult result;
+  private String type;
+  private String result;
   private Date timestamp;
 
   public Supervision() {
@@ -39,19 +37,19 @@ public class Supervision extends BaseEntity {
     this.user = user;
   }
 
-  public ActionType getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(ActionType type) {
+  public void setType(String type) {
     this.type = type;
   }
 
-  public ActionResult getResult() {
+  public String getResult() {
     return result;
   }
 
-  public void setResult(ActionResult result) {
+  public void setResult(String result) {
     this.result = result;
   }
 
