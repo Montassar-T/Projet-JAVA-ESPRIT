@@ -15,7 +15,7 @@
               style="-fx-background-color: #2C3E50; -fx-padding: 30;">
             <Label text="📚 EduClass"
                    style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;"/>
-            <Label text="Educational Management System"
+            <Label text="Système de gestion éducative"
                    style="-fx-font-size: 14px; -fx-text-fill: #BDC3C7;"/>
         </VBox>
     </top>
