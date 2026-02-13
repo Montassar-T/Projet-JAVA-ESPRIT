@@ -24,6 +24,7 @@ public class AuthService {
         User user = null;
         if(rs.next()) {
             user = UserMapper.map(rs);
+
             if(!BCrypt.checkpw(password, user.getPassword())) {
                 user = null;
             }

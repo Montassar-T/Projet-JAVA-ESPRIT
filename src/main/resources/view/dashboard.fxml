@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.DashboardController"
+            prefWidth="800" prefHeight="500">
+
+    <center>
+        <Label text="DASHBOARD"
+               style="-fx-font-size: 36px; -fx-font-weight: bold;"
+               />
+    </center>
+
+</BorderPane>

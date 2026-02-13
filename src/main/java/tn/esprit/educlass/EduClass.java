@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class EduClass extends Application {
 
@@ -22,6 +23,6 @@ public class EduClass extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args); // starts JavaFX
+        launch(args);
     }
 }

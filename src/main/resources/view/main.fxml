@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="600" prefWidth="1000" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.MainController">
+
+    <!-- LEFT SIDEBAR -->
+    <left>
+        <VBox prefWidth="220" spacing="20" style="-fx-background-color: #34495e; -fx-padding: 20;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="EduClass" />
+
+            <!-- User Info -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <StackPane>
+                    <Circle fx:id="avatarCircle" fill="#3498db" radius="18" />
+                    <Label fx:id="initialsLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                </StackPane>
+                <VBox>
+                    <Label fx:id="nameLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Label fx:id="roleLabel" style="-fx-text-fill: #bdc3c7;" />
+                </VBox>
+            </HBox>
+
+            <!-- Navigation -->
+            <VBox spacing="10">
+                <Button onAction="#showDashboard" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Dashboard"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit" />
+                <Button onAction="#showCours" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Cours"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit"/>
+                <Button onAction="#showNotes" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Notes"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit"/>
+            </VBox>
+
+            <!-- Push Logout to Bottom -->
+            <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+                <Button alignment="CENTER" onAction="#handleLogout" prefHeight="32.0" prefWidth="180.0" text="Logout" />
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- RIGHT SECTION -->
+    <center>
+        <VBox prefWidth="780" spacing="0">
+
+            <!-- Top Navbar -->
+            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+                <Button fx:id="notificationButton" style="-fx-font-size: 18px; -fx-background-color: transparent; -fx-text-fill: black;" text="🔔" />
+            </HBox>
+
+            <!-- Content Render Area -->
+            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1;" VBox.vgrow="ALWAYS">
+                <!-- Dynamic content will be loaded here -->
+            </StackPane>
+
+        </VBox>
+    </center>
+
+</BorderPane>
