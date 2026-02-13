@@ -6,14 +6,13 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class EduClass extends Application {
 
     @Override
     public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/academic_structure.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
             Scene scene = new Scene(root);
             stage.setTitle("EduClass - Management");
             stage.setScene(scene);
