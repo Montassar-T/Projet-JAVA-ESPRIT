@@ -24,8 +24,8 @@ CREATE INDEX idx_role ON `users` (`role`);
 -- Insert some sample users
 INSERT INTO `users` (first_name, last_name, email, password, role)
 VALUES
-    ('System', 'Admin', 'admin@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'ADMIN'),
-    ('John', 'Smith', 'teacher1@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'TEACHER'),
-    ('Jane', 'Doe', 'teacher2@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'TEACHER'),
-    ('Alice', 'Brown', 'student1@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'STUDENT'),
-    ('Bob', 'Green', 'student2@example.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOa1s1x7P6zRZlYp7WfM9Hc1Yk5qQY5p6', 'STUDENT');
+    ('System', 'Admin', 'admin@educlass.tn', '$2a$10$3F.ouSzpA7tMnlnNV/jtcehO8wLfUg3Iw9wghWoskaHRW3zL9Tha2', 'ADMIN'),
+    ('John', 'Smith', 'teacher1@educlass.tn', '$2a$10$3F.ouSzpA7tMnlnNV/jtcehO8wLfUg3Iw9wghWoskaHRW3zL9Tha2', 'TEACHER'),
+    ('Jane', 'Doe', 'teacher2@educlass.tn', '$2a$10$3F.ouSzpA7tMnlnNV/jtcehO8wLfUg3Iw9wghWoskaHRW3zL9Tha2', 'TEACHER'),
+    ('Alice', 'Brown', 'student1@educlass.tn', '$2a$10$3F.ouSzpA7tMnlnNV/jtcehO8wLfUg3Iw9wghWoskaHRW3zL9Tha2', 'STUDENT'),
+    ('Bob', 'Green', 'student2@educlass.tn', '$2a$10$3F.ouSzpA7tMnlnNV/jtcehO8wLfUg3Iw9wghWoskaHRW3zL9Tha2', 'STUDENT');
