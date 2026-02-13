@@ -19,21 +19,21 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
 
                 <TextField fx:id="searchField"
-                           promptText="Search courses..."
+                           promptText="Rechercher des cours..."
                            HBox.hgrow="ALWAYS"/>
 
-                <Button text="Search"
+                <Button text="Rechercher"
                         fx:id="searchBtn"
                         onAction="#onSearch"/>
 
-                <Label text="Level:"/>
-                <ComboBox fx:id="levelFilter" prefWidth="130" promptText="Select Level"/>
+                <Label text="Niveau:"/>
+                <ComboBox fx:id="levelFilter" prefWidth="130" promptText="Choisir un niveau"/>
 
-                <Button text="Apply"
+                <Button text="Appliquer"
                         fx:id="applyFilterBtn"
                         onAction="#onApplyFilters"/>
 
-                <Button text="Reset"
+                <Button text="Réinitialiser"
                         fx:id="resetFilterBtn"
                         onAction="#onResetFilters"/>
 

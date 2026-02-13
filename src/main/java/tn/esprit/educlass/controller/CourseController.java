@@ -28,7 +28,7 @@ public class CourseController {
 
     @FXML
     public void initialize() {
-        levelFilter.getItems().addAll("All Levels", "1","2","3","4","5");
+        levelFilter.getItems().addAll("Tous les niveaux", "1","2","3","4","5");
         levelFilter.getSelectionModel().select(0);
         
         // Load initial data
@@ -82,7 +82,7 @@ public class CourseController {
                 
                 List<Lesson> lessons = service.getLessonsByChapter(chapter.getId());
                 if (lessons.isEmpty()) {
-                    lessonsBox.getChildren().add(new Label("No lessons yet."));
+                    lessonsBox.getChildren().add(new Label("Aucune leçon pour le moment."));
                 } else {
                     for (Lesson lesson : lessons) {
                         Hyperlink lessonLink = new Hyperlink(lesson.getTitle());
@@ -98,11 +98,11 @@ public class CourseController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            card.getChildren().add(new Label("Error loading chapters."));
+            card.getChildren().add(new Label("Erreur lors du chargement des chapitres."));
         }
 
         VBox.setVgrow(chaptersAccordion, Priority.ALWAYS);
-        card.getChildren().addAll(titleLabel, descLabel, new Separator(), new Label("Chapters:"), chaptersAccordion);
+        card.getChildren().addAll(titleLabel, descLabel, new Separator(), new Label("Chapitres:"), chaptersAccordion);
         
         return card;
     }
@@ -191,7 +191,7 @@ public class CourseController {
 
         try {
             List<Course> courses;
-            if (level == null || level.equals("All Levels")) {
+            if (level == null || level.equals("Tous les niveaux")) {
                 courses = service.getAllCourses();
             } else {
                 courses = service.getCoursesByLevel(Integer.parseInt(level));
