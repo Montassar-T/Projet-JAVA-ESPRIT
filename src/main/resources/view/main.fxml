@@ -31,10 +31,10 @@
 
             <!-- Navigation Buttons -->
             <VBox spacing="10" VBox.vgrow="ALWAYS">
-                <Button onAction="#showDashboard" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Dashboard"
+                <Button onAction="#showDashboard" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Tableau de bord"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit" />
-                <Button onAction="#showCours" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Cours"
+                <Button onAction="#showCours" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Matières"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
                 <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
@@ -44,7 +44,7 @@
 
             <!-- Logout Button pinned to bottom -->
             <VBox alignment="BOTTOM_CENTER">
-                <Button alignment="CENTER" onAction="#handleLogout" prefHeight="32.0" prefWidth="180.0" text="Logout" />
+                <Button alignment="CENTER" onAction="#handleLogout" prefHeight="32.0" prefWidth="180.0" text="Déconnexion" />
             </VBox>
 
         </VBox>
