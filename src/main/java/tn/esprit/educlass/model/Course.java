@@ -8,7 +8,7 @@ public class Course extends BaseEntity {
     private Long id;
     private String title;
     private String description;
-    private Date creationDate;
+    private int level;
 
     private List<Chapter> chapters = new ArrayList<>();
 
@@ -35,16 +35,16 @@ public class Course extends BaseEntity {
         return description;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
     public List<Chapter> getChapters() {
