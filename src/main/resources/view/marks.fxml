@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.MarksViewController"
+            prefWidth="850" prefHeight="550"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 16;">
+            <Label text="Notes / Marks"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.65">
+            <!-- List -->
+            <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16;">
+                <Label text="Liste des notes" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <ComboBox fx:id="filterStudentCombo" promptText="Tous les étudiants" prefWidth="220"/>
+                    <ComboBox fx:id="filterExamCombo" promptText="Tous les examens" prefWidth="220"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Actualiser" onAction="#onRefresh"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+                <TableView fx:id="marksTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 5;">
+                    <columns>
+                        <TableColumn fx:id="idCol" text="Id" prefWidth="50"/>
+                        <TableColumn fx:id="studentCol" text="Étudiant" prefWidth="180"/>
+                        <TableColumn fx:id="examCol" text="Examen" prefWidth="200"/>
+                        <TableColumn fx:id="markCol" text="Note /20" prefWidth="80"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10">
+                    <Button fx:id="deleteMarkBtn" text="Supprimer la sélection" onAction="#onDelete"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Form -->
+            <VBox spacing="18" style="-fx-background-color: #fcfcfc; -fx-padding: 20;">
+                <Label text="Ajouter / Modifier une note" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <GridPane hgap="10" vgap="14">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="100" halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <Label text="Étudiant:" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="studentCombo" prefWidth="260" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Examen:" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="examCombo" prefWidth="260" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Note (0–20):" GridPane.rowIndex="2"/>
+                    <TextField fx:id="markField" promptText="ex: 14.5" prefWidth="120" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+                <Region VBox.vgrow="ALWAYS"/>
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Effacer" onAction="#onClear"
+                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Button fx:id="saveMarkBtn" text="Enregistrer" onAction="#onSave"
+                            style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                </HBox>
+            </VBox>
+        </SplitPane>
+    </center>
+
+</BorderPane>

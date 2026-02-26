@@ -62,6 +62,11 @@ public class MainController {
         loadSection("/view/settings.fxml");
     }
 
+    @FXML
+    private void showMarks(ActionEvent event) {
+        loadSection("/view/marks.fxml");
+    }
+
     private void loadSection(String fxmlPath) {
         try {
             Parent view = FXMLLoader.load(getClass().getResource(fxmlPath));

@@ -7,6 +7,7 @@
 DROP TABLE IF EXISTS marks;
 
 -- Create marks table
+-- Run after user-management.sql and evaluations.sql (depends on users and evaluations)
 CREATE TABLE marks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
@@ -15,7 +16,11 @@ CREATE TABLE marks (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     -- Unique constraint: one student can have only one mark per exam
-    CONSTRAINT uk_student_exam UNIQUE (student_id, exam_id)
+    CONSTRAINT uk_student_exam UNIQUE (student_id, exam_id),
+    -- Foreign key: mark belongs to one student (users.id, typically role STUDENT)
+    CONSTRAINT fk_marks_student FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+    -- Foreign key: mark belongs to one exam (evaluations.id, type EXAM)
+    CONSTRAINT fk_marks_exam FOREIGN KEY (exam_id) REFERENCES evaluations(id) ON DELETE CASCADE
 );
 
 -- Add index on student_id for faster queries when retrieving all marks for a student
