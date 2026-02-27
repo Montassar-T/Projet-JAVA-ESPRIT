@@ -43,6 +43,9 @@
                 <Button onAction="#showEvaluations" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Évaluations"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
+                <Button onAction="#showChat" style="-fx-background-color: transparent; -fx-text-fill: white;" text="💬 Messages"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit"/>
                 <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>

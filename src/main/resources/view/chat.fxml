@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.ChatController"
+            prefWidth="800" prefHeight="500">
+
+    <!-- FULL SPLIT LAYOUT -->
+    <center>
+        <HBox HBox.hgrow="ALWAYS">
+
+            <!-- LEFT: Conversation List -->
+            <VBox prefWidth="280" spacing="0" style="-fx-background-color: #2c3e50;">
+                <padding>
+                    <Insets top="0" right="0" bottom="0" left="0"/>
+                </padding>
+
+                <!-- Header -->
+                <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 12;">
+                    <Label text="💬 Messages" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="newConversationBtn" text="+" onAction="#onNewConversation"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-min-width: 32; -fx-min-height: 32;"/>
+                </HBox>
+
+                <!-- Search -->
+                <HBox style="-fx-padding: 8;">
+                    <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"
+                               style="-fx-background-color: #3d566e; -fx-text-fill: white; -fx-prompt-text-fill: #95a5a6; -fx-background-radius: 15; -fx-padding: 6 12;"/>
+                </HBox>
+
+                <!-- Conversation ListView -->
+                <ListView fx:id="conversationListView" VBox.vgrow="ALWAYS"
+                          style="-fx-background-color: #2c3e50; -fx-control-inner-background: #2c3e50;"/>
+            </VBox>
+
+            <!-- RIGHT: Message Area -->
+            <VBox HBox.hgrow="ALWAYS" style="-fx-background-color: #ecf0f1;">
+
+                <!-- Chat Header -->
+                <HBox fx:id="chatHeader" alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-background-color: #34495e; -fx-padding: 12;" visible="false" managed="false">
+                    <Label fx:id="chatPartnerLabel" style="-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text=""/>
+                </HBox>
+
+                <!-- Messages ScrollPane -->
+                <ScrollPane fx:id="messagesScrollPane" fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-background: #ecf0f1;">
+                    <VBox fx:id="messagesContainer" spacing="8" style="-fx-padding: 12;">
+                        <!-- Messages will be added here programmatically -->
+                    </VBox>
+                </ScrollPane>
+
+                <!-- Empty state -->
+                <VBox fx:id="emptyState" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="💬" style="-fx-font-size: 48px;"/>
+                    <Label text="Sélectionnez une conversation ou créez-en une nouvelle"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;"/>
+                </VBox>
+
+                <!-- Input Area -->
+                <HBox fx:id="inputArea" alignment="CENTER" spacing="8"
+                      style="-fx-background-color: white; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-width: 1 0 0 0;"
+                      visible="false" managed="false">
+                    <TextField fx:id="messageField" promptText="Écrire un message..." HBox.hgrow="ALWAYS"
+                               onAction="#onSendMessage"
+                               style="-fx-background-color: #f0f2f5; -fx-background-radius: 20; -fx-padding: 8 14;"/>
+                    <Button fx:id="sendBtn" text="Envoyer" onAction="#onSendMessage"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 16;"/>
+                </HBox>
+
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>
