@@ -1,0 +1,17 @@
+@startuml CourseManagement
+
+actor Teacher
+participant "TeacherDashboard" as UI
+participant "CourseService" as Service
+database "Database" as DB
+
+Teacher -> UI: Clicks "Add Course"
+UI -> Teacher: Shows Add Course Form
+Teacher -> UI: Fills and Saves
+UI -> Service: saveCourse(course)
+Service -> DB: INSERT INTO course ...
+DB -> Service: Success
+Service -> UI: Confirmation
+UI -> Teacher: Shows Success Message
+
+@enduml

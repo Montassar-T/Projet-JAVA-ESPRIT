@@ -1,0 +1,25 @@
+@startuml TeacherDashboard
+
+class TeacherDashboardController {
+    - nameLabel: Label
+    - roleLabel: Label
+    - statsCoursesLabel: Label
+    - statsLessonsLabel: Label
+    - coursesListView: ListView
+    + initialize()
+    + switchToDashboard()
+    + switchToMyCourses()
+}
+
+class CourseService {
+    + getAllCourses(): List<Course>
+}
+
+class UserService {
+    + afficher(): List<User>
+}
+
+TeacherDashboardController --> CourseService
+TeacherDashboardController --> UserService
+
+@enduml

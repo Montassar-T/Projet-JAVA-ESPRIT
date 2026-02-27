@@ -80,5 +80,16 @@ public class QuestionService {
         ps.close();
         return success;
     }
-}
 
+    public List<Question> getAllQuestions() throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String sql = "SELECT * FROM questions";
+        try (Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                questions.add(QuestionMapper.map(rs));
+            }
+        }
+        return questions;
+    }
+}

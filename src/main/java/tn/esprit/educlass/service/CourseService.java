@@ -23,15 +23,17 @@ public class CourseService {
         this.connection = DataSource.getInstance().getCon();
     }
 
-    /* =====================================================
-       COURSE CRUD
-       ===================================================== */
+    /*
+     * =====================================================
+     * COURSE CRUD
+     * =====================================================
+     */
 
     public long createCourse(Course course) throws SQLException {
         String sql = """
-            INSERT INTO course (title, description, level, creation_date)
-            VALUES (?, ?, ?, ?)
-        """;
+                    INSERT INTO course (title, description, level, creation_date)
+                    VALUES (?, ?, ?, ?)
+                """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, course.getTitle());
@@ -65,7 +67,7 @@ public class CourseService {
         List<Course> courses = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 courses.add(CourseMapper.map(rs));
@@ -91,10 +93,10 @@ public class CourseService {
 
     public void updateCourse(Course course) throws SQLException {
         String sql = """
-            UPDATE course
-            SET title = ?, description = ?, level = ?, creation_date = ?
-            WHERE id = ?
-        """;
+                    UPDATE course
+                    SET title = ?, description = ?, level = ?, creation_date = ?
+                    WHERE id = ?
+                """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, course.getTitle());
@@ -115,15 +117,17 @@ public class CourseService {
         }
     }
 
-    /* =====================================================
-       CHAPTER CRUD
-       ===================================================== */
+    /*
+     * =====================================================
+     * CHAPTER CRUD
+     * =====================================================
+     */
 
     public long createChapter(Chapter chapter) throws SQLException {
         String sql = """
-            INSERT INTO chapter (title, order_index, course_id)
-            VALUES (?, ?, ?)
-        """;
+                    INSERT INTO chapter (title, order_index, course_id)
+                    VALUES (?, ?, ?)
+                """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, chapter.getTitle());
@@ -168,10 +172,10 @@ public class CourseService {
 
     public void updateChapter(Chapter chapter) throws SQLException {
         String sql = """
-            UPDATE chapter
-            SET title = ?, order_index = ?
-            WHERE id = ?
-        """;
+                    UPDATE chapter
+                    SET title = ?, order_index = ?
+                    WHERE id = ?
+                """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, chapter.getTitle());
@@ -190,15 +194,17 @@ public class CourseService {
         }
     }
 
-    /* =====================================================
-       LESSON CRUD
-       ===================================================== */
+    /*
+     * =====================================================
+     * LESSON CRUD
+     * =====================================================
+     */
 
     public void createLesson(Lesson lesson) throws SQLException {
         String sql = """
-            INSERT INTO lesson (title, content, duration_minutes, chapter_id)
-            VALUES (?, ?, ?, ?)
-        """;
+                    INSERT INTO lesson (title, content, duration_minutes, chapter_id)
+                    VALUES (?, ?, ?, ?)
+                """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, lesson.getTitle());
@@ -237,10 +243,10 @@ public class CourseService {
 
     public void updateLesson(Lesson lesson) throws SQLException {
         String sql = """
-            UPDATE lesson
-            SET title = ?, content = ?, duration_minutes = ?
-            WHERE id = ?
-        """;
+                    UPDATE lesson
+                    SET title = ?, content = ?, duration_minutes = ?
+                    WHERE id = ?
+                """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, lesson.getTitle());
@@ -258,5 +264,19 @@ public class CourseService {
             ps.setLong(1, id);
             ps.executeUpdate();
         }
+    }
+
+    public List<Lesson> getAllLessons() throws SQLException {
+        String sql = "SELECT * FROM lesson";
+        List<Lesson> lessons = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lessons.add(LessonMapper.map(rs));
+            }
+        }
+        return lessons;
     }
 }

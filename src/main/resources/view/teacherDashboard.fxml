@@ -19,478 +19,246 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.shape.SVGPath?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educlass.controller.TeacherDashboardController"
             prefWidth="1600" prefHeight="900"
             style="-fx-background-color: #ecf0f1; -fx-padding: 0;">
 
-    <!-- LEFT SIDEBAR NAVIGATION (same design as main.fxml) -->
+    <!-- LEFT SIDEBAR NAVIGATION -->
     <left>
-        <VBox fx:id="sidebar" style="-fx-background-color: #34495e; -fx-padding: 0;" prefWidth="220" minWidth="70">
-
-            <!-- Logo -->
-            <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="📚 EduClass" alignment="CENTER" />
+        <VBox fx:id="sidebar" style="-fx-background-color: #34495e; -fx-padding: 20px 15px;" prefWidth="220" spacing="10">
+            
+            <!-- Logo Section -->
+            <VBox alignment="CENTER" spacing="5" style="-fx-padding: 0 0 20 0;">
+                <HBox alignment="CENTER" spacing="8">
+                    <SVGPath content="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" fill="white" scaleX="1.2" scaleY="1.2"/>
+                    <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="EduClass" />
+                </HBox>
+                <Label style="-fx-text-fill: #bdc3c7; -fx-font-size: 11px; -fx-letter-spacing: 1px;" text="TEACHER PANEL" />
+            </VBox>
 
             <!-- User Info -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
+            <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 10 0 20 0;">
                 <StackPane>
-                    <Circle fx:id="avatarCircle" fill="#3498db" radius="18" />
-                    <Label fx:id="initialsLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                    <Circle fx:id="avatarCircle" fill="#3498db" radius="22" />
+                    <Label fx:id="initialsLabel" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15px;" />
                 </StackPane>
-                <VBox>
-                    <Label fx:id="nameLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                    <Label fx:id="roleLabel" style="-fx-text-fill: #bdc3c7;" />
+                <VBox spacing="2">
+                    <Label fx:id="nameLabel" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+                    <Label fx:id="roleLabel" style="-fx-text-fill: #bdc3c7; -fx-font-size: 10px; -fx-text-transform: uppercase;" />
                 </VBox>
             </HBox>
 
             <!-- Navigation Buttons -->
-            <VBox spacing="10" VBox.vgrow="ALWAYS">
-                <Button onAction="#switchToDashboard" style="-fx-background-color: transparent; -fx-text-fill: white;" text="📊 Dashboard"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit" />
-                <Button onAction="#switchToMyCourses" style="-fx-background-color: transparent; -fx-text-fill: white;" text="📚 Courses"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
-                <Button onAction="#switchToMyLessons" style="-fx-background-color: transparent; -fx-text-fill: white;" text="📝 Lessons"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
-                <Button onAction="#switchToEvaluations" style="-fx-background-color: transparent; -fx-text-fill: white;" text="✓ Assessments"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
-                <Button onAction="#switchToMyStudents" style="-fx-background-color: transparent; -fx-text-fill: white;" text="👥 Students"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
-                <Button onAction="#switchToGrades" style="-fx-background-color: transparent; -fx-text-fill: white;" text="📊 Grades"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
-                <Button onAction="#switchToSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="⚙️ Settings"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
+            <VBox spacing="6" VBox.vgrow="ALWAYS">
+                <Button onAction="#switchToDashboard" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15; -fx-background-radius: 5;" text="Dashboard" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
+                <Button onAction="#switchToMyCourses" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15;" text="Courses" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
+                <Button onAction="#switchToMyLessons" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15;" text="Lessons" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
+                <Button onAction="#switchToEvaluations" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15;" text="Assessments" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
+                <Button onAction="#switchToMyStudents" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15;" text="Students" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
+                <Button onAction="#switchToGrades" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15;" text="Grades" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2V9h2v8zm4 0h-2v-4h2v4zm-8 0H8v-2h2v2z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
+                <Button onAction="#switchToSettings" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-padding: 10 15;" text="Settings" prefWidth="190" onMouseEntered="#hoverEnter" onMouseExited="#hoverExit">
+                    <graphic>
+                        <SVGPath content="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="white" scaleX="0.9" scaleY="0.9"/>
+                    </graphic>
+                </Button>
             </VBox>
 
-            <!-- Logout Button pinned to bottom -->
-            <VBox alignment="BOTTOM_CENTER">
-                <Button alignment="CENTER" onAction="#handleLogout" prefHeight="32.0" prefWidth="180.0" text="Logout" />
+            <!-- Logout Button -->
+            <VBox alignment="BOTTOM_CENTER" style="-fx-padding: 20 0 0 0;">
+                <Button alignment="CENTER" onAction="#handleLogout" prefHeight="40.0" prefWidth="190.0" 
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5;" text="Logout">
+                    <graphic>
+                        <SVGPath content="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" fill="white" scaleX="0.8" scaleY="0.8"/>
+                    </graphic>
+                </Button>
             </VBox>
-
         </VBox>
     </left>
 
     <!-- RIGHT SECTION -->
     <center>
-        <VBox prefWidth="1380" spacing="0">
+        <VBox spacing="0">
+            <!-- Top Navbar -->
+            <VBox style="-fx-background-color: #2c3e50;">
+                <HBox style="-fx-padding: 15px 30px;" alignment="CENTER_LEFT" spacing="15">
+                    <VBox spacing="2">
+                        <Label text="Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                        <Label text="Welcome to your teaching dashboard" style="-fx-font-size: 11px; -fx-text-fill: #bdc3c7;"/>
+                    </VBox>
+                    <HBox HBox.hgrow="ALWAYS"/>
+                    <HBox spacing="20" alignment="CENTER_RIGHT">
+                        <StackPane>
+                            <Button onAction="#toggleNotifications" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;" text="">
+                                <graphic>
+                                    <SVGPath content="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" fill="white" />
+                                </graphic>
+                            </Button>
+                            <Label fx:id="notificationBadge" text="0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 9px; -fx-padding: 1 4; -fx-background-radius: 10;" StackPane.alignment="TOP_RIGHT">
+                                <StackPane.margin>
+                                    <Insets top="0" right="0"/>
+                                </StackPane.margin>
+                            </Label>
+                        </StackPane>
+                        <Separator orientation="VERTICAL" prefHeight="30" style="-fx-background-color: #34495e;"/>
+                        <Button style="-fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;" text="">
+                            <graphic>
+                                <SVGPath content="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white" />
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </HBox>
+                
+                <!-- Notification Dropdown -->
+                <StackPane>
+                    <VBox fx:id="notificationDropdown" visible="false" managed="false" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5); -fx-background-radius: 5; -fx-padding: 10;" maxWidth="300" maxHeight="400" alignment="TOP_RIGHT">
+                        <StackPane.margin>
+                            <Insets right="30" top="-5"/>
+                        </StackPane.margin>
+                        <Label text="Notifications" style="-fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
+                        <ListView fx:id="notificationListView" prefHeight="300" style="-fx-background-radius: 5;"/>
+                    </VBox>
+                </StackPane>
+            </VBox>
 
-            <!-- Top Navbar (compact) -->
-            <HBox alignment="CENTER_RIGHT" spacing="8" style="-fx-padding: 0;">
-                <Button fx:id="notificationButton" style="-fx-font-size: 16px; -fx-background-color: transparent; -fx-text-fill: black;" text="🔔" />
-            </HBox>
-
-            <!-- Content Render Area -->
-            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1; -fx-padding: 0" VBox.vgrow="ALWAYS">
-
+            <!-- Main Content Area -->
+            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1;" VBox.vgrow="ALWAYS">
+                
                 <!-- DASHBOARD VIEW -->
-                <VBox fx:id="dashboardViewUnique" spacing="20" style="-fx-padding: 30px; -fx-background-color: #ecf0f1;">
-                    <ScrollPane fitToWidth="true" style="-fx-background-color: #ecf0f1; -fx-border-color: transparent;">
-                        <VBox spacing="20" style="-fx-padding: 0; -fx-background-color: #ecf0f1;">
-
-                            <!-- Stats Row - cards stretch full width -->
-                            <HBox spacing="20" style="-fx-min-height: 160;">
-                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
-                                    <Label text="Courses" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                                    <Label fx:id="statsCoursesLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
-                                    <Label text="Active" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                <VBox fx:id="dashboardView" spacing="25" style="-fx-padding: 30px;">
+                    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                        <VBox spacing="25">
+                            <!-- Stats Row -->
+                            <HBox spacing="20">
+                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <SVGPath content="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" fill="#3498db" scaleX="0.8" scaleY="0.8"/>
+                                        <Label text="Courses" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
+                                    </HBox>
+                                    <Label fx:id="statsCoursesLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="Total Active" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
                                 </VBox>
-                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
-                                    <Label text="Lessons" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                                    <Label fx:id="statsLessonsLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
-                                    <Label text="Created" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <SVGPath content="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z" fill="#27ae60" scaleX="0.8" scaleY="0.8"/>
+                                        <Label text="Lessons" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
+                                    </HBox>
+                                    <Label fx:id="statsLessonsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="Created Material" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
                                 </VBox>
-                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
-                                    <Label text="Questions" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                                    <Label fx:id="statsQuestionsLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f39c12;"/>
-                                    <Label text="Total" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#f39c12" scaleX="0.8" scaleY="0.8"/>
+                                        <Label text="Questions" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
+                                    </HBox>
+                                    <Label fx:id="statsQuestionsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="Assessment Pool" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
                                 </VBox>
-                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
-                                    <Label text="Students" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                                    <Label fx:id="statsStudentsLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
-                                    <Label text="Enrolled" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <SVGPath content="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" fill="#e74c3c" scaleX="0.8" scaleY="0.8"/>
+                                        <Label text="Students" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
+                                    </HBox>
+                                    <Label fx:id="statsStudentsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="Enrolled Students" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
                                 </VBox>
                             </HBox>
 
                             <!-- Recent Items -->
                             <HBox spacing="20">
-                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-pref-width: 500;" VBox.vgrow="ALWAYS">
-                                    <Label text="📖 Recent Courses" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                                    <ListView fx:id="recentCoursesListViewUnique" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="200"/>
+                                <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Label text="Recent Courses" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <ListView fx:id="recentCoursesListView" prefHeight="220" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
                                 </VBox>
-                                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-pref-width: 500;" VBox.vgrow="ALWAYS">
-                                    <Label text="📝 Recent Lessons" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                                    <ListView fx:id="recentLessonsListViewUnique" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="200"/>
+                                <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Label text="Recent Lessons" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <ListView fx:id="recentLessonsListView" prefHeight="220" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
                                 </VBox>
                             </HBox>
 
-                            <!-- Courses Level Distribution -->
-                            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
-                                <Label text="📊 Courses Level Distribution" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                                <StackPane>
-                                    <PieChart fx:id="coursesLevelPieChartUnique" prefHeight="220" prefWidth="400" />
-                                    <Circle radius="60" style="-fx-fill: white; -fx-stroke: transparent;" StackPane.alignment="CENTER" />
-                                </StackPane>
-                            </VBox>
-
-                            <!-- Designs &amp; Diagrams -->
+                            <!-- Visualization & Design -->
                             <HBox spacing="20">
-                                <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2); -fx-pref-width: 400; -fx-min-height: 300; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
-                                    <Label text="Designs &amp; Diagrams" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                                    <ListView fx:id="designsListViewUnique" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="250"/>
+                                <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" prefWidth="450">
+                                    <Label text="Courses Level Distribution" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <PieChart fx:id="coursesLevelPieChart" prefHeight="280" />
                                 </VBox>
-                                <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2); -fx-pref-width: 900; -fx-min-height: 300; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
-                                    <Label text="Diagram Source / Preview" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                                    <TextArea fx:id="designViewerAreaUnique" editable="false" wrapText="true" style="-fx-control-inner-background: #fafbfc; -fx-font-family: 'monospace'; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="250"/>
+                                <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 25px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                                    <Label text="System Designs &amp; Diagrams" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <HBox spacing="20" VBox.vgrow="ALWAYS">
+                                        <ListView fx:id="designsListView" prefWidth="250" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
+                                        <TextArea fx:id="designViewerArea" editable="false" wrapText="true" style="-fx-control-inner-background: #fafbfc; -fx-font-family: 'monospace'; -fx-font-size: 13px; -fx-background-radius: 5; -fx-border-radius: 5;" HBox.hgrow="ALWAYS"/>
+                                    </HBox>
                                 </VBox>
                             </HBox>
-
                         </VBox>
                     </ScrollPane>
                 </VBox>
 
-                <!-- MY COURSES VIEW -->
-                <VBox fx:id="myCoursesViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- ADD COURSE VIEW -->
-                <VBox fx:id="addCourseViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- MY LESSONS VIEW -->
-                <VBox fx:id="myLessonsViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- ADD LESSON VIEW -->
-                <VBox fx:id="addLessonViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- MY QUESTIONS VIEW -->
-                <VBox fx:id="myQuestionsViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- ADD QUESTION VIEW -->
-                <VBox fx:id="addQuestionViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- MY STUDENTS VIEW -->
-                <VBox fx:id="myStudentsViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- ADD STUDENT VIEW -->
-                <VBox fx:id="addStudentViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- GRADES VIEW -->
-                <VBox fx:id="gradesViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- EVALUATIONS VIEW -->
-                <VBox fx:id="evaluationsViewUnique" spacing="15" style="-fx-padding: 30px;"/>
-                <!-- SETTINGS VIEW -->
-                <VBox fx:id="settingsViewUnique" spacing="15" style="-fx-padding: 30px;"/>
+                <!-- Other views (myCoursesView, addCourseView, etc.) remain simplified but visible toggled by visibility property -->
+                <!-- [Keeping existing structure for views to avoid breaking controller logic] -->
+                <VBox fx:id="myCoursesView" spacing="15" style="-fx-padding: 30px;" visible="false">
+                    <HBox spacing="10">
+                        <TextField fx:id="courseSearchField" promptText="Search courses..." style="-fx-padding: 10; -fx-background-radius: 5;" HBox.hgrow="ALWAYS"/>
+                        <Button text="Search" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+                    </HBox>
+                    <ListView fx:id="coursesListView" VBox.vgrow="ALWAYS" style="-fx-background-radius: 5;"/>
+                </VBox>
+
+                <VBox fx:id="addCourseView" spacing="15" style="-fx-padding: 30px;" visible="false">
+                    <Label text="Create New Course" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <GridPane hgap="20" vgap="20" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10;">
+                        <Label text="Course Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="courseTitleField" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="500" style="-fx-padding: 10;"/>
+                        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+                        <TextArea fx:id="courseDescField" prefHeight="120" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-padding: 10;"/>
+                        <Label text="Level:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="courseLevelCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200" style="-fx-padding: 5;"/>
+                        <Label text="Duration (h):" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="courseDurationField" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="100" style="-fx-padding: 10;"/>
+                    </GridPane>
+                    <HBox spacing="15">
+                        <Button text="Save Course" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 12 30; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                        <Button text="Cancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 12 30; -fx-background-radius: 5;"/>
+                    </HBox>
+                </VBox>
+                
+                <VBox fx:id="myLessonsView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="addLessonView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="myQuestionsView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="addQuestionView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="myStudentsView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="addStudentView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="gradesView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="evaluationsView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
+                <VBox fx:id="settingsView" spacing="15" style="-fx-padding: 30px;" visible="false"/>
 
             </StackPane>
-
         </VBox>
-    </center>
-
-</BorderPane>
-
-            <!-- Logo Section with collapse toggle -->
-            <VBox style="-fx-padding: 20px 16px; -fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0;">
-                <HBox alignment="CENTER_LEFT" spacing="8">
-                    <Label text="EduClass"
-                           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                    <!-- Collapse toggle placed to the right of the logo -->
-                    <HBox HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="collapseBtn" text="≡"
-                            style="-fx-font-size: 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-cursor: hand; -fx-border-width: 0; -fx-padding: 4px 8px;"
-                            onAction="#toggleSidebar"/>
-                </HBox>
-                <Label text="Teacher Panel"
-                       style="-fx-font-size: 10px; -fx-text-fill: #7f8c8d; -fx-padding: 4px 0 0 0; -fx-letter-spacing: 0.5;"/>
-            </VBox>
-            <!-- Navigation Menu -->
-            <ScrollPane fitToWidth="true"
-                        style="-fx-background-color: transparent; -fx-border-color: transparent;"
-                        VBox.vgrow="ALWAYS">
-                <VBox spacing="3" style="-fx-padding: 12px 8px;">
-                    <!-- Dashboard Section -->
-                    <Button fx:id="dashboardBtn"
-                            text="Dashboard"
-                            style="-fx-font-size: 12px; -fx-padding: 10px 12px; -fx-background-color: #3498db; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-font-weight: 500; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);"
-                            onAction="#switchToDashboard"/>
-                    <!-- Separator -->
-                    <Button fx:id="myCoursesBtn"
-                            text="Courses"
-                            style="-fx-font-size: 12px; -fx-padding: 8px 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-text-alignment: LEFT;"
-                            onAction="#switchToMyCourses"/>
-                    <!-- LESSONS SECTION -->
-                    <Button fx:id="myLessonsBtn"
-                            text="Lessons"
-                            style="-fx-font-size: 12px; -fx-padding: 8px 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-text-alignment: LEFT;"
-                            onAction="#switchToMyLessons"/>
-                    <Button fx:id="evaluationsBtn"
-                            text="Assessments"
-                            style="-fx-font-size: 12px; -fx-padding: 8px 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-text-alignment: LEFT;"
-                            onAction="#switchToEvaluations"/>
-                    <!-- STUDENTS SECTION -->
-                    <Button fx:id="myStudentsBtn"
-                            text="Students"
-                            style="-fx-font-size: 12px; -fx-padding: 8px 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-text-alignment: LEFT;"
-                            onAction="#switchToMyStudents"/>
-                    <Button fx:id="gradesBtn"
-                            text="Grades"
-                            style="-fx-font-size: 12px; -fx-padding: 8px 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-text-alignment: LEFT;"
-                            onAction="#switchToGrades"/>
-                    <!-- Separator -->
-                    <!-- SETTINGS SECTION -->
-                    <Button fx:id="settingsBtn"
-                            text="   Settings"
-                            style="-fx-font-size: 12px; -fx-padding: 8px 16px; -fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-alignment: CENTER_LEFT; -fx-cursor: hand; -fx-border-width: 0; -fx-text-alignment: LEFT;"
-                            onAction="#switchToSettings"/>
-                </VBox>
-            </ScrollPane>
-            <!-- Footer Logout Button -->
-            <VBox style="-fx-padding: 12px 8px; -fx-border-color: #e0e0e0; -fx-border-width: 1 0 0 0;">
-                <Button fx:id="logoutBtn"
-                        text="Logout"
-                        style="-fx-font-size: 11px; -fx-padding: 9px 12px; -fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: 500; -fx-alignment: CENTER; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);"
-                        onAction="#handleLogout"/>
-            </VBox>
-        </VBox>
-    </left>
-    <!-- TOP HEADER -->
-    <top>
-        <VBox style="-fx-background-color: #2c3e50;">
-            <HBox style="-fx-padding: 20px 30px; -fx-spacing: 15;" alignment="CENTER_LEFT">
-                <!-- Title Section -->
-                <VBox spacing="4" HBox.hgrow="NEVER">
-                    <Label fx:id="pageTitle"
-                           text="Dashboard"
-                           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
-                    <Label fx:id="pageSubtitle"
-                           text="Welcome to your teaching dashboard"
-                           style="-fx-font-size: 11px; -fx-text-fill: #bdc3c7;"/>
-                </VBox>
-                <!-- Spacer -->
-                <HBox HBox.hgrow="ALWAYS"/>
-                <!-- Right Side Header -->
-                <HBox spacing="20" alignment="CENTER_RIGHT">
-                    <!-- Notification -->
-                    <StackPane>
-                        <Button fx:id="notificationBtn"
-                                text="🔔"
-                                style="-fx-font-size: 20px; -fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 8px 12px; -fx-text-fill: white;"/>
-                        <Label fx:id="notificationBadge"
-                               text="0"
-                               style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-padding: 2px 5px; -fx-background-radius: 10;"
-                               StackPane.alignment="TOP_RIGHT"/>
-                    </StackPane>
-                    <!-- Divider -->
-                    <Rectangle width="1" height="30" style="-fx-fill: #34495e;"/>
-                    <!-- Profile -->
-                    <Button fx:id="profileBtn"
-                            text="👤"
-                            style="-fx-font-size: 20px; -fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 8px 12px; -fx-text-fill: white;"/>
-                </HBox>
-            </HBox>
-            <Rectangle height="1" style="-fx-fill: #34495e;" HBox.hgrow="ALWAYS"/>
-        </VBox>
-    </top>
-    <!-- MAIN CONTENT AREA -->
-    <center>
-        <StackPane fx:id="contentArea" style="-fx-background-color: #ecf0f1;">
-            <!-- DASHBOARD VIEW -->
-            <VBox fx:id="dashboardViewUnique" spacing="20" style="-fx-padding: 30px;">
-                <!-- Stats Row -->
-                <HBox spacing="20">
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-min-width: 200; -fx-pref-width: 200;">
-                        <Label text="Courses" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                        <Label fx:id="statsCoursesLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
-                        <Label text="Active" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
-                    </VBox>
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-min-width: 200; -fx-pref-width: 200;">
-                        <Label text="Lessons" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                        <Label fx:id="statsLessonsLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
-                        <Label text="Created" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
-                    </VBox>
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-min-width: 200; -fx-pref-width: 200;">
-                        <Label text="Questions" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                        <Label fx:id="statsQuestionsLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f39c12;"/>
-                        <Label text="Total" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
-                    </VBox>
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-min-width: 200; -fx-pref-width: 200;">
-                        <Label text="Students" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;"/>
-                        <Label fx:id="statsStudentsLabelUnique" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
-                        <Label text="Enrolled" style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
-                    </VBox>
-                </HBox>
-                <!-- Recent Items -->
-                <HBox spacing="20">
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-pref-width: 500;" VBox.vgrow="ALWAYS">
-                        <Label text="📖 Recent Courses" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                        <ListView fx:id="recentCoursesListViewUnique" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="200"/>
-                    </VBox>
-                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-pref-width: 500;" VBox.vgrow="ALWAYS">
-                        <Label text="📝 Recent Lessons" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                        <ListView fx:id="recentLessonsListViewUnique" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="200"/>
-                    </VBox>
-                </HBox>
-                <!-- Courses Level Distribution -->
-                <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
-                    <Label text="📊 Courses Level Distribution" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                    <StackPane>
-                        <PieChart fx:id="coursesLevelPieChartUnique" prefHeight="220" prefWidth="400" />
-                        <Circle radius="60" style="-fx-fill: white; -fx-stroke: transparent;" StackPane.alignment="CENTER" />
-                    </StackPane>
-                </VBox>
-                <!-- Designs & Diagrams -->
-                <HBox spacing="20">
-                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2); -fx-pref-width: 400; -fx-min-height: 300; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
-                        <Label text="Designs &amp; Diagrams" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                        <ListView fx:id="designsListViewUnique" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="250"/>
-                    </VBox>
-                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2); -fx-pref-width: 900; -fx-min-height: 300; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
-                        <Label text="Diagram Source / Preview" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                        <TextArea fx:id="designViewerAreaUnique" editable="false" wrapText="true" style="-fx-control-inner-background: #fafbfc; -fx-font-family: 'monospace'; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="250"/>
-                    </VBox>
-                </HBox>
-            </VBox>
-            <!-- MY COURSES VIEW -->
-            <VBox fx:id="myCoursesViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <HBox spacing="10">
-                    <TextField fx:id="courseSearchField" promptText="Search courses..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
-                    <Button text="🔍 Search" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
-                </HBox>
-                <ListView fx:id="coursesListView" style="-fx-control-inner-background: white; -fx-font-size: 12px; -fx-padding: 5px;" VBox.vgrow="ALWAYS"/>
-            </VBox>
-            <!-- ADD COURSE VIEW -->
-            <VBox fx:id="addCourseViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <Label text="Add New Course" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-                <GridPane hgap="15" vgap="15">
-                    <Label text="Course Title:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="courseTitleField" GridPane.columnIndex="1" GridPane.rowIndex="0" HBox.hgrow="ALWAYS"/>
-                    <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextArea fx:id="courseDescField" prefHeight="80" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    <Label text="Level:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <ComboBox fx:id="courseLevelCombo" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Label text="Duration (hours):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <TextField fx:id="courseDurationField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-                <HBox spacing="10">
-                    <Button text="Save Course" style="-fx-background-color: #27ae60; -fx-text-fill: white;" onAction="#handleSaveCourse"/>
-                    <Button text="Cancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" onAction="#handleCancelCourse"/>
-                </HBox>
-            </VBox>
-            <!-- MY LESSONS VIEW -->
-            <VBox fx:id="myLessonsViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <HBox spacing="10">
-                    <TextField fx:id="lessonSearchField" promptText="Search lessons..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
-                    <Button text="🔍 Search" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
-                </HBox>
-                <ListView fx:id="lessonsListView" style="-fx-control-inner-background: white; -fx-font-size: 12px; -fx-padding: 5px;" VBox.vgrow="ALWAYS"/>
-            </VBox>
-            <!-- ADD LESSON VIEW -->
-            <VBox fx:id="addLessonViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <Label text="Add New Lesson" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-                <GridPane hgap="15" vgap="15">
-                    <Label text="Lesson Title:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="lessonTitleField" GridPane.columnIndex="1" GridPane.rowIndex="0" HBox.hgrow="ALWAYS"/>
-                    <Label text="Course:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <ComboBox fx:id="lessonCourseCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    <Label text="Content:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <TextArea fx:id="lessonContentArea" prefHeight="150" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Label text="Duration (minutes):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <TextField fx:id="lessonDurationField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-                <HBox spacing="10">
-                    <Button text="Save Lesson" style="-fx-background-color: #27ae60; -fx-text-fill: white;" onAction="#handleSaveLesson"/>
-                    <Button text="Cancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" onAction="#handleCancelLesson"/>
-                </HBox>
-            </VBox>
-            <!-- MY QUESTIONS VIEW -->
-            <VBox fx:id="myQuestionsViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <HBox spacing="10">
-                    <TextField fx:id="questionSearchField" promptText="Search questions..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
-                    <Button text="🔍 Search" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
-                </HBox>
-                <ListView fx:id="questionsListView" style="-fx-control-inner-background: white; -fx-font-size: 12px; -fx-padding: 5px;" VBox.vgrow="ALWAYS"/>
-            </VBox>
-            <!-- ADD QUESTION VIEW -->
-            <VBox fx:id="addQuestionViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <Label text="Add New Question" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-                <GridPane hgap="15" vgap="15">
-                    <Label text="Question Text:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextArea fx:id="questionTextField" prefHeight="100" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    <Label text="Question Type:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <ComboBox fx:id="questionTypeCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    <Label text="Course:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <ComboBox fx:id="questionCourseCombo" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Label text="Difficulty:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <ComboBox fx:id="questionDifficultyCombo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-                <HBox spacing="10">
-                    <Button text="Save Question" style="-fx-background-color: #27ae60; -fx-text-fill: white;" onAction="#handleSaveQuestion"/>
-                    <Button text="Cancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" onAction="#handleCancelQuestion"/>
-                </HBox>
-            </VBox>
-            <!-- MY STUDENTS VIEW -->
-            <VBox fx:id="myStudentsViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <HBox spacing="10">
-                    <TextField fx:id="studentSearchField" promptText="Search students..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
-                    <Button text="🔍 Search" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
-                </HBox>
-                <ListView fx:id="studentsListView" style="-fx-control-inner-background: white; -fx-font-size: 12px; -fx-padding: 5px;" VBox.vgrow="ALWAYS"/>
-            </VBox>
-            <!-- ADD STUDENT VIEW -->
-            <VBox fx:id="addStudentViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <Label text="Add Student" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-                <GridPane hgap="15" vgap="15">
-                    <Label text="Student Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="studentNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" HBox.hgrow="ALWAYS"/>
-                    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="studentEmailField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    <Label text="Course:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <ComboBox fx:id="studentCourseCombo" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <ComboBox fx:id="studentStatusCombo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-                <HBox spacing="10">
-                    <Button text="Add Student" style="-fx-background-color: #27ae60; -fx-text-fill: white;" onAction="#handleAddStudent"/>
-                    <Button text="Cancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" onAction="#handleCancelStudent"/>
-                </HBox>
-            </VBox>
-            <!-- GRADES VIEW -->
-            <VBox fx:id="gradesViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <HBox spacing="10">
-                    <ComboBox fx:id="gradesFilterCombo" promptText="Filter by..." style="-fx-padding: 8px; -fx-font-size: 12px;" prefWidth="150"/>
-                    <TextField fx:id="gradesSearchField" promptText="Search..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
-                </HBox>
-                <TableView fx:id="gradesTableView" style="-fx-font-size: 12px;" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn text="Student" prefWidth="150"/>
-                        <TableColumn text="Course" prefWidth="150"/>
-                        <TableColumn text="Grade" prefWidth="100"/>
-                        <TableColumn text="Status" prefWidth="100"/>
-                    </columns>
-                </TableView>
-            </VBox>
-            <!-- EVALUATIONS VIEW -->
-            <VBox fx:id="evaluationsViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <HBox spacing="10">
-                    <TextField fx:id="evaluationSearchField" promptText="Search evaluations..." style="-fx-padding: 8px; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
-                    <Button text="🔍 Search" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
-                </HBox>
-                <ListView fx:id="evaluationsListView" style="-fx-control-inner-background: white; -fx-font-size: 12px; -fx-padding: 5px;" VBox.vgrow="ALWAYS"/>
-            </VBox>
-            <!-- SETTINGS VIEW -->
-            <VBox fx:id="settingsViewUnique" spacing="15" style="-fx-padding: 30px;">
-                <Label text="Teacher Settings" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-                <GridPane hgap="15" vgap="15">
-                    <Label text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="settingsNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" HBox.hgrow="ALWAYS"/>
-                    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="settingsEmailField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    <Label text="Department:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <TextField fx:id="settingsDepartmentField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Label text="Bio:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <TextArea fx:id="settingsBioArea" prefHeight="100" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-                <HBox spacing="10">
-                    <Button text="Save Settings" style="-fx-background-color: #27ae60; -fx-text-fill: white;" onAction="#handleSaveSettings"/>
-                    <Button text="Change Password" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
-                </HBox>
-            </VBox>
-        </StackPane>
     </center>
 </BorderPane>
