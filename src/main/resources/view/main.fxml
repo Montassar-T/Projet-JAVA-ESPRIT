@@ -46,9 +46,6 @@
                 <Button onAction="#showChat" style="-fx-background-color: transparent; -fx-text-fill: white;" text="💬 Messages"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
-                <Button onAction="#showChat" style="-fx-background-color: transparent; -fx-text-fill: white;" text="💬 Messages"
-                        onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
                 <Button fx:id="usersButton" onAction="#showUsers" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Utilisateurs"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit" visible="false" managed="false"/>
