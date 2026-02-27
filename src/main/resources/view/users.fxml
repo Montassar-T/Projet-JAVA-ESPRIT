@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.UsersController" prefWidth="700" prefHeight="500" style="-fx-background-color: #f7f9fa;">
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color:transparent;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <content>
+            <VBox spacing="16" style="-fx-padding: 20;">
+                <Label text="Gestion des utilisateurs" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+                <!-- Search and Filter Bar -->
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchField" promptText="🔍 Rechercher par nom ou email..." prefWidth="250"
+                               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                    <Label text="Rôle :" style="-fx-font-size: 13px; -fx-text-fill: #34495e;" />
+                    <ComboBox fx:id="filterRoleCombo" style="-fx-background-radius: 8;" />
+                    <Label text="Statut :" style="-fx-font-size: 13px; -fx-text-fill: #34495e;" />
+                    <ComboBox fx:id="filterStatusCombo" style="-fx-background-radius: 8;" />
+                </HBox>
+
+                <!-- Users Table -->
+                <TableView fx:id="usersTable" prefHeight="250">
+                    <columns>
+                        <TableColumn fx:id="idCol" text="ID" prefWidth="50">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="firstNameCol" text="Prénom" prefWidth="110">
+                            <cellValueFactory><PropertyValueFactory property="firstName" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="lastNameCol" text="Nom" prefWidth="110">
+                            <cellValueFactory><PropertyValueFactory property="lastName" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="emailCol" text="Email" prefWidth="160">
+                            <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="roleCol" text="Rôle" prefWidth="90">
+                            <cellValueFactory><PropertyValueFactory property="role" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="statusCol" text="Statut" prefWidth="90">
+                            <cellValueFactory><PropertyValueFactory property="status" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <!-- Add / Edit User Form -->
+                <TitledPane text="Ajouter / Modifier un utilisateur" expanded="true" style="-fx-background-color: transparent; -fx-font-size: 16px;">
+                    <VBox spacing="12" style="-fx-padding: 16; -fx-background-color: #fff; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, #d0d7de, 8, 0, 0, 2);">
+                        <HBox spacing="12">
+                            <Label text="Prénom :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <TextField fx:id="firstNameField" prefWidth="250" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Nom :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <TextField fx:id="lastNameField" prefWidth="250" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Email :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <TextField fx:id="emailField" prefWidth="250" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox fx:id="passwordRow" spacing="12">
+                            <Label text="Mot de passe :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <PasswordField fx:id="passwordField" prefWidth="250" promptText="Requis pour un nouvel utilisateur" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Rôle :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <ComboBox fx:id="roleCombo" prefWidth="250" style="-fx-background-radius: 8;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Statut :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <ComboBox fx:id="statusCombo" prefWidth="250" style="-fx-background-radius: 8;" />
+                        </HBox>
+                        <HBox spacing="10">
+                            <Button text="Enregistrer" onAction="#handleSave"
+                                    style="-fx-background-color: linear-gradient(to right, #2980b9, #6dd5fa); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-font-size: 13px;" />
+                            <Button text="Supprimer" onAction="#handleDelete"
+                                    style="-fx-background-color: linear-gradient(to right, #e74c3c, #ec7063); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-font-size: 13px;" />
+                            <Button text="Réinitialiser MDP" onAction="#handleResetPassword"
+                                    style="-fx-background-color: linear-gradient(to right, #f39c12, #f1c40f); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-font-size: 13px;" />
+                            <Button text="Effacer" onAction="#handleClear"
+                                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20; -fx-font-size: 13px;" />
+                        </HBox>
+                    </VBox>
+                </TitledPane>
+
+                <!-- Feedback message -->
+                <Label fx:id="messageLabel" style="-fx-font-size: 15px; -fx-font-weight: bold;" />
+            </VBox>
+        </content>
+    </ScrollPane>
+</AnchorPane>
+

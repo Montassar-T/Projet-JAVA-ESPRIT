@@ -43,12 +43,15 @@
                 <Button onAction="#showEvaluations" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Évaluations"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
+                <Button fx:id="usersButton" onAction="#showUsers" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Utilisateurs"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit" visible="false" managed="false"/>
                 <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
             </VBox>
 
-            <!-- Logout Button pinned to bottom -->
+            <!-- Logout Button -->
             <VBox alignment="BOTTOM_CENTER">
                 <Button alignment="CENTER" onAction="#handleLogout" prefHeight="32.0" prefWidth="180.0" text="Déconnexion" />
             </VBox>
@@ -74,3 +77,4 @@
     </center>
 
 </BorderPane>
+

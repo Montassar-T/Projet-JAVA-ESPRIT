@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import tn.esprit.educlass.service.AuthService;
 import tn.esprit.educlass.model.User;
+import tn.esprit.educlass.utlis.ValidationUtils;
 
 public class AuthController {
 
@@ -17,7 +18,7 @@ public class AuthController {
     @FXML private PasswordField passwordField;
     @FXML private Label messageLabel;
 
-    private AuthService authService = new AuthService();
+    private final AuthService authService = new AuthService();
 
     @FXML
     private void handleLogin() {
@@ -25,39 +26,52 @@ public class AuthController {
         String password = passwordField.getText();
 
         if (email.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Please fill all fields");
+            showError("Veuillez remplir tous les champs.");
+            return;
+        }
+        if (!ValidationUtils.isValidEmail(email)) {
+            showError("Format d'email invalide.");
             return;
         }
 
         try {
-            User user = authService.login(email, password);
+            int result = authService.authenticate(email, password);
 
-            if (user != null) {
-                messageLabel.setStyle("-fx-text-fill: green;");
-                messageLabel.setText("Welcome " + user.getFullName());
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main.fxml"));
-                Parent root = loader.load();
-
-                // Pass the user to MainController
-                MainController controller = loader.getController();
-                controller.setUser(user);
-
-                // Set scene
-                Stage stage = (Stage) emailField.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("EduClass - Dashboard");
-                stage.show();
-
-            } else {
-                messageLabel.setStyle("-fx-text-fill: red;");
-                messageLabel.setText("Invalid email or password");
+            switch (result) {
+                case AuthService.LOGIN_SUCCESS:
+                    User user = authService.getLastLoggedUser();
+                    messageLabel.setStyle("-fx-text-fill: green;");
+                    messageLabel.setText("Bienvenue " + user.getFullName());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main.fxml"));
+                    Parent root = loader.load();
+                    MainController controller = loader.getController();
+                    controller.setUser(user);
+                    Stage stage = (Stage) emailField.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("EduClass - Tableau de bord");
+                    stage.show();
+                    break;
+                case AuthService.LOGIN_INVALID_CREDENTIALS:
+                    showError("Email ou mot de passe incorrect.");
+                    break;
+                case AuthService.LOGIN_ACCOUNT_INACTIVE:
+                    showError("Votre compte est inactif. Contactez l'administrateur.");
+                    break;
+                case AuthService.LOGIN_ACCOUNT_SUSPENDED:
+                    showError("Votre compte est suspendu. Contactez l'administrateur.");
+                    break;
+                default:
+                    showError("Erreur inconnue.");
             }
-
         } catch (Exception e) {
-            messageLabel.setStyle("-fx-text-fill: red;");
-            messageLabel.setText("Error: " + e.getMessage());
+            showError("Erreur de connexion. Veuillez réessayer.");
             e.printStackTrace();
         }
     }
+
+    private void showError(String msg) {
+        messageLabel.setStyle("-fx-text-fill: red;");
+        messageLabel.setText(msg);
+    }
 }
+

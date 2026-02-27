@@ -3,13 +3,59 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefWidth="800" prefHeight="500">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.SettingsController" prefWidth="600" prefHeight="500" style="-fx-background-color: #f7f9fa;">
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color:transparent;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <content>
+            <VBox spacing="24" alignment="TOP_CENTER" style="-fx-padding: 20;">
+                <Label text="Paramètres du compte" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
 
-    <center>
-        <Label text="Paramètres"
-               style="-fx-font-size: 36px; -fx-font-weight: bold;" />
-    </center>
+                <TitledPane text="Informations personnelles" expanded="true" style="-fx-background-color: transparent; -fx-font-size: 16px;">
+                    <VBox spacing="16" alignment="CENTER_LEFT" style="-fx-padding: 16; -fx-background-color: #fff; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, #d0d7de, 8, 0, 0, 2);">
+                        <HBox spacing="12">
+                            <Label text="Prénom :" minWidth="100" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <TextField fx:id="firstNameField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Nom :" minWidth="100" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <TextField fx:id="lastNameField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Email :" minWidth="100" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <TextField fx:id="emailField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Rôle :" minWidth="100" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <Label fx:id="roleLabel" style="-fx-font-size: 14px; -fx-text-fill: #2980b9;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Statut :" minWidth="100" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <Label fx:id="statusLabel" style="-fx-font-size: 14px; -fx-text-fill: #27ae60;" />
+                        </HBox>
+                        <Button text="Enregistrer les modifications" onAction="#handleSaveProfile" style="-fx-background-color: linear-gradient(to right, #2980b9, #6dd5fa); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 24; -fx-font-size: 15px;" />
+                    </VBox>
+                </TitledPane>
 
-</BorderPane>
+                <TitledPane text="Changer le mot de passe" expanded="false" style="-fx-background-color: transparent; -fx-font-size: 16px;">
+                    <VBox spacing="16" alignment="CENTER_LEFT" style="-fx-padding: 16; -fx-background-color: #fff; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, #d0d7de, 8, 0, 0, 2);">
+                        <HBox spacing="12">
+                            <Label text="Ancien mot de passe :" minWidth="150" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <PasswordField fx:id="oldPasswordField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Nouveau mot de passe :" minWidth="150" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <PasswordField fx:id="newPasswordField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <HBox spacing="12">
+                            <Label text="Confirmer le mot de passe :" minWidth="150" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <PasswordField fx:id="confirmPasswordField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d0d7de; -fx-padding: 6 10;" />
+                        </HBox>
+                        <Button text="Changer le mot de passe" onAction="#handleChangePassword" style="-fx-background-color: linear-gradient(to right, #27ae60, #6dd5fa); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 24; -fx-font-size: 15px;" />
+                    </VBox>
+                </TitledPane>
+
+                <Label fx:id="messageLabel" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" />
+            </VBox>
+        </content>
+    </ScrollPane>
+</AnchorPane>
+
