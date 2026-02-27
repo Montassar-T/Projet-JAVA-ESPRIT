@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.model.User;
+import tn.esprit.educlass.utlis.SessionManager;
 
 public class MainController {
 
@@ -39,6 +40,7 @@ public class MainController {
     // Update sidebar display with given user
     private void updateSidebar(User user) {
         this.user = user;
+        SessionManager.setCurrentUser(user);
         nameLabel.setText(user.getFullName());
         roleLabel.setText(user.getRole().name());
         String initials = user.getFirstName().substring(0, 1).toUpperCase() +
@@ -99,6 +101,11 @@ public class MainController {
         loadSection("/view/evaluations.fxml");
     }
 
+    @FXML
+    private void showChat(ActionEvent event) {
+        loadSection("/view/chat.fxml");
+    }
+
     private void loadSection(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -124,6 +131,7 @@ public class MainController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            SessionManager.clear();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
