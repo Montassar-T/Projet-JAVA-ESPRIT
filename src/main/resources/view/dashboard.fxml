@@ -1,16 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.control.TextArea?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educlass.controller.DashboardController"
-            prefWidth="800" prefHeight="500">
+            prefWidth="1000" prefHeight="700"
+            style="-fx-background-color: #f5f7fa;">
 
+    <!-- Top Header -->
+    <top>
+        <VBox style="-fx-background-color: #2c3e50; -fx-padding: 4px 0;">
+            <!-- Main Header (compact) -->
+            <HBox style="-fx-padding: 8px 12px; -fx-spacing: 8;" alignment="CENTER_LEFT">
+                <!-- Left Side: Title and Date (compact) -->
+                <VBox spacing="2" HBox.hgrow="NEVER">
+                    <Label text="Dashboard"
+                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    <Label fx:id="dateLabel"
+                           style="-fx-font-size: 10px; -fx-text-fill: #bdc3c7;"/>
+                </VBox>
+
+                <!-- Spacer -->
+                <HBox HBox.hgrow="ALWAYS"/>
+
+                <!-- Right Side: Notification and Profile Icons -->
+                <HBox spacing="8" alignment="CENTER_RIGHT" style="-fx-padding: 0px;">
+                    <!-- Notification Section -->
+                    <StackPane>
+                        <Button fx:id="notificationButton"
+                                text="🔔"
+                                style="-fx-font-size: 16px; -fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 6px 8px; -fx-text-fill: white;"
+                                onMouseEntered="#onNotificationHoverEnter"
+                                onMouseExited="#onNotificationHoverExit">
+                            <tooltip>
+                                <Tooltip text="View Notifications" style="-fx-font-size: 11px; -fx-padding: 5px;"/>
+                            </tooltip>
+                        </Button>
+                        <!-- Notification Count Badge -->
+                        <Label fx:id="notificationCountBadge"
+                               text="0"
+                               style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 1px 4px; -fx-background-radius: 10; -fx-min-width: 16;"
+                                StackPane.alignment="TOP_RIGHT"/>
+                    </StackPane>
+
+                    <!-- Divider -->
+                    <Rectangle width="1" height="30" style="-fx-fill: #34495e;"/>
+
+                    <!-- Profile Section -->
+                    <StackPane>
+                        <Button fx:id="profileButton"
+                                text="👤"
+                                style="-fx-font-size: 16px; -fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 6px 8px; -fx-text-fill: white;"
+                                 onMouseEntered="#onProfileHoverEnter"
+                                 onMouseExited="#onProfileHoverExit">
+                                     <tooltip>
+                                         <Tooltip text="View Profile" style="-fx-font-size: 11px; -fx-padding: 5px;"/>
+                                     </tooltip>
+                                 </Button>
+                     </StackPane>
+                 </HBox>
+             </HBox>
+
+            <!-- Header Separator -->
+            <Rectangle height="1" style="-fx-fill: #34495e;" HBox.hgrow="ALWAYS"/>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
     <center>
-        <Label text="DASHBOARD"
-               style="-fx-font-size: 36px; -fx-font-weight: bold;"
-               />
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f5f7fa; -fx-border-color: transparent;">
+            <VBox spacing="33" style="-fx-padding: 30px; -fx-background-color: #f5f7fa;">
+
+                <!-- Statistics Row - cards stretch full width -->
+                <HBox spacing="20" style="-fx-min-height: 160;">
+                    <!-- Total Users Card -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-border-color: #ecf0f1; -fx-border-width: 1;" HBox.hgrow="ALWAYS">
+                        <Label text="Teachers"
+                               style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold; -fx-letter-spacing: 0.5;"/>
+                        <Label fx:id="totalUsersLabel" text="0"
+                               style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Label fx:id="usersDetailLabel" text="Active users"
+                               style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                    </VBox>
+
+                    <!-- Total Courses Card -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-border-color: #ecf0f1; -fx-border-width: 1;" HBox.hgrow="ALWAYS">
+                        <Label text="Total Courses"
+                               style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold; -fx-letter-spacing: 0.5;"/>
+                        <Label fx:id="totalCoursesLabel" text="0"
+                               style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                        <Label fx:id="coursesDetailLabel" text="Published"
+                               style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                    </VBox>
+
+                    <!-- Total Evaluations Card -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-border-color: #ecf0f1; -fx-border-width: 1;" HBox.hgrow="ALWAYS">
+                        <Label text="Total Evaluations"
+                               style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold; -fx-letter-spacing: 0.5;"/>
+                        <Label fx:id="totalEvaluationsLabel" text="0"
+                               style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+                        <Label fx:id="evaluationsDetailLabel" text="In progress"
+                               style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+                    </VBox>
+                </HBox>
+                <HBox spacing="20" style="-fx-min-height: 320;">
+                    <!-- Recent Courses -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-pref-width: 450; -fx-min-height: 320; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
+                        <Label text="📚 Recent Courses"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ListView fx:id="coursesListView"
+                                  style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px; -fx-padding: 5px; -fx-border-color: #ecf0f1; -fx-border-width: 1; -fx-border-radius: 5;"
+                                  VBox.vgrow="ALWAYS"
+                                  prefHeight="270"/>
+                    </VBox>
+
+                    <!-- Recent Evaluations -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-pref-width: 450; -fx-min-height: 320; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
+                        <Label text="📋 Recent Evaluations"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ListView fx:id="evaluationsListView"
+                                  style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px; -fx-padding: 5px; -fx-border-color: #ecf0f1; -fx-border-width: 1; -fx-border-radius: 5;"
+                                  VBox.vgrow="ALWAYS"
+                                  prefHeight="270"/>
+                    </VBox>
+                </HBox>
+
+                <!-- User Statistics and Notifications -->
+                <HBox spacing="20" style="-fx-min-height: 280;">
+                    <!-- User Roles Distribution -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-pref-width: 450; -fx-min-height: 280; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
+                        <Label text="👥 User Roles Distribution"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <VBox fx:id="rolesStatisticsBox" spacing="10" style="-fx-padding: 10px;" VBox.vgrow="ALWAYS">
+                            <StackPane style="-fx-padding: 10px;" HBox.hgrow="NEVER">
+                                <PieChart fx:id="rolesPieChart" prefWidth="180" prefHeight="180" />
+                                <Circle radius="40" style="-fx-fill: white; -fx-stroke: transparent;" StackPane.alignment="CENTER" />
+                            </StackPane>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Recent Notifications -->
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 24px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 3); -fx-pref-width: 450; -fx-min-height: 280; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
+                        <Label text="🔔 Recent Notifications"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ListView fx:id="notificationsListView"
+                                  style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 11px; -fx-padding: 5px; -fx-border-color: #ecf0f1; -fx-border-width: 1; -fx-border-radius: 5;"
+                                  VBox.vgrow="ALWAYS"
+                                  prefHeight="220"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Designs & Diagrams -->
+                <HBox spacing="20">
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2); -fx-pref-width: 400; -fx-min-height: 300; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
+                        <Label text="Designs &amp; Diagrams" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ListView fx:id="designsListView" style="-fx-control-inner-background: #f8f9fa; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="250"/>
+                    </VBox>
+                    <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16px; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2); -fx-pref-width: 900; -fx-min-height: 300; -fx-border-color: #ecf0f1; -fx-border-width: 1;">
+                        <Label text="Diagram Source / Preview" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <TextArea fx:id="designViewerArea" editable="false" wrapText="true" style="-fx-control-inner-background: #fafbfc; -fx-font-family: 'monospace'; -fx-font-size: 12px;" VBox.vgrow="ALWAYS" prefHeight="250"/>
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
     </center>
 
 </BorderPane>

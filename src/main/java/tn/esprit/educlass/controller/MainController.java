@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import tn.esprit.educlass.model.User;
+import tn.esprit.educlass.utlis.SessionManager;
 
 public class MainController {
 
@@ -25,6 +26,9 @@ public class MainController {
     // Call this after login to set user
     public void setUser(User user) {
         this.user = user;
+        // Store in session manager too
+        SessionManager.getInstance().setCurrentUser(user);
+
         nameLabel.setText(user.getFullName());
         roleLabel.setText(user.getRole().name());
 
@@ -74,7 +78,15 @@ public class MainController {
 
     private void loadSection(String fxmlPath) {
         try {
-            Parent view = FXMLLoader.load(getClass().getResource(fxmlPath));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = loader.load();
+
+            // Pass user to the loaded controller if it supports it
+            Object controller = loader.getController();
+            if (controller instanceof DashboardController) {
+                ((DashboardController) controller).setUser(user);
+            }
+
             contentPane.getChildren().clear();
             contentPane.getChildren().add(view);
         } catch (Exception e) {
@@ -85,6 +97,9 @@ public class MainController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            // Clear session
+            SessionManager.getInstance().clearSession();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

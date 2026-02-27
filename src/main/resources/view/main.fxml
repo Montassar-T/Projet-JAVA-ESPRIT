@@ -8,11 +8,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="600" prefWidth="1000" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.MainController">
+<BorderPane prefHeight="1100" prefWidth="1600" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.MainController" style="-fx-padding: 0;">
 
     <!-- LEFT SIDEBAR -->
     <left>
-        <VBox prefWidth="220" spacing="20" style="-fx-background-color: #34495e; -fx-padding: 20;" VBox.vgrow="ALWAYS">
+        <!-- reduced padding to remove large margin -->
+        <VBox prefWidth="220" spacing="12" style="-fx-background-color: #34495e; -fx-padding: 0;" VBox.vgrow="ALWAYS">
 
             <!-- Logo -->
             <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="📚 EduClass" alignment="CENTER" />
@@ -60,13 +61,13 @@
     <center>
         <VBox prefWidth="780" spacing="0">
 
-            <!-- Top Navbar -->
-            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-                <Button fx:id="notificationButton" style="-fx-font-size: 18px; -fx-background-color: transparent; -fx-text-fill: black;" text="🔔" />
+            <HBox alignment="CENTER_RIGHT" spacing="8" style="-fx-padding: 0;">
+                <Button fx:id="notificationButton" style="-fx-font-size: 16px; -fx-background-color: transparent; -fx-text-fill: black;" text="🔔" />
             </HBox>
 
             <!-- Content Render Area -->
-            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1; -fx-padding: 20" VBox.vgrow="ALWAYS">
+            <!-- removed inner padding so content aligns to edges -->
+            <StackPane fx:id="contentPane" style="-fx-background-color: #ecf0f1; -fx-padding: 0" VBox.vgrow="ALWAYS">
                 <!-- Dynamic content will be loaded here -->
             </StackPane>
 

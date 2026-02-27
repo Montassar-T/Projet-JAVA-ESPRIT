@@ -10,6 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import tn.esprit.educlass.service.AuthService;
 import tn.esprit.educlass.model.User;
+import tn.esprit.educlass.enums.Role;
+import tn.esprit.educlass.utlis.SessionManager;
 
 public class AuthController {
 
@@ -33,15 +35,37 @@ public class AuthController {
             User user = authService.login(email, password);
 
             if (user != null) {
+                // Store user in session manager
+                SessionManager.getInstance().setCurrentUser(user);
+
                 messageLabel.setStyle("-fx-text-fill: green;");
                 messageLabel.setText("Welcome " + user.getFullName());
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main.fxml"));
+                // Redirect based on user role
+                String fxmlPath;
+                String controllerClass;
+
+                if (user.getRole() == Role.TEACHER) {
+                    // Teacher redirects to teacher dashboard
+                    fxmlPath = "/view/teacherDashboard.fxml";
+                    controllerClass = "tn.esprit.educlass.controller.TeacherDashboardController";
+                } else {
+                    // Student redirects to main dashboard
+                    fxmlPath = "/view/main.fxml";
+                    controllerClass = "tn.esprit.educlass.controller.MainController";
+                }
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
                 Parent root = loader.load();
 
-                // Pass the user to MainController
-                MainController controller = loader.getController();
-                controller.setUser(user);
+                // Get controller and set user data
+                if (controllerClass.contains("Teacher")) {
+                    TeacherDashboardController controller = loader.getController();
+                    controller.setUser(user);
+                } else {
+                    MainController controller = loader.getController();
+                    controller.setUser(user);
+                }
 
                 // Set scene
                 Stage stage = (Stage) emailField.getScene().getWindow();
