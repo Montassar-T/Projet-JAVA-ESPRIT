@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tn.esprit.educlass.controller.EvaluationsViewController"
+            prefWidth="850" prefHeight="550"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+
+    <!-- TOP BANNER -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 16;">
+            <Label text="Évaluations en ligne"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="Conception et gestion des quiz, devoirs et examens"
+                   style="-fx-font-size: 13px; -fx-text-fill: #cce0e5;"/>
+        </VBox>
+    </top>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 16;">
+
+            <!-- Filters & Actions Bar -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="filterTypeCombo" promptText="Tous les types" prefWidth="180"/>
+                <ComboBox fx:id="filterStatusCombo" promptText="Tous les statuts" prefWidth="180"/>
+                <TextField fx:id="searchField" promptText="Rechercher par titre..." HBox.hgrow="ALWAYS"/>
+                <Button text="Actualiser" onAction="#onRefresh"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="+ Ajouter" onAction="#onAdd"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <!-- Evaluations Table -->
+            <TableView fx:id="evaluationsTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="idCol" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="titleCol" text="Titre" prefWidth="180"/>
+                    <TableColumn fx:id="typeCol" text="Type" prefWidth="110"/>
+                    <TableColumn fx:id="statusCol" text="Statut" prefWidth="100"/>
+                    <TableColumn fx:id="durationCol" text="Durée (min)" prefWidth="90"/>
+                    <TableColumn fx:id="dueDateCol" text="Date limite" prefWidth="140"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="160"/>
+                </columns>
+            </TableView>
+
+            <!-- Bottom Stats -->
+            <HBox spacing="20" alignment="CENTER_LEFT" style="-fx-padding: 5 0 0 0;">
+                <Label fx:id="totalLabel" text="Total: 0" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Label fx:id="draftLabel" text="Brouillons: 0" style="-fx-text-fill: #f39c12;"/>
+                <Label fx:id="publishedLabel" text="Publiés: 0" style="-fx-text-fill: #27ae60;"/>
+                <Label fx:id="closedLabel" text="Fermés: 0" style="-fx-text-fill: #e74c3c;"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
+

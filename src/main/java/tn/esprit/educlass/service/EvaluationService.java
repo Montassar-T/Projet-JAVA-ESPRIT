@@ -18,10 +18,10 @@ public class EvaluationService {
         this.con = DataSource.getInstance().getCon();
     }
 
-    // CREATE
-    public boolean ajouter(Evaluation e) throws SQLException {
+    // CREATE – returns generated id (or -1 on failure)
+    public int ajouter(Evaluation e) throws SQLException {
         String sql = "INSERT INTO evaluations (title, description, type, teacher_id, duration, due_date, status) VALUES (?,?,?,?,?,?,?)";
-        PreparedStatement ps = con.prepareStatement(sql);
+        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, e.getTitle());
         ps.setString(2, e.getDescription());
         ps.setString(3, e.getType() != null ? e.getType().name() : EvaluationType.QUIZ.name());
@@ -33,9 +33,17 @@ public class EvaluationService {
             ps.setNull(6, Types.TIMESTAMP);
         }
         ps.setString(7, e.getStatus() != null ? e.getStatus() : "DRAFT");
-        boolean success = ps.executeUpdate() > 0;
+        int rows = ps.executeUpdate();
+        int generatedId = -1;
+        if (rows > 0) {
+            ResultSet keys = ps.getGeneratedKeys();
+            if (keys.next()) {
+                generatedId = keys.getInt(1);
+            }
+            keys.close();
+        }
         ps.close();
-        return success;
+        return generatedId;
     }
 
     // UPDATE

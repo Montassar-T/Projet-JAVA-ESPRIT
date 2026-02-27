@@ -15,7 +15,7 @@ public class EvaluationController {
     }
 
     public boolean add(Evaluation e) throws SQLException {
-        return evaluationService.ajouter(e);
+        return evaluationService.ajouter(e) > 0;
     }
 
     public boolean update(Evaluation e) throws SQLException {

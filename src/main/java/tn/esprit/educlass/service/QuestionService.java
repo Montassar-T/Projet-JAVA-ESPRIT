@@ -16,16 +16,24 @@ public class QuestionService {
         this.con = DataSource.getInstance().getCon();
     }
 
-    public boolean ajouter(Question q) throws SQLException {
+    public int ajouter(Question q) throws SQLException {
         String sql = "INSERT INTO questions (evaluation_id, text, question_type, points) VALUES (?,?,?,?)";
-        PreparedStatement ps = con.prepareStatement(sql);
+        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, q.getEvaluationId());
         ps.setString(2, q.getText());
         ps.setString(3, q.getQuestionType() != null ? q.getQuestionType().name() : null);
         ps.setDouble(4, q.getPoints());
-        boolean success = ps.executeUpdate() > 0;
+        int rows = ps.executeUpdate();
+        int generatedId = -1;
+        if (rows > 0) {
+            ResultSet keys = ps.getGeneratedKeys();
+            if (keys.next()) {
+                generatedId = keys.getInt(1);
+            }
+            keys.close();
+        }
         ps.close();
-        return success;
+        return generatedId;
     }
 
     public boolean modifier(Question q) throws SQLException {
@@ -62,6 +70,15 @@ public class QuestionService {
         rs.close();
         ps.close();
         return questions;
+    }
+
+    public boolean deleteByEvaluation(int evaluationId) throws SQLException {
+        String sql = "DELETE FROM questions WHERE evaluation_id=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, evaluationId);
+        boolean success = ps.executeUpdate() >= 0;
+        ps.close();
+        return success;
     }
 }
 

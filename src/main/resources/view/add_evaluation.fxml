@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.educlass.controller.AddEvaluationController"
+      spacing="15" prefWidth="700" prefHeight="750"
+      style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header -->
+    <Label fx:id="formTitle" text="Ajouter une évaluation"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <!-- Evaluation Details Form -->
+    <GridPane hgap="10" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" halignment="RIGHT"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Titre:" GridPane.rowIndex="0"/>
+        <TextField fx:id="titleField" promptText="Titre de l'évaluation" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Type:" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="typeCombo" prefWidth="220" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Durée (min):" GridPane.rowIndex="2"/>
+        <TextField fx:id="durationField" promptText="ex: 60" prefWidth="120" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Date limite:" GridPane.rowIndex="3"/>
+        <DatePicker fx:id="dueDatePicker" prefWidth="220" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Statut:" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="statusCombo" prefWidth="220" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Description:" GridPane.rowIndex="5"/>
+        <TextArea fx:id="descriptionArea" prefHeight="60" wrapText="true" promptText="Description de l'évaluation..." GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Separator/>
+
+    <!-- Questions Section -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Questions" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Button text="+ Ajouter Question" onAction="#handleAddQuestion"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <VBox fx:id="questionsContainer" spacing="15">
+            <!-- Questions will be added here dynamically -->
+        </VBox>
+    </ScrollPane>
+
+    <!-- Bottom Buttons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Enregistrer" onAction="#handleSave"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+    </HBox>
+</VBox>
+
