@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF.js Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background-color: #525659; }
+        #viewer-container { width: 100%; height: 100vh; overflow: auto; display: flex; flex-direction: column; align-items: center; }
+        .page { margin: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); background-color: white; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <div id="viewer-container"></div>
+
+    <script>
+        const url = new URLSearchParams(window.location.search).get('file');
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        if (url) {
+            const loadingTask = pdfjsLib.getDocument(url);
+            loadingTask.promise.then(function(pdf) {
+                const container = document.getElementById('viewer-container');
+                
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    pdf.getPage(pageNum).then(function(page) {
+                        const scale = 1.5;
+                        const viewport = page.getViewport({ scale: scale });
+
+                        const pageDiv = document.createElement('div');
+                        pageDiv.className = 'page';
+                        container.appendChild(pageDiv);
+
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        pageDiv.appendChild(canvas);
+
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        page.render(renderContext);
+                    });
+                }
+            }, function (reason) {
+                console.error(reason);
+                document.body.innerHTML = '<h1 style="color:white; text-align:center;">Error loading PDF: ' + reason + '</h1>';
+            });
+        } else {
+            document.body.innerHTML = '<h1 style="color:white; text-align:center;">No PDF file specified</h1>';
+        }
+    </script>
+</body>
+</html>

@@ -13,6 +13,7 @@ public class LessonMapper {
         lesson.setId(rs.getLong("id"));
         lesson.setTitle(rs.getString("title"));
         lesson.setContent(rs.getString("content"));
+        lesson.setPdfPath(rs.getString("pdf_path"));
         lesson.setDurationMinutes(rs.getInt("duration_minutes"));
 
         // Foreign key reference

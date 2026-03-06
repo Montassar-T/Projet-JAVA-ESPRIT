@@ -196,15 +196,16 @@ public class CourseService {
 
     public void createLesson(Lesson lesson) throws SQLException {
         String sql = """
-            INSERT INTO lesson (title, content, duration_minutes, chapter_id)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO lesson (title, content, pdf_path, duration_minutes, chapter_id)
+            VALUES (?, ?, ?, ?, ?)
         """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, lesson.getTitle());
             ps.setString(2, lesson.getContent());
-            ps.setInt(3, lesson.getDurationMinutes());
-            ps.setLong(4, lesson.getChapter().getId());
+            ps.setString(3, lesson.getPdfPath());
+            ps.setInt(4, lesson.getDurationMinutes());
+            ps.setLong(5, lesson.getChapter().getId());
             ps.executeUpdate();
         }
     }

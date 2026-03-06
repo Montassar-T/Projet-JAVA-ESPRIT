@@ -4,6 +4,7 @@ public class Lesson extends BaseEntity {
     private Long id;
     private String title;
     private String content;
+    private String pdfPath;
     private Integer durationMinutes;
 
     private Chapter chapter;
@@ -33,6 +34,14 @@ public class Lesson extends BaseEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+    
+    public String getPdfPath() {
+        return pdfPath;
+    }
+    
+    public void setPdfPath(String pdfPath) {
+        this.pdfPath = pdfPath;
     }
 
     public Integer getDurationMinutes() {

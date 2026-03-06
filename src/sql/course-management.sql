@@ -45,6 +45,7 @@ CREATE TABLE lesson (
     id BIGINT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     content TEXT,
+    pdf_path VARCHAR(255),
     duration_minutes INT NOT NULL,
     chapter_id BIGINT NOT NULL,
 
