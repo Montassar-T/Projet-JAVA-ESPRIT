@@ -410,5 +410,23 @@ public class EvaluationsViewController {
         a.setContentText(message);
         a.showAndWait();
     }
+
+    public boolean focusEvaluationByTitle(String evaluationTitle) {
+        if (evaluationTitle == null || evaluationTitle.isBlank()) return false;
+        String needle = evaluationTitle.trim();
+
+        Evaluation match = evaluationsList.stream()
+                .filter(e -> e.getTitle() != null && e.getTitle().trim().equalsIgnoreCase(needle))
+                .findFirst()
+                .orElseGet(() -> evaluationsList.stream()
+                        .filter(e -> e.getTitle() != null && e.getTitle().toLowerCase().contains(needle.toLowerCase()))
+                        .findFirst()
+                        .orElse(null));
+
+        if (match == null) return false;
+        evaluationsTable.getSelectionModel().select(match);
+        evaluationsTable.scrollTo(match);
+        return true;
+    }
 }
 

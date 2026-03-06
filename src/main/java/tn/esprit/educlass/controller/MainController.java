@@ -30,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainController {
 
@@ -269,23 +271,86 @@ public class MainController {
             row.getChildren().addAll(icon, textBox);
         }
 
-        // Click to mark as read
+        // Click to mark as read and navigate to the related area
         row.setOnMouseClicked(e -> {
             if (unread) {
                 try {
                     notificationService.markAsRead(notification.getId());
                     notification.setRead(true);
                     updateBadge();
-                    // Refresh the popup
-                    notificationPopup.hide();
-                    showNotificationPanel();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
+            if (notificationPopup != null) {
+                notificationPopup.hide();
+            }
+            navigateFromNotification(notification);
         });
 
         return row;
+    }
+
+    private void navigateFromNotification(Notification notification) {
+        if (notification == null) return;
+        NotificationType type = notification.getType();
+
+        if (type == NotificationType.CHAT) {
+            Object controller = loadSectionInternal("/view/chat.fxml");
+            if (controller instanceof ChatController chatController) {
+                String senderName = extractChatSenderName(notification);
+                if (senderName != null) {
+                    chatController.focusConversationByOtherUserName(senderName);
+                }
+            }
+            return;
+        }
+
+        if (type == NotificationType.EVALUATION || type == NotificationType.MARK) {
+            Object controller = loadSectionInternal("/view/evaluations.fxml");
+            if (controller instanceof EvaluationsViewController evaluationsController) {
+                String evalTitle = extractEvaluationTitle(notification);
+                if (evalTitle != null) {
+                    evaluationsController.focusEvaluationByTitle(evalTitle);
+                }
+            }
+            return;
+        }
+
+        if (type == NotificationType.COURSE) {
+            loadSection("/view/courses.fxml");
+            return;
+        }
+
+        loadSection("/view/dashboard.fxml");
+    }
+
+    private String extractChatSenderName(Notification notification) {
+        if (notification == null || notification.getTitle() == null) return null;
+        String title = notification.getTitle().trim();
+        String prefix = "Message from ";
+        if (title.startsWith(prefix) && title.length() > prefix.length()) {
+            return title.substring(prefix.length()).trim();
+        }
+        return null;
+    }
+
+    private String extractEvaluationTitle(Notification notification) {
+        if (notification == null || notification.getMessage() == null) return null;
+        String message = notification.getMessage().trim();
+        if (message.isEmpty()) return null;
+
+        Matcher quoted = Pattern.compile("\"([^\"]+)\"").matcher(message);
+        if (quoted.find()) {
+            return quoted.group(1).trim();
+        }
+
+        String publishedMarker = " is now available";
+        int idx = message.indexOf(publishedMarker);
+        if (idx > 0) {
+            return message.substring(0, idx).trim();
+        }
+        return null;
     }
 
     private String getTypeIcon(NotificationType type) {
@@ -361,6 +426,10 @@ public class MainController {
     }
 
     private void loadSection(String fxmlPath) {
+        loadSectionInternal(fxmlPath);
+    }
+
+    private Object loadSectionInternal(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
@@ -377,8 +446,10 @@ public class MainController {
             }
             contentPane.getChildren().clear();
             contentPane.getChildren().add(view);
+            return controller;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
