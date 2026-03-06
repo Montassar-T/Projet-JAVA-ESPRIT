@@ -68,7 +68,16 @@
 
             <!-- Top Navbar -->
             <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-                <Button fx:id="notificationButton" style="-fx-font-size: 18px; -fx-background-color: transparent; -fx-text-fill: black;" text="🔔" />
+                <StackPane>
+                    <Button fx:id="notificationButton" onAction="#toggleNotifications"
+                            style="-fx-font-size: 18px; -fx-background-color: transparent; -fx-text-fill: black; -fx-cursor: hand;" text="🔔" />
+                    <Label fx:id="notificationBadge" visible="false" managed="false"
+                           style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 10px;
+                                  -fx-font-weight: bold; -fx-padding: 1 5; -fx-background-radius: 8;
+                                  -fx-min-width: 18; -fx-min-height: 18; -fx-alignment: center;"
+                           StackPane.alignment="TOP_RIGHT"
+                           translateX="-2" translateY="2" mouseTransparent="true" />
+                </StackPane>
             </HBox>
 
             <!-- Content Render Area -->
