@@ -14,6 +14,7 @@ import tn.esprit.educlass.model.User;
 import tn.esprit.educlass.service.EvaluationService;
 import tn.esprit.educlass.service.MarkService;
 import tn.esprit.educlass.service.UserService;
+import tn.esprit.educlass.utlis.SessionManager;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -34,6 +35,7 @@ public class MarksViewController {
     @FXML private ComboBox<Evaluation> filterExamCombo;
     @FXML private Button deleteMarkBtn;
     @FXML private Button saveMarkBtn;
+    @FXML private TextField newExamField;
 
     private final MarkService markService = new MarkService();
     private final UserService userService = new UserService();
@@ -252,5 +254,41 @@ public class MarksViewController {
         a.setHeaderText(null);
         a.setContentText(message);
         a.showAndWait();
+    }
+
+    @FXML
+    private void onAddExam() {
+        String title = newExamField.getText() == null ? "" : newExamField.getText().trim();
+        if (title.isEmpty()) {
+            showError("Champ manquant", "Saisissez le nom de l'examen.");
+            return;
+        }
+        User currentUser = SessionManager.getCurrentUser();
+        int teacherId = (currentUser != null && currentUser.getId() > 0) ? currentUser.getId() : 1;
+        Evaluation e = new Evaluation();
+        e.setTitle(title);
+        e.setDescription("");
+        e.setType(EvaluationType.EXAM);
+        e.setTeacherId(teacherId);
+        e.setDuration(60);
+        e.setDueDate(null);
+        e.setStatus("DRAFT");
+        try {
+            int id = evaluationService.ajouter(e);
+            if (id > 0) {
+                exams = evaluationService.afficher();
+                examCombo.setItems(FXCollections.observableArrayList(exams));
+                filterExamCombo.getItems().clear();
+                filterExamCombo.getItems().add(null);
+                filterExamCombo.getItems().addAll(exams);
+                newExamField.clear();
+                showInfo("Examen ajouté. Vous pouvez le sélectionner dans la liste.");
+            } else {
+                showError("Erreur", "Impossible d'ajouter l'examen.");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showError("Erreur base de données", ex.getMessage());
+        }
     }
 }
