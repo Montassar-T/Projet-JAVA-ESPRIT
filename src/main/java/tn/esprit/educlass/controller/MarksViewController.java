@@ -68,9 +68,7 @@ public class MarksViewController {
     private void loadStudentsAndExams() throws SQLException {
         students = userService.findByRole(Role.STUDENT);
         List<Evaluation> allEvals = evaluationService.afficher();
-        exams = allEvals.stream()
-                .filter(e -> e.getType() == EvaluationType.EXAM)
-                .collect(Collectors.toList());
+        exams = allEvals; // Show marks for all evaluation types (auto-calculated)
     }
 
     private void setupTable() {

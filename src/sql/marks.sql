@@ -1,6 +1,7 @@
 -- ========================================
 -- marks.sql
--- Marks management module for student exam marks
+-- Marks management module for student evaluation marks
+-- Marks are auto-calculated for SINGLE_CHOICE and MULTIPLE_CHOICE questions
 -- ========================================
 
 -- Drop table if exists (clean setup)

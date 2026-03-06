@@ -15,7 +15,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tn.esprit.educlass.enums.EvaluationType;
 import tn.esprit.educlass.model.Evaluation;
+import tn.esprit.educlass.model.User;
+import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.service.EvaluationService;
+import tn.esprit.educlass.service.StudentResponseService;
+import tn.esprit.educlass.utlis.SessionManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,6 +46,7 @@ public class EvaluationsViewController {
     @FXML private Label draftLabel;
     @FXML private Label publishedLabel;
     @FXML private Label closedLabel;
+    @FXML private Button addButton;
 
     private final EvaluationService evaluationService = new EvaluationService();
     private final ObservableList<Evaluation> evaluationsList = FXCollections.observableArrayList();
@@ -58,6 +63,22 @@ public class EvaluationsViewController {
         filterTypeCombo.setOnAction(e -> applyFilters());
         filterStatusCombo.setOnAction(e -> applyFilters());
         searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+
+        // Role-based UI: hide teacher-only elements for students
+        User currentUser = SessionManager.getCurrentUser();
+        boolean isStudent = currentUser != null && currentUser.getRole() == Role.STUDENT;
+        if (isStudent) {
+            addButton.setVisible(false);
+            addButton.setManaged(false);
+            // Hide draft/closed stats for students
+            draftLabel.setVisible(false);
+            draftLabel.setManaged(false);
+            closedLabel.setVisible(false);
+            closedLabel.setManaged(false);
+            // Hide status filter (students only see PUBLISHED)
+            filterStatusCombo.setVisible(false);
+            filterStatusCombo.setManaged(false);
+        }
     }
 
     private void setupFilters() {
@@ -128,13 +149,15 @@ public class EvaluationsViewController {
             private final Button editBtn = new Button("Modifier");
             private final Button deleteBtn = new Button("Supprimer");
             private final Button publishBtn = new Button("Publier");
-            private final HBox box = new HBox(5, editBtn, deleteBtn, publishBtn);
+            private final Button takeBtn = new Button("Passer");
+            private final HBox box = new HBox(5);
 
             {
                 box.setAlignment(Pos.CENTER);
                 editBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;");
                 deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;");
                 publishBtn.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;");
+                takeBtn.setStyle("-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-size: 11px; -fx-cursor: hand;");
 
                 editBtn.setOnAction(e -> {
                     Evaluation eval = getTableView().getItems().get(getIndex());
@@ -148,6 +171,10 @@ public class EvaluationsViewController {
                     Evaluation eval = getTableView().getItems().get(getIndex());
                     onPublish(eval);
                 });
+                takeBtn.setOnAction(e -> {
+                    Evaluation eval = getTableView().getItems().get(getIndex());
+                    onTakeEvaluation(eval);
+                });
             }
 
             @Override
@@ -157,9 +184,37 @@ public class EvaluationsViewController {
                     setGraphic(null);
                 } else {
                     Evaluation eval = getTableView().getItems().get(getIndex());
-                    // Hide publish button if already published or closed
-                    publishBtn.setVisible("DRAFT".equals(eval.getStatus()));
-                    publishBtn.setManaged("DRAFT".equals(eval.getStatus()));
+                    box.getChildren().clear();
+
+                    User currentUser = SessionManager.getCurrentUser();
+                    boolean isStudent = currentUser != null && currentUser.getRole() == Role.STUDENT;
+
+                    if (isStudent) {
+                        // Students only see the "Passer" button on PUBLISHED evaluations
+                        if ("PUBLISHED".equals(eval.getStatus())) {
+                            // Check if already taken
+                            boolean alreadyTaken = false;
+                            try {
+                                StudentResponseService srs = new StudentResponseService();
+                                alreadyTaken = srs.hasStudentResponded(currentUser.getId(), eval.getId());
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            if (alreadyTaken) {
+                                Label doneLabel = new Label("✓ Déjà passé");
+                                doneLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold; -fx-font-size: 11px;");
+                                box.getChildren().add(doneLabel);
+                            } else {
+                                box.getChildren().add(takeBtn);
+                            }
+                        }
+                    } else {
+                        // Teacher/Admin: edit, delete, publish
+                        box.getChildren().addAll(editBtn, deleteBtn, publishBtn);
+                        publishBtn.setVisible("DRAFT".equals(eval.getStatus()));
+                        publishBtn.setManaged("DRAFT".equals(eval.getStatus()));
+                    }
+
                     setGraphic(box);
                 }
             }
@@ -186,7 +241,12 @@ public class EvaluationsViewController {
             String statusFilter = filterStatusCombo.getValue();
             String searchQuery = searchField.getText();
 
+            // Students only see PUBLISHED evaluations
+            User currentUser = SessionManager.getCurrentUser();
+            boolean isStudent = currentUser != null && currentUser.getRole() == Role.STUDENT;
+
             List<Evaluation> filtered = all.stream()
+                    .filter(e -> !isStudent || "PUBLISHED".equals(e.getStatus()))
                     .filter(e -> typeFilter == null || "Tous les types".equals(typeFilter) || e.getType().name().equals(typeFilter))
                     .filter(e -> statusFilter == null || "Tous les statuts".equals(statusFilter) || e.getStatus().equals(statusFilter))
                     .filter(e -> searchQuery == null || searchQuery.isEmpty() || e.getTitle().toLowerCase().contains(searchQuery.toLowerCase()))
@@ -293,6 +353,46 @@ public class EvaluationsViewController {
                 }
             }
         });
+    }
+
+    private void onTakeEvaluation(Evaluation evaluation) {
+        User currentUser = SessionManager.getCurrentUser();
+        if (currentUser == null) {
+            showError("Erreur", "Aucun utilisateur connecté.");
+            return;
+        }
+
+        try {
+            // Check if already taken
+            StudentResponseService srs = new StudentResponseService();
+            if (srs.hasStudentResponded(currentUser.getId(), evaluation.getId())) {
+                showError("Déjà passé", "Vous avez déjà passé cette évaluation.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/take_evaluation.fxml"));
+            Parent root = loader.load();
+
+            TakeEvaluationController controller = loader.getController();
+            controller.setEvaluation(evaluation, currentUser.getId());
+
+            Stage stage = new Stage();
+            stage.setTitle("Passer l'évaluation: " + evaluation.getTitle());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            // Refresh table to show "Déjà passé" status
+            if (controller.isSubmitted()) {
+                loadEvaluations();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur", "Erreur lors de l'ouverture de l'évaluation: " + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showError("Erreur", "Erreur base de données: " + e.getMessage());
+        }
     }
 
     private void showError(String title, String message) {

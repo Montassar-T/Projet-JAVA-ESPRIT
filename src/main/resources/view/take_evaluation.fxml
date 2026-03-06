@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="tn.esprit.educlass.controller.TakeEvaluationController"
+      spacing="15" prefWidth="750" prefHeight="650"
+      style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -fx-background-color: #f4f7f6;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header -->
+    <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 16; -fx-background-radius: 8;">
+        <Label fx:id="evaluationTitle" text="Évaluation"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <Label fx:id="evaluationType" text="Type: —"
+                   style="-fx-font-size: 13px; -fx-text-fill: #ecf0f1;"/>
+            <Label fx:id="evaluationDuration" text="Durée: —"
+                   style="-fx-font-size: 13px; -fx-text-fill: #ecf0f1;"/>
+            <Label fx:id="timerLabel" text=""
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #f1c40f;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Description -->
+    <Label fx:id="evaluationDescription" wrapText="true"
+           style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d; -fx-padding: 0 0 5 0;"/>
+
+    <!-- Questions ScrollPane -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+        <VBox fx:id="questionsContainer" spacing="15">
+            <!-- Questions will be added dynamically -->
+        </VBox>
+    </ScrollPane>
+
+    <!-- Bottom actions -->
+    <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+        <Label fx:id="statusLabel" text=""
+               style="-fx-font-size: 13px; -fx-text-fill: #e74c3c; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5;"/>
+        <Button fx:id="submitBtn" text="Soumettre" onAction="#handleSubmit"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5;"/>
+    </HBox>
+</VBox>
