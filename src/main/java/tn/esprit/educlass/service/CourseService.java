@@ -195,19 +195,70 @@ public class CourseService {
        ===================================================== */
 
     public void createLesson(Lesson lesson) throws SQLException {
-        String sql = """
+        String lessonSql = """
             INSERT INTO lesson (title, content, pdf_path, duration_minutes, chapter_id)
             VALUES (?, ?, ?, ?, ?)
         """;
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        connection.setAutoCommit(false);
+        try (PreparedStatement ps = connection.prepareStatement(lessonSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, lesson.getTitle());
             ps.setString(2, lesson.getContent());
             ps.setString(3, lesson.getPdfPath());
             ps.setInt(4, lesson.getDurationMinutes());
             ps.setLong(5, lesson.getChapter().getId());
             ps.executeUpdate();
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long lessonId = generatedKeys.getLong(1);
+                    lesson.setId(lessonId);
+                    if (lesson.getPdfData() != null) {
+                        saveLessonAttachment(lessonId, lesson.getPdfData());
+                    }
+                }
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
+    }
+
+    private void saveLessonAttachment(long lessonId, byte[] pdfData) throws SQLException {
+        String sql = "INSERT INTO lesson_attachment (lesson_id, pdf_content) VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, lessonId);
+            ps.setBytes(2, pdfData);
+            ps.executeUpdate();
+        }
+    }
+
+    private void updateLessonAttachment(long lessonId, byte[] pdfData) throws SQLException {
+        // Delete existing attachment if any and insert new one
+        String deleteSql = "DELETE FROM lesson_attachment WHERE lesson_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(deleteSql)) {
+            ps.setLong(1, lessonId);
+            ps.executeUpdate();
+        }
+        if (pdfData != null) {
+            saveLessonAttachment(lessonId, pdfData);
+        }
+    }
+
+    public byte[] getLessonPdfData(long lessonId) throws SQLException {
+        String sql = "SELECT pdf_content FROM lesson_attachment WHERE lesson_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, lessonId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBytes("pdf_content");
+                }
+            }
+        }
+        return null;
     }
 
     public Lesson getLessonById(long id) throws SQLException {
@@ -243,12 +294,23 @@ public class CourseService {
             WHERE id = ?
         """;
 
+        connection.setAutoCommit(false);
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, lesson.getTitle());
             ps.setString(2, lesson.getContent());
             ps.setInt(3, lesson.getDurationMinutes());
             ps.setLong(4, lesson.getId());
             ps.executeUpdate();
+
+            if (lesson.getPdfData() != null) {
+                updateLessonAttachment(lesson.getId(), lesson.getPdfData());
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 

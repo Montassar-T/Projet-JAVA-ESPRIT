@@ -5,6 +5,7 @@ public class Lesson extends BaseEntity {
     private String title;
     private String content;
     private String pdfPath;
+    private byte[] pdfData;
     private Integer durationMinutes;
 
     private Chapter chapter;
@@ -42,6 +43,14 @@ public class Lesson extends BaseEntity {
     
     public void setPdfPath(String pdfPath) {
         this.pdfPath = pdfPath;
+    }
+
+    public byte[] getPdfData() {
+        return pdfData;
+    }
+
+    public void setPdfData(byte[] pdfData) {
+        this.pdfData = pdfData;
     }
 
     public Integer getDurationMinutes() {

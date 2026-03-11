@@ -254,24 +254,29 @@ public class CourseController {
         
         container.getChildren().add(contentWebView);
         
-        if (lesson.getPdfPath() != null && !lesson.getPdfPath().isEmpty()) {
-            File pdfFile = new File(lesson.getPdfPath());
-            if (pdfFile.exists()) {
+        try {
+            byte[] pdfData = service.getLessonPdfData(lesson.getId());
+            if (pdfData != null) {
                 Label pdfLabel = new Label("Document PDF joint :");
                 pdfLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-                
+
+                // Create a temporary file to show in WebView
+                File tempFile = File.createTempFile("lesson_" + lesson.getId() + "_", ".pdf");
+                tempFile.deleteOnExit();
+                java.nio.file.Files.write(tempFile.toPath(), pdfData);
+
                 // Use PDF.js for reliable rendering
                 WebView pdfWebView = new WebView();
                 String viewerUrl = getClass().getResource("/pdfjs/viewer.html").toExternalForm();
-                String pdfUrl = pdfFile.toURI().toString();
+                String pdfUrl = tempFile.toURI().toString();
                 pdfWebView.getEngine().load(viewerUrl + "?file=" + pdfUrl);
                 pdfWebView.setPrefSize(750, 500);
-                
+
                 Button openExternallyBtn = new Button("Ouvrir dans un lecteur externe");
                 openExternallyBtn.setStyle("-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-size: 11px;");
                 openExternallyBtn.setOnAction(e -> {
                     try {
-                        Desktop.getDesktop().open(pdfFile);
+                        Desktop.getDesktop().open(tempFile);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -279,6 +284,8 @@ public class CourseController {
 
                 container.getChildren().addAll(new Separator(), pdfLabel, pdfWebView, openExternallyBtn);
             }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
         
         // Wrap everything in a ScrollPane to prevent oversized popups

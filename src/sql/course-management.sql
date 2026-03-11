@@ -60,6 +60,25 @@ CREATE TABLE lesson (
 
 
 -- =========================================================
+-- TABLE: lesson_attachment (Added for BLOB storage)
+-- =========================================================
+
+CREATE TABLE lesson_attachment (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    lesson_id BIGINT NOT NULL,
+    pdf_content LONGBLOB NOT NULL,
+
+    PRIMARY KEY (id),
+    CONSTRAINT fk_attachment_lesson
+        FOREIGN KEY (lesson_id)
+        REFERENCES lesson(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+
+-- =========================================================
 -- INSERT SAMPLE DATA
 -- =========================================================
 
