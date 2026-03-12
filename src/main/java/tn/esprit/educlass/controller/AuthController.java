@@ -10,7 +10,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import tn.esprit.educlass.service.AuthService;
 import tn.esprit.educlass.model.User;
-import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.utlis.ValidationUtils;
 
 public class AuthController {
@@ -45,37 +44,15 @@ public class AuthController {
                     messageLabel.setText("Bienvenue " + user.getFullName());
 
                     String fxmlPath;
-                    if (user.getRole() == Role.TEACHER) {
-                        fxmlPath = "/view/teacherDashboard.fxml";
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-                        Parent root = loader.load();
-                        TeacherDashboardController controller = loader.getController();
-                        controller.setUser(user);
-                        Stage stage = (Stage) emailField.getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.setTitle("EduClass - Tableau de bord enseignant");
-                        stage.show();
-                    } else if (user.getRole() == Role.ADMIN) {
-                        fxmlPath = "/view/adminDashboard.fxml";
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-                        Parent root = loader.load();
-                        AdminDashboardController controller = loader.getController();
-                        controller.setUser(user);
-                        Stage stage = (Stage) emailField.getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.setTitle("EduClass - Espace superviseur");
-                        stage.show();
-                    } else {
-                        fxmlPath = "/view/main.fxml";
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-                        Parent root = loader.load();
-                        MainController controller = loader.getController();
-                        controller.setUser(user);
-                        Stage stage = (Stage) emailField.getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.setTitle("EduClass - Tableau de bord");
-                        stage.show();
-                    }
+                    fxmlPath = "/view/main.fxml";
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+                    Parent root = loader.load();
+                    MainController controller = loader.getController();
+                    controller.setUser(user);
+                    Stage stage = (Stage) emailField.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("EduClass");
+                    stage.show();
                     break;
                 case AuthService.LOGIN_INVALID_CREDENTIALS:
                     showError("Email ou mot de passe incorrect.");

@@ -389,20 +389,18 @@ public class MainController {
         return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 
-    private static final String SIDEBAR_BTN_PADDING = "-fx-padding: 10 15; -fx-alignment: CENTER_LEFT; -fx-background-radius: 5; ";
-
     @FXML
     private void hoverEnter(javafx.scene.input.MouseEvent event) {
         Button btn = (Button) event.getSource();
         if (btn.getStyle().contains("#3498db")) return; // keep active (dashboard) button as-is
-        btn.setStyle(SIDEBAR_BTN_PADDING + "-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-cursor: hand;");
+        btn.setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-cursor: hand;");
     }
 
     @FXML
     private void hoverExit(javafx.scene.input.MouseEvent event) {
         Button btn = (Button) event.getSource();
         if (btn.getStyle().contains("#3498db")) return; // keep active (dashboard) button blue
-        btn.setStyle(SIDEBAR_BTN_PADDING + "-fx-background-color: transparent; -fx-text-fill: white;");
+        btn.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
     }
 
     @FXML
