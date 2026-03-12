@@ -425,6 +425,9 @@ public class MainController {
 
     @FXML
     private void showUsers(ActionEvent event) {
+        if (user == null || user.getRole() != Role.ADMIN) {
+            return;
+        }
         loadSection("/view/users.fxml");
     }
 
