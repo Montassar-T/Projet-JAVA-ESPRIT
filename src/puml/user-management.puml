@@ -20,14 +20,23 @@ class User {
     +String password
     +Role role
     +UserStatus status
+    +SchoolClass schoolClass
 }
 
-class Admin
-class Teacher
-class Student
+class SchoolClass {
+    +Long id
+    +String name
+    +String code
+    +String level
+    +Integer capacity
+}
 
-Admin -|> User
-Teacher -|> User
-Student -|> User
+User "0..*" --> "0..1" SchoolClass : assigned to
+
+note right of User
+Role differentiates ADMIN / TEACHER / STUDENT.
+Dedicated subclasses are optional and not required
+for class assignment management.
+end note
 
 @enduml

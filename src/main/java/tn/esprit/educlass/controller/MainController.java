@@ -49,6 +49,7 @@ public class MainController {
     @FXML private Label roleLabel;
     @FXML private StackPane contentPane;
     @FXML private Button usersButton;
+    @FXML private Button classesButton;
     @FXML private Button notificationButton;
     @FXML private Label notificationBadge;
 
@@ -85,6 +86,10 @@ public class MainController {
         if (usersButton != null) {
             usersButton.setVisible(isAdmin);
             usersButton.setManaged(isAdmin);
+        }
+        if (classesButton != null) {
+            classesButton.setVisible(isAdmin);
+            classesButton.setManaged(isAdmin);
         }
     }
 
@@ -439,6 +444,14 @@ public class MainController {
     @FXML
     private void showChat(ActionEvent event) {
         loadSection("/view/chat.fxml");
+    }
+
+    @FXML
+    private void showSchoolClasses(ActionEvent event) {
+        if (user == null || user.getRole() != Role.ADMIN) {
+            return;
+        }
+        loadSection("/view/school_classes.fxml");
     }
 
     private void loadSection(String fxmlPath) {

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<BorderPane prefHeight="700.0"
+            prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.educlass.controller.SchoolClassController"
+            style="-fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+                   -fx-background-color: #f4f7f6;">
+
+    <!-- ================= HEADER ================= -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af);
+                     -fx-padding: 20;">
+            <Label text="📚 Gestion des Classes Étudiantes"
+                   style="-fx-font-size: 24px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: white;"/>
+            <Label fx:id="infoLabel"
+                   text="Ajouter, modifier ou supprimer des classes d'étudiants"
+                   style="-fx-text-fill: #ecf0f1; -fx-font-size: 13px; -fx-padding: 5 0 0 0;"/>
+        </VBox>
+    </top>
+
+    <!-- ================= CONTENT ================= -->
+    <center>
+        <SplitPane dividerPositions="0.45">
+
+            <!-- ===== LEFT: LIST & ACTIONS ===== -->
+            <VBox spacing="15"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 10;
+                         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+                         -fx-padding: 20;">
+
+                <Label text="Classes Disponibles"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <!-- Search bar -->
+                <HBox spacing="10">
+                    <TextField fx:id="searchField"
+                               promptText="🔍 Rechercher par code ou nom..."
+                               prefWidth="200"
+                               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 6 10;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="🔄 Actualiser"
+                            onAction="#handleRefresh"
+                            style="-fx-background-color: #3498db;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 5;"/>
+                </HBox>
+
+                <!-- Classes table -->
+                <TableView fx:id="classesTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="codeCol" text="Code" prefWidth="80">
+                            <cellValueFactory><PropertyValueFactory property="code" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="nameCol" text="Nom" prefWidth="130">
+                            <cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="levelCol" text="Niveau" prefWidth="80">
+                            <cellValueFactory><PropertyValueFactory property="level" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="capacityCol" text="Capacité" prefWidth="70">
+                            <cellValueFactory><PropertyValueFactory property="capacity" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <!-- Action buttons -->
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button fx:id="deleteBtn"
+                            text="🗑 Supprimer"
+                            onAction="#handleDelete"
+                            style="-fx-background-color: #e74c3c;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 5;
+                                   -fx-padding: 8 15;"/>
+                </HBox>
+            </VBox>
+
+            <!-- ===== RIGHT: FORM ===== -->
+            <VBox spacing="20"
+                  style="-fx-background-color: white;
+                         -fx-background-radius: 10;
+                         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+                         -fx-padding: 20;">
+
+                <Label fx:id="formTitleLabel"
+                       text="Nouvelle Classe"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+                <Separator/>
+
+                <!-- Form fields -->
+                <GridPane hgap="12" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="100" halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <!-- Code -->
+                    <Label text="Code :" GridPane.rowIndex="0"
+                           style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
+                    <TextField fx:id="codeField"
+                               promptText="ex: INFO1-A"
+                               GridPane.rowIndex="0"
+                               GridPane.columnIndex="1"
+                               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 6 10;"/>
+
+                    <!-- Name -->
+                    <Label text="Nom :" GridPane.rowIndex="1"
+                           style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
+                    <TextField fx:id="nameField"
+                               promptText="ex: 1ère Informatique A"
+                               GridPane.rowIndex="1"
+                               GridPane.columnIndex="1"
+                               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 6 10;"/>
+
+                    <!-- Level -->
+                    <Label text="Niveau :" GridPane.rowIndex="2"
+                           style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
+                    <ComboBox fx:id="levelCombo"
+                              prefWidth="200"
+                              GridPane.rowIndex="2"
+                              GridPane.columnIndex="1"
+                              style="-fx-background-radius: 8;"/>
+
+                    <!-- Capacity -->
+                    <Label text="Capacité :" GridPane.rowIndex="3"
+                           style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
+                    <Spinner fx:id="capacitySpinner"
+                             GridPane.rowIndex="3"
+                             GridPane.columnIndex="1"
+                             style="-fx-background-radius: 8;"/>
+                </GridPane>
+
+                <!-- Info section -->
+                <VBox spacing="8" style="-fx-background-color: #ecf0f1; -fx-padding: 12; -fx-background-radius: 8;">
+                    <Label text="ℹ️ Informations de la classe"
+                           style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Label fx:id="studentCountLabel"
+                           text="Étudiants assignés : 0"
+                           style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                    <Label fx:id="capacityInfoLabel"
+                           text="Utilisation : 0/30"
+                           style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <!-- Buttons -->
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Annuler"
+                            onAction="#handleClear"
+                            style="-fx-background-color: #95a5a6;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 5;
+                                   -fx-padding: 8 20;"/>
+
+                    <Button fx:id="saveBtn"
+                            text="Ajouter"
+                            onAction="#handleSave"
+                            style="-fx-background-color: #2ecc71;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 5;
+                                   -fx-padding: 8 20;"/>
+                </HBox>
+
+                <!-- Status message -->
+                <Label fx:id="messageLabel"
+                       style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>
+

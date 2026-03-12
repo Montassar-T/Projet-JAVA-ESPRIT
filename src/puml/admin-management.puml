@@ -47,6 +47,15 @@ class Institution {
     +void close()
 }
 
+class SchoolClass {
+    +Long id
+    +String name
+    +String code
+    +String level
+    +Integer capacity
+    +Date createdAt
+}
+
 class Supervision {
     +Long id
     +String action
@@ -61,9 +70,11 @@ class Supervision {
 SystemConfig --|> BaseEntity
 AcademicStructure --|> BaseEntity
 Institution --|> BaseEntity
+SchoolClass --|> BaseEntity
 Supervision --|> BaseEntity
 
 Institution "0..*" -- "1" AcademicStructure : belongs to
+SchoolClass "0..*" .. Institution : can belong to institution (future)
 Institution ..> InstitutionStatus
 
 @enduml

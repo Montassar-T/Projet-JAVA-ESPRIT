@@ -8,8 +8,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.enums.UserStatus;
+import tn.esprit.educlass.model.SchoolClass;
 import tn.esprit.educlass.model.User;
 import tn.esprit.educlass.service.AuthService;
+import tn.esprit.educlass.service.SchoolClassService;
 import tn.esprit.educlass.service.UserService;
 import tn.esprit.educlass.utlis.ValidationUtils;
 
@@ -19,12 +21,21 @@ import java.util.Optional;
 public class UsersController {
 
     @FXML private TableView<User> usersTable;
+    @FXML private TableColumn<User, Integer> idCol;
+    @FXML private TableColumn<User, String> firstNameCol;
+    @FXML private TableColumn<User, String> lastNameCol;
+    @FXML private TableColumn<User, String> emailCol;
+    @FXML private TableColumn<User, Role> roleCol;
+    @FXML private TableColumn<User, String> classCol;
+    @FXML private TableColumn<User, UserStatus> statusCol;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private HBox passwordRow;
     @FXML private ComboBox<Role> roleCombo;
+    @FXML private HBox classRow;
+    @FXML private ComboBox<SchoolClass> classCombo;
     @FXML private ComboBox<UserStatus> statusCombo;
     @FXML private Label messageLabel;
     @FXML private TextField searchField;
@@ -33,6 +44,7 @@ public class UsersController {
 
     private final UserService userService = new UserService();
     private final AuthService authService = new AuthService();
+    private final SchoolClassService schoolClassService = new SchoolClassService();
     private final ObservableList<User> usersList = FXCollections.observableArrayList();
     private FilteredList<User> filteredUsers;
     private User selectedUser;
@@ -56,6 +68,8 @@ public class UsersController {
     public void initialize() {
         roleCombo.setItems(FXCollections.observableArrayList(Role.values()));
         statusCombo.setItems(FXCollections.observableArrayList(UserStatus.values()));
+        loadSchoolClasses();
+        updateClassRowVisibility(null);
 
         // Filter combos
         ObservableList<String> roleFilters = FXCollections.observableArrayList("Tous");
@@ -77,6 +91,7 @@ public class UsersController {
         searchField.textProperty().addListener((obs, o, n) -> applyFilters());
         filterRoleCombo.valueProperty().addListener((obs, o, n) -> applyFilters());
         filterStatusCombo.valueProperty().addListener((obs, o, n) -> applyFilters());
+        roleCombo.valueProperty().addListener((obs, oldRole, newRole) -> updateClassRowVisibility(newRole));
 
         // Table selection
         usersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
@@ -86,10 +101,12 @@ public class UsersController {
                 lastNameField.setText(newVal.getLastName());
                 emailField.setText(newVal.getEmail());
                 roleCombo.setValue(newVal.getRole());
+                classCombo.setValue(newVal.getSchoolClass());
                 statusCombo.setValue(newVal.getStatus());
                 passwordField.clear();
                 passwordRow.setVisible(false);
                 passwordRow.setManaged(false);
+                updateClassRowVisibility(newVal.getRole());
 
                 boolean isSelf = currentUser != null && newVal.getId() == currentUser.getId();
                 roleCombo.setDisable(isSelf);
@@ -139,6 +156,10 @@ public class UsersController {
             showError("Veuillez sélectionner un rôle et un statut.");
             return;
         }
+        if (roleCombo.getValue() == Role.STUDENT && classCombo.getValue() == null) {
+            showError("Veuillez sélectionner une classe pour l'étudiant.");
+            return;
+        }
 
         if (selectedUser == null) {
             // ADD new user
@@ -168,6 +189,7 @@ public class UsersController {
             newUser.setPassword(passwordField.getText());
             newUser.setRole(roleCombo.getValue());
             newUser.setStatus(statusCombo.getValue());
+            newUser.setSchoolClass(roleCombo.getValue() == Role.STUDENT ? classCombo.getValue() : null);
             try {
                 boolean ok = userService.ajouter(newUser);
                 if (ok) {
@@ -208,6 +230,7 @@ public class UsersController {
             selectedUser.setEmail(emailField.getText().trim());
             selectedUser.setRole(roleCombo.getValue());
             selectedUser.setStatus(statusCombo.getValue());
+            selectedUser.setSchoolClass(roleCombo.getValue() == Role.STUDENT ? classCombo.getValue() : null);
             try {
                 boolean ok = userService.modifier(selectedUser);
                 if (ok) {
@@ -303,6 +326,7 @@ public class UsersController {
         emailField.clear();
         passwordField.clear();
         roleCombo.setValue(null);
+        classCombo.setValue(null);
         statusCombo.setValue(null);
         roleCombo.setDisable(false);
         statusCombo.setDisable(false);
@@ -310,6 +334,24 @@ public class UsersController {
         messageLabel.setText("");
         passwordRow.setVisible(true);
         passwordRow.setManaged(true);
+        updateClassRowVisibility(null);
+    }
+
+    private void loadSchoolClasses() {
+        try {
+            classCombo.setItems(FXCollections.observableArrayList(schoolClassService.getAllClasses()));
+        } catch (SQLException e) {
+            showError("Échec du chargement des classes : " + e.getMessage());
+        }
+    }
+
+    private void updateClassRowVisibility(Role role) {
+        boolean isStudent = role == Role.STUDENT;
+        classRow.setVisible(isStudent);
+        classRow.setManaged(isStudent);
+        if (!isStudent) {
+            classCombo.setValue(null);
+        }
     }
 
     private void showError(String msg) {

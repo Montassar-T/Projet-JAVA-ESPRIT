@@ -19,6 +19,8 @@ public class User extends BaseEntity {
 
     private Role role;
 
+    private SchoolClass schoolClass;
+
     // Default constructor
     public User() {}
 
@@ -52,6 +54,13 @@ public class User extends BaseEntity {
 
     public UserStatus getStatus() { return status; }
     public void setStatus(UserStatus status) { this.status = status; }
+
+    public SchoolClass getSchoolClass() { return schoolClass; }
+    public void setSchoolClass(SchoolClass schoolClass) { this.schoolClass = schoolClass; }
+
+    public String getSchoolClassName() {
+        return schoolClass != null ? schoolClass.getDisplayName() : "";
+    }
 
     // Convenience method
     public String getFullName() {

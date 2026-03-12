@@ -38,6 +38,9 @@
                         <TableColumn fx:id="roleCol" text="Rôle" prefWidth="90">
                             <cellValueFactory><PropertyValueFactory property="role" /></cellValueFactory>
                         </TableColumn>
+                        <TableColumn fx:id="classCol" text="Classe" prefWidth="140">
+                            <cellValueFactory><PropertyValueFactory property="schoolClassName" /></cellValueFactory>
+                        </TableColumn>
                         <TableColumn fx:id="statusCol" text="Statut" prefWidth="90">
                             <cellValueFactory><PropertyValueFactory property="status" /></cellValueFactory>
                         </TableColumn>
@@ -66,6 +69,10 @@
                         <HBox spacing="12">
                             <Label text="Rôle :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
                             <ComboBox fx:id="roleCombo" prefWidth="250" style="-fx-background-radius: 8;" />
+                        </HBox>
+                        <HBox fx:id="classRow" spacing="12" visible="false" managed="false">
+                            <Label text="Classe :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />
+                            <ComboBox fx:id="classCombo" prefWidth="250" promptText="Sélectionner une classe" style="-fx-background-radius: 8;" />
                         </HBox>
                         <HBox spacing="12">
                             <Label text="Statut :" minWidth="120" style="-fx-font-size: 14px; -fx-text-fill: #34495e;" />

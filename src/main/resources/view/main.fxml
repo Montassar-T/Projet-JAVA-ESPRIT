@@ -49,6 +49,9 @@
                 <Button fx:id="usersButton" onAction="#showUsers" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Utilisateurs"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit" visible="false" managed="false"/>
+                <Button fx:id="classesButton" onAction="#showSchoolClasses" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Classes"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit" visible="false" managed="false"/>
                 <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>
