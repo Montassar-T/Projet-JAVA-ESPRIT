@@ -38,6 +38,7 @@ public class UsersController {
     private User selectedUser;
     private User currentUser;
     private MainController mainController;
+    private AdminDashboardController adminDashboardController;
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
@@ -45,6 +46,10 @@ public class UsersController {
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    public void setAdminDashboardController(AdminDashboardController adminDashboardController) {
+        this.adminDashboardController = adminDashboardController;
     }
 
     @FXML
@@ -208,8 +213,9 @@ public class UsersController {
                 if (ok) {
                     showSuccess("Utilisateur mis à jour avec succès.");
                     loadUsers();
-                    if (mainController != null && currentUser != null && selectedUser.getId() == currentUser.getId()) {
-                        mainController.refreshUserFromDb();
+                    if (currentUser != null && selectedUser.getId() == currentUser.getId()) {
+                        if (mainController != null) mainController.refreshUserFromDb();
+                        else if (adminDashboardController != null) adminDashboardController.refreshUserFromDb();
                     }
                 } else {
                     showError("Échec de la mise à jour de l'utilisateur.");

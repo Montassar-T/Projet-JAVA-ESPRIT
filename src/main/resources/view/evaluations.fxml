@@ -15,8 +15,6 @@
         <VBox style="-fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af); -fx-padding: 16;">
             <Label text="Évaluations en ligne"
                    style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
-            <Label text="Conception et gestion des quiz, devoirs et examens"
-                   style="-fx-font-size: 13px; -fx-text-fill: #cce0e5;"/>
         </VBox>
     </top>
 
@@ -31,7 +29,7 @@
                 <TextField fx:id="searchField" promptText="Rechercher par titre..." HBox.hgrow="ALWAYS"/>
                 <Button text="Actualiser" onAction="#onRefresh"
                         style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                <Button text="+ Ajouter" onAction="#onAdd"
+                <Button fx:id="addButton" text="+ Ajouter" onAction="#onAdd"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
             </HBox>
 
@@ -44,7 +42,7 @@
                     <TableColumn fx:id="statusCol" text="Statut" prefWidth="100"/>
                     <TableColumn fx:id="durationCol" text="Durée (min)" prefWidth="90"/>
                     <TableColumn fx:id="dueDateCol" text="Date limite" prefWidth="140"/>
-                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="160"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="200"/>
                 </columns>
             </TableView>
 

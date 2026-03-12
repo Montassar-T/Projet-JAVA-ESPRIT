@@ -1,16 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.shape.SVGPath?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="tn.esprit.educlass.controller.DashboardController"
-            prefWidth="800" prefHeight="500">
+            prefWidth="1000" prefHeight="700"
+            style="-fx-background-color: #f8f9fc;">
 
     <center>
-        <Label text="DASHBOARD"
-               style="-fx-font-size: 36px; -fx-font-weight: bold;"
-               />
-    </center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <VBox spacing="25" style="-fx-padding: 30px;">
+                
+                <VBox spacing="5">
+                    <Label text="Tableau de bord étudiant" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Label fx:id="dateLabel" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                </VBox>
 
+                <HBox spacing="20">
+                    <VBox HBox.hgrow="ALWAYS" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2); -fx-border-color: #edf2f7; -fx-border-radius: 10;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <StackPane style="-fx-background-color: #ebf8ff; -fx-background-radius: 8; -fx-padding: 10;">
+                                <SVGPath content="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#3182ce" scaleX="0.8" scaleY="0.8"/>
+                            </StackPane>
+                            <Label text="Mes matières" style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;"/>
+                        </HBox>
+                        <Label fx:id="totalCoursesLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Label fx:id="coursesDetailLabel" text="Inscriptions actives" style="-fx-font-size: 12px; -fx-text-fill: #a0aec0;"/>
+                    </VBox>
+
+                    <VBox HBox.hgrow="ALWAYS" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2); -fx-border-color: #edf2f7; -fx-border-radius: 10;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <StackPane style="-fx-background-color: #fff5f5; -fx-background-radius: 8; -fx-padding: 10;">
+                                <SVGPath content="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2V9h2v8z" fill="#e53e3e" scaleX="0.8" scaleY="0.8"/>
+                            </StackPane>
+                            <Label text="Évaluations" style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;"/>
+                        </HBox>
+                        <Label fx:id="totalEvaluationsLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Label fx:id="evaluationsDetailLabel" text="En cours" style="-fx-font-size: 12px; -fx-text-fill: #a0aec0;"/>
+                    </VBox>
+
+                    <VBox HBox.hgrow="ALWAYS" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2); -fx-border-color: #edf2f7; -fx-border-radius: 10;">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <StackPane style="-fx-background-color: #f0fff4; -fx-background-radius: 8; -fx-padding: 10;">
+                                <SVGPath content="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#38a169" scaleX="0.8" scaleY="0.8"/>
+                            </StackPane>
+                            <Label text="Enseignants" style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;"/>
+                        </HBox>
+                        <Label fx:id="totalUsersLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Label fx:id="usersDetailLabel" text="Enseignants disponibles" style="-fx-font-size: 12px; -fx-text-fill: #a0aec0;"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="20">
+                    <VBox HBox.hgrow="ALWAYS" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2); -fx-border-color: #edf2f7; -fx-border-radius: 10;">
+                        <Label text="Matières récentes" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ListView fx:id="coursesListView" prefHeight="200" style="-fx-background-color: transparent; -fx-background-insets: 0;"/>
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2); -fx-border-color: #edf2f7; -fx-border-radius: 10;">
+                        <Label text="Évaluations à venir" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <ListView fx:id="evaluationsListView" prefHeight="200" style="-fx-background-color: transparent; -fx-background-insets: 0;"/>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="20"
+                      style="-fx-background-color: white;
+                             -fx-padding: 20;
+                             -fx-background-radius: 10;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
+                             -fx-border-color: #edf2f7;
+                             -fx-border-radius: 10;">
+
+                    <Label text="Statistiques de performance"
+                           style="-fx-font-size: 16px;
+                                  -fx-font-weight: bold;
+                                  -fx-text-fill: #2c3e50;"/>
+
+                    <HBox spacing="30">
+
+                        <VBox spacing="20" HBox.hgrow="ALWAYS">
+                            <VBox spacing="5">
+                                <Label text="Avancement des matières"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #4a5568;"/>
+                                <ProgressBar fx:id="courseCompletionBar" progress="0.75"
+                                             prefWidth="300"
+                                             style="-fx-accent: #3182ce;"/>
+                                <Label fx:id="courseCompletionLabel" text="75%"
+                                       style="-fx-font-size: 11px; -fx-text-fill: #a0aec0;"/>
+                            </VBox>
+
+                            <VBox spacing="5">
+                                <Label text="Taux de réussite aux évaluations"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #4a5568;"/>
+                                <ProgressBar fx:id="evalSuccessBar" progress="0.60"
+                                             prefWidth="300"
+                                             style="-fx-accent: #38a169;"/>
+                                <Label fx:id="evalSuccessLabel" text="60%"
+                                       style="-fx-font-size: 11px; -fx-text-fill: #a0aec0;"/>
+                            </VBox>
+
+                            <VBox spacing="5">
+                                <Label text="Taux d'assiduité"
+                                       style="-fx-font-size: 13px; -fx-text-fill: #4a5568;"/>
+                                <ProgressBar fx:id="attendanceBar" progress="0.90"
+                                             prefWidth="300"
+                                             style="-fx-accent: #e53e3e;"/>
+                                <Label fx:id="attendanceLabel" text="90%"
+                                       style="-fx-font-size: 11px; -fx-text-fill: #a0aec0;"/>
+                            </VBox>
+
+                        </VBox>
+
+                        <StackPane prefWidth="400" prefHeight="220"
+                                   style="-fx-background-color: #f8fafc;
+                                          -fx-background-radius: 8;
+                                          -fx-padding: 15;">
+
+                            <Line startX="20" startY="180" endX="350" endY="180"
+                                  stroke="#cbd5e0"/>
+                            <Line startX="20" startY="20" endX="20" endY="180"
+                                  stroke="#cbd5e0"/>
+
+                            <Line startX="20" startY="150" endX="100" endY="120"
+                                  stroke="#3182ce" strokeWidth="2"/>
+                            <Line startX="100" startY="120" endX="180" endY="130"
+                                  stroke="#3182ce" strokeWidth="2"/>
+                            <Line startX="180" startY="130" endX="260" endY="90"
+                                  stroke="#3182ce" strokeWidth="2"/>
+                            <Line startX="260" startY="90" endX="340" endY="70"
+                                  stroke="#3182ce" strokeWidth="2"/>
+
+                            <Circle centerX="20" centerY="150" radius="4" fill="#3182ce"/>
+                            <Circle centerX="100" centerY="120" radius="4" fill="#3182ce"/>
+                            <Circle centerX="180" centerY="130" radius="4" fill="#3182ce"/>
+                            <Circle centerX="260" centerY="90" radius="4" fill="#3182ce"/>
+                            <Circle centerX="340" centerY="70" radius="4" fill="#3182ce"/>
+
+                        </StackPane>
+
+                    </HBox>
+
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
 </BorderPane>

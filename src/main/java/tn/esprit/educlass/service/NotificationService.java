@@ -3,6 +3,8 @@ package tn.esprit.educlass.service;
 import tn.esprit.educlass.enums.NotificationType;
 import tn.esprit.educlass.mapper.NotificationMapper;
 import tn.esprit.educlass.model.Notification;
+import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +19,10 @@ import java.util.List;
 public class NotificationService {
 
     private final Connection connection;
+
+    public NotificationService() {
+        this.connection = DataSource.getInstance().getCon();
+    }
 
     public NotificationService(Connection connection) {
         this.connection = connection;
@@ -46,6 +52,7 @@ public class NotificationService {
                 ps.setNull(6, Types.TIMESTAMP);
             }
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Create notification: " + notification.getTitle());
         }
     }
 
@@ -109,6 +116,7 @@ public class NotificationService {
             }
             ps.setLong(7, notification.getId());
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Update notification id=" + notification.getId());
         }
     }
 
@@ -118,6 +126,7 @@ public class NotificationService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Delete notification id=" + id);
         }
     }
 
@@ -129,6 +138,30 @@ public class NotificationService {
             ps.setTimestamp(2, new Timestamp(new Date().getTime()));
             ps.setLong(3, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Mark notification as read id=" + id);
+        }
+    }
+
+
+    public int getUnreadCountByUser(int userId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM notification WHERE user_id = ? AND is_read = FALSE";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        }
+    }
+
+    public void markAllAsReadByUser(int userId) throws SQLException {
+        String sql = "UPDATE notification SET is_read = TRUE, read_at = ? WHERE user_id = ? AND is_read = FALSE";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setTimestamp(1, new Timestamp(new Date().getTime()));
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+            SupervisionLogger.logSuccess("Mark all notifications as read");
         }
     }
 }

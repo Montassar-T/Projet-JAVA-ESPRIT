@@ -44,6 +44,11 @@
                         onAction="#onAddCourse"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
+                <Button text="Supprimer la sélection"
+                        fx:id="deleteSelectedBtn"
+                        onAction="#onDeleteSelected"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
             </HBox>
         </VBox>
     </top>

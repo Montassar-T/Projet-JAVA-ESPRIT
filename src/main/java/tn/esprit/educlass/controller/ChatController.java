@@ -386,4 +386,18 @@ public class ChatController {
         }
         return parts[0].substring(0, 1).toUpperCase();
     }
+
+    public boolean focusConversationByOtherUserName(String otherUserName) {
+        if (otherUserName == null || otherUserName.isBlank()) return false;
+        String needle = otherUserName.trim();
+
+        for (Conversation c : allConversations) {
+            if (c.getOtherUserName() != null && c.getOtherUserName().trim().equalsIgnoreCase(needle)) {
+                conversationListView.getSelectionModel().select(c);
+                conversationListView.scrollTo(c);
+                return true;
+            }
+        }
+        return false;
+    }
 }

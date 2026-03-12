@@ -3,6 +3,7 @@ package tn.esprit.educlass.service;
 import tn.esprit.educlass.mapper.ChoiceMapper;
 import tn.esprit.educlass.model.Choice;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ChoiceService {
         ps.setBoolean(3, c.isCorrect());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Add choice question=" + c.getQuestionId());
         return success;
     }
 
@@ -36,6 +38,7 @@ public class ChoiceService {
         ps.setInt(4, c.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Update choice id=" + c.getId());
         return success;
     }
 
@@ -45,6 +48,7 @@ public class ChoiceService {
         ps.setInt(1, c.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete choice id=" + c.getId());
         return success;
     }
 

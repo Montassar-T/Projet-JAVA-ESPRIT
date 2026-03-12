@@ -58,6 +58,13 @@
                     <Label text="Note (0–20):" GridPane.rowIndex="2"/>
                     <TextField fx:id="markField" promptText="ex: 14.5" prefWidth="120" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 </GridPane>
+                <Separator/>
+                <Label text="Ajouter un examen (sélectionnable plus tard)" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="newExamField" promptText="Nom de l'examen" prefWidth="200"/>
+                    <Button text="Ajouter l'examen" onAction="#onAddExam"
+                            style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
                 <Region VBox.vgrow="ALWAYS"/>
                 <HBox spacing="10" alignment="CENTER_RIGHT">
                     <Button text="Effacer" onAction="#onClear"
