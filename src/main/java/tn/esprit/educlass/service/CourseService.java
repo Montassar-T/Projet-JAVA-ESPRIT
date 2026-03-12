@@ -7,6 +7,7 @@ import tn.esprit.educlass.model.Chapter;
 import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,7 +43,9 @@ public class CourseService {
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return rs.getLong(1);
+                    long id = rs.getLong(1);
+                    SupervisionLogger.logSuccess("Create course: " + course.getTitle());
+                    return id;
                 }
             }
         }
@@ -103,6 +106,7 @@ public class CourseService {
             ps.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
             ps.setLong(5, course.getId());
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Update course: " + course.getTitle());
         }
     }
 
@@ -112,6 +116,7 @@ public class CourseService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Delete course id=" + id);
         }
     }
 
@@ -133,7 +138,9 @@ public class CourseService {
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return rs.getLong(1);
+                    long id = rs.getLong(1);
+                    SupervisionLogger.logSuccess("Create chapter: " + chapter.getTitle());
+                    return id;
                 }
             }
         }
@@ -178,6 +185,7 @@ public class CourseService {
             ps.setInt(2, chapter.getOrderIndex());
             ps.setLong(3, chapter.getId());
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Update chapter: " + chapter.getTitle());
         }
     }
 
@@ -187,6 +195,7 @@ public class CourseService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Delete chapter id=" + id);
         }
     }
 
@@ -216,6 +225,7 @@ public class CourseService {
                     if (lesson.getPdfData() != null) {
                         saveLessonAttachment(lessonId, lesson.getPdfData());
                     }
+                    SupervisionLogger.logSuccess("Create lesson: " + lesson.getTitle());
                 }
             }
             connection.commit();
@@ -272,6 +282,19 @@ public class CourseService {
         }
     }
 
+    public List<Lesson> getAllLessons() throws SQLException {
+        String sql = "SELECT * FROM lesson";
+        List<Lesson> lessons = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lessons.add(LessonMapper.map(rs));
+            }
+        }
+        return lessons;
+    }
+
     public List<Lesson> getLessonsByChapter(long chapterId) throws SQLException {
         String sql = "SELECT * FROM lesson WHERE chapter_id = ?";
         List<Lesson> lessons = new ArrayList<>();
@@ -306,6 +329,7 @@ public class CourseService {
                 updateLessonAttachment(lesson.getId(), lesson.getPdfData());
             }
             connection.commit();
+            SupervisionLogger.logSuccess("Update lesson: " + lesson.getTitle());
         } catch (SQLException e) {
             connection.rollback();
             throw e;
@@ -320,6 +344,7 @@ public class CourseService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Delete lesson id=" + id);
         }
     }
 }

@@ -35,6 +35,15 @@ import java.util.regex.Pattern;
 
 public class MainController {
 
+    private static String roleToFrench(tn.esprit.educlass.enums.Role role) {
+        if (role == null) return "";
+        return switch (role) {
+            case TEACHER -> "Enseignant";
+            case STUDENT -> "Étudiant";
+            case ADMIN -> "Administrateur";
+        };
+    }
+
     @FXML private Label initialsLabel;
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
@@ -66,7 +75,7 @@ public class MainController {
         this.user = user;
         SessionManager.setCurrentUser(user);
         nameLabel.setText(user.getFullName());
-        roleLabel.setText(user.getRole().name());
+        roleLabel.setText(roleToFrench(user.getRole()));
         String initials = user.getFirstName().substring(0, 1).toUpperCase() +
                 user.getLastName().substring(0, 1).toUpperCase();
         initialsLabel.setText(initials);
@@ -380,14 +389,20 @@ public class MainController {
         return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 
+    private static final String SIDEBAR_BTN_PADDING = "-fx-padding: 10 15; -fx-alignment: CENTER_LEFT; -fx-background-radius: 5; ";
+
     @FXML
     private void hoverEnter(javafx.scene.input.MouseEvent event) {
-        ((Button) event.getSource()).setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-cursor: hand;");
+        Button btn = (Button) event.getSource();
+        if (btn.getStyle().contains("#3498db")) return; // keep active (dashboard) button as-is
+        btn.setStyle(SIDEBAR_BTN_PADDING + "-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-cursor: hand;");
     }
 
     @FXML
     private void hoverExit(javafx.scene.input.MouseEvent event) {
-        ((Button) event.getSource()).setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
+        Button btn = (Button) event.getSource();
+        if (btn.getStyle().contains("#3498db")) return; // keep active (dashboard) button blue
+        btn.setStyle(SIDEBAR_BTN_PADDING + "-fx-background-color: transparent; -fx-text-fill: white;");
     }
 
     @FXML
@@ -443,6 +458,10 @@ public class MainController {
             if (controller instanceof UsersController) {
                 ((UsersController) controller).setCurrentUser(user);
                 ((UsersController) controller).setMainController(this);
+            }
+            // Pass current user to DashboardController (student dashboard)
+            if (controller instanceof DashboardController && user != null) {
+                ((DashboardController) controller).setUser(user);
             }
             contentPane.getChildren().clear();
             contentPane.getChildren().add(view);

@@ -4,6 +4,7 @@ import tn.esprit.educlass.enums.QuestionType;
 import tn.esprit.educlass.mapper.MarkMapper;
 import tn.esprit.educlass.model.*;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -42,6 +43,7 @@ public class MarkService {
         ps.setInt(4, m.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Update mark id=" + m.getId());
         return success;
     }
 
@@ -52,6 +54,7 @@ public class MarkService {
         ps.setInt(1, m.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete mark id=" + m.getId());
         return success;
     }
 

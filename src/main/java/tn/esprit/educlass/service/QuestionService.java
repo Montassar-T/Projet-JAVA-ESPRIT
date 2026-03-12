@@ -3,6 +3,7 @@ package tn.esprit.educlass.service;
 import tn.esprit.educlass.mapper.QuestionMapper;
 import tn.esprit.educlass.model.Question;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class QuestionService {
             ResultSet keys = ps.getGeneratedKeys();
             if (keys.next()) {
                 generatedId = keys.getInt(1);
+                SupervisionLogger.logSuccess("Add question evaluation=" + q.getEvaluationId());
             }
             keys.close();
         }
@@ -46,6 +48,7 @@ public class QuestionService {
         ps.setInt(5, q.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Update question id=" + q.getId());
         return success;
     }
 
@@ -55,6 +58,7 @@ public class QuestionService {
         ps.setInt(1, q.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete question id=" + q.getId());
         return success;
     }
 
@@ -78,7 +82,20 @@ public class QuestionService {
         ps.setInt(1, evaluationId);
         boolean success = ps.executeUpdate() >= 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete questions by evaluation=" + evaluationId);
         return success;
+    }
+
+    public List<Question> getAllQuestions() throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String sql = "SELECT * FROM questions";
+        try (Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                questions.add(QuestionMapper.map(rs));
+            }
+        }
+        return questions;
     }
 }
 

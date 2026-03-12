@@ -4,6 +4,7 @@ import tn.esprit.educlass.enums.NotificationType;
 import tn.esprit.educlass.mapper.NotificationMapper;
 import tn.esprit.educlass.model.Notification;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,7 @@ public class NotificationService {
                 ps.setNull(6, Types.TIMESTAMP);
             }
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Create notification: " + notification.getTitle());
         }
     }
 
@@ -114,6 +116,7 @@ public class NotificationService {
             }
             ps.setLong(7, notification.getId());
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Update notification id=" + notification.getId());
         }
     }
 
@@ -123,6 +126,7 @@ public class NotificationService {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Delete notification id=" + id);
         }
     }
 
@@ -134,6 +138,7 @@ public class NotificationService {
             ps.setTimestamp(2, new Timestamp(new Date().getTime()));
             ps.setLong(3, id);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Mark notification as read id=" + id);
         }
     }
 
@@ -156,6 +161,7 @@ public class NotificationService {
             ps.setTimestamp(1, new Timestamp(new Date().getTime()));
             ps.setInt(2, userId);
             ps.executeUpdate();
+            SupervisionLogger.logSuccess("Mark all notifications as read");
         }
     }
 }

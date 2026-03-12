@@ -5,6 +5,7 @@ import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.enums.UserStatus;
 import tn.esprit.educlass.mapper.UserMapper;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -31,6 +32,7 @@ public class UserService {
         ps.setString(6, user.getStatus().name());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Create user: " + user.getEmail());
         return success;
     }
 
@@ -41,6 +43,7 @@ public class UserService {
         ps.setInt(1, user.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete user id=" + user.getId());
         return success;
     }
 
@@ -56,6 +59,7 @@ public class UserService {
         ps.setInt(6, user.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Update user: " + user.getEmail());
         return success;
     }
 
@@ -111,6 +115,7 @@ public class UserService {
         ps.setInt(2, id);
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Change user status id=" + id + " to " + status.name());
         return success;
     }
 

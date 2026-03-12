@@ -3,6 +3,7 @@ package tn.esprit.educlass.service;
 import tn.esprit.educlass.mapper.StudentResponseMapper;
 import tn.esprit.educlass.model.StudentResponse;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class StudentResponseService {
         ps.setInt(1, sr.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete response id=" + sr.getId());
         return success;
     }
 
@@ -87,6 +89,7 @@ public class StudentResponseService {
         ps.setInt(2, evaluationId);
         boolean success = ps.executeUpdate() >= 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete responses student=" + studentId + " evaluation=" + evaluationId);
         return success;
     }
 

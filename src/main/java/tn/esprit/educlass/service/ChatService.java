@@ -5,6 +5,7 @@ import tn.esprit.educlass.mapper.MessageMapper;
 import tn.esprit.educlass.model.Conversation;
 import tn.esprit.educlass.model.Message;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ public class ChatService {
                     c.setId(keys.getInt(1));
                     c.setUser1Id(u1);
                     c.setUser2Id(u2);
+                    SupervisionLogger.logSuccess("Create conversation");
                     return c;
                 }
             }
@@ -153,6 +155,7 @@ public class ChatService {
                     m.setContent(content);
                     m.setRead(false);
                     m.setCreatedAt(new java.util.Date());
+                    SupervisionLogger.logSuccess("Send message conversation=" + conversationId);
                     return m;
                 }
             }

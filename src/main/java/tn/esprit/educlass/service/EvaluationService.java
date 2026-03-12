@@ -4,6 +4,7 @@ import tn.esprit.educlass.enums.EvaluationType;
 import tn.esprit.educlass.mapper.EvaluationMapper;
 import tn.esprit.educlass.model.Evaluation;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class EvaluationService {
             ResultSet keys = ps.getGeneratedKeys();
             if (keys.next()) {
                 generatedId = keys.getInt(1);
+                SupervisionLogger.logSuccess("Create evaluation: " + e.getTitle());
             }
             keys.close();
         }
@@ -64,6 +66,7 @@ public class EvaluationService {
         ps.setInt(8, e.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Update evaluation: " + e.getTitle());
         return success;
     }
 
@@ -74,6 +77,7 @@ public class EvaluationService {
         ps.setInt(1, e.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Delete evaluation id=" + e.getId());
         return success;
     }
 
@@ -114,6 +118,7 @@ public class EvaluationService {
         ps.setInt(2, evaluationId);
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Publish evaluation id=" + evaluationId);
         return success;
     }
 }

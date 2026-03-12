@@ -4,6 +4,7 @@ import tn.esprit.educlass.enums.UserStatus;
 import tn.esprit.educlass.mapper.UserMapper;
 import tn.esprit.educlass.model.User;
 import tn.esprit.educlass.utlis.DataSource;
+import tn.esprit.educlass.utlis.SupervisionLogger;
 
 import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
@@ -76,6 +77,7 @@ public class AuthService {
         ps.setInt(2, userId);
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Change password user id=" + userId);
         return success;
     }
 }
