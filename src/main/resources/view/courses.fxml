@@ -26,8 +26,8 @@
                         fx:id="searchBtn"
                         onAction="#onSearch"/>
 
-                <Label text="Niveau:"/>
-                <ComboBox fx:id="levelFilter" prefWidth="130" promptText="Choisir un niveau"/>
+                <Label text="Difficulté:"/>
+                <ComboBox fx:id="levelFilter" prefWidth="130" promptText="Choisir un Difficulté"/>
 
                 <Button text="Appliquer"
                         fx:id="applyFilterBtn"
@@ -53,17 +53,16 @@
         </VBox>
     </top>
 
-    <!-- GRID CONTENT -->
+    <!-- LIST CONTENT -->
     <center>
         <ScrollPane fitToWidth="true" pannable="true">
             <content>
-                <GridPane fx:id="courseGrid"
-                          hgap="30"
-                          vgap="30">
+                <VBox fx:id="courseList"
+                      spacing="15">
                     <padding>
                         <Insets top="20" right="20" bottom="20" left="20"/>
                     </padding>
-                </GridPane>
+                </VBox>
             </content>
         </ScrollPane>
     </center>

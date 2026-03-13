@@ -7,9 +7,19 @@ CREATE TABLE course (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     level INT DEFAULT 1,
+    teacher_id INT,
+    school_class_id BIGINT,
     creation_date DATETIME NOT NULL,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT fk_course_teacher
+        FOREIGN KEY (teacher_id)
+        REFERENCES users(id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_course_class
+        FOREIGN KEY (school_class_id)
+        REFERENCES school_class(id)
+        ON DELETE SET NULL
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;

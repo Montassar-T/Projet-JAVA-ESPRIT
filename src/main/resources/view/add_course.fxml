@@ -18,11 +18,17 @@
         <Label text="Titre:"/>
         <TextField fx:id="titleField" GridPane.columnIndex="1" HBox.hgrow="ALWAYS"/>
 
-        <Label text="Niveau:" GridPane.rowIndex="1"/>
+        <Label text="Difficulté:" GridPane.rowIndex="1"/>
         <ComboBox fx:id="levelCombo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Description:" GridPane.rowIndex="2"/>
-        <TextArea fx:id="descriptionArea" prefHeight="80" GridPane.rowIndex="2" GridPane.columnIndex="1" wrapText="true"/>
+        <Label text="Enseignant:" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="teacherCombo" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="200"/>
+
+        <Label text="Classe:" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="classCombo" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="200"/>
+
+        <Label text="Description:" GridPane.rowIndex="4"/>
+        <TextArea fx:id="descriptionArea" prefHeight="80" GridPane.rowIndex="4" GridPane.columnIndex="1" wrapText="true"/>
     </GridPane>
 
     <Separator/>

@@ -13,8 +13,11 @@ import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.model.Chapter;
 import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
+import tn.esprit.educlass.model.SchoolClass;
 import tn.esprit.educlass.model.User;
 import tn.esprit.educlass.service.CourseService;
+import tn.esprit.educlass.service.SchoolClassService;
+import tn.esprit.educlass.service.UserService;
 import tn.esprit.educlass.utlis.SessionManager;
 
 import javafx.fxml.FXMLLoader;
@@ -37,7 +40,7 @@ public class CourseController {
     @FXML
     private ComboBox<String> levelFilter;
     @FXML
-    private GridPane courseGrid;
+    private VBox courseList;
 
     @FXML
     private Button addCourseBtn;
@@ -45,6 +48,8 @@ public class CourseController {
     private Button deleteSelectedBtn;
 
     private final CourseService service = new CourseService();
+    private final UserService userService = new UserService();
+    private final SchoolClassService classService = new SchoolClassService();
     private final List<Long> selectedCourseIds = new ArrayList<>();
     private User currentUser;
 
@@ -77,18 +82,11 @@ public class CourseController {
     }
 
     private void displayCourses(List<Course> courses) {
-        courseGrid.getChildren().clear();
+        courseList.getChildren().clear();
         selectedCourseIds.clear();
-        int row = 0;
-        int col = 0;
         for (Course course : courses) {
-            VBox courseCard = createCourseCard(course);
-            courseGrid.add(courseCard, col, row);
-            col++;
-            if (col > 1) { // Reduced to 2 columns for better visibility of details
-                col = 0;
-                row++;
-            }
+            VBox courseRow = createCourseRow(course);
+            courseList.getChildren().add(courseRow);
         }
     }
 
@@ -101,13 +99,17 @@ public class CourseController {
         return thousands[number / 1000] + hundreds[(number % 1000) / 100] + tens[(number % 100) / 10] + units[number % 10];
     }
 
-    private VBox createCourseCard(Course course) {
-        VBox card = new VBox(10);
-        card.setPadding(new Insets(15));
-        card.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);");
-        card.setPrefWidth(350);
+    private VBox createCourseRow(Course course) {
+        VBox rowContainer = new VBox(0);
+        rowContainer.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;");
+        rowContainer.setPadding(new Insets(0));
 
-        HBox topRow = new HBox(10);
+        // Header Row (Visible)
+        HBox header = new HBox(15);
+        header.setPadding(new Insets(15));
+        header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        header.setStyle("-fx-cursor: hand; -fx-background-color: #f8f9fa; -fx-background-radius: 5 5 0 0;");
+
         CheckBox checkBox = new CheckBox();
         checkBox.setOnAction(e -> {
             if (checkBox.isSelected()) {
@@ -119,12 +121,39 @@ public class CourseController {
 
         Label titleLabel = new Label(course.getTitle());
         titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
-        titleLabel.setWrapText(true);
         HBox.setHgrow(titleLabel, Priority.ALWAYS);
 
-        Button editBtn = new Button("✎");
-        editBtn.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;");
-        editBtn.setOnAction(e -> onEditCourse(course));
+        Label levelLabel = new Label("Difficulté: " + toRoman(course.getLevel()));
+        levelLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #e67e22; -fx-background-color: #fcf3cf; -fx-padding: 2 8; -fx-background-radius: 10;");
+
+        VBox infoBox = new VBox(2);
+        if (course.getTeacherId() != null) {
+            try {
+                User teacher = userService.findById(course.getTeacherId().intValue());
+                if (teacher != null) {
+                    Label teacherLabel = new Label("Enseignant: " + teacher.getFirstName() + " " + teacher.getLastName());
+                    teacherLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #34495e;");
+                    infoBox.getChildren().add(teacherLabel);
+                }
+            } catch (SQLException ignored) {}
+        }
+        if (course.getClassId() != null) {
+            try {
+                SchoolClass sc = classService.getClassById(course.getClassId());
+                if (sc != null) {
+                    Label classLabel = new Label("Classe: " + sc.getName());
+                    classLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #34495e;");
+                    infoBox.getChildren().add(classLabel);
+                }
+            } catch (SQLException ignored) {}
+        }
+
+        Button editBtn = new Button("Modifier");
+        editBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 12px;");
+        editBtn.setOnAction(e -> {
+            e.consume();
+            onEditCourse(course);
+        });
 
         if (currentUser != null && currentUser.getRole() == Role.STUDENT) {
             checkBox.setVisible(false);
@@ -133,47 +162,63 @@ public class CourseController {
             editBtn.setManaged(false);
         }
 
-        topRow.getChildren().addAll(checkBox, titleLabel, editBtn);
+        Label expandIcon = new Label("▼");
+        expandIcon.setStyle("-fx-font-size: 16px; -fx-text-fill: #7f8c8d;");
 
-        Label levelLabel = new Label("Niveau: " + toRoman(course.getLevel()));
-        levelLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #e67e22; -fx-background-color: #fcf3cf; -fx-padding: 2 5 2 5; -fx-background-radius: 3;");
+        header.getChildren().addAll(checkBox, titleLabel, levelLabel, infoBox, editBtn, expandIcon);
+
+        // Content (Collapsible)
+        VBox content = new VBox(15);
+        content.setPadding(new Insets(15));
+        content.setVisible(false);
+        content.setManaged(false);
+        content.setStyle("-fx-border-color: #eee; -fx-border-width: 1 0 0 0;");
 
         Label descLabel = new Label(course.getDescription());
         descLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #7f8c8d;");
         descLabel.setWrapText(true);
+        content.getChildren().add(descLabel);
 
-        Accordion chaptersAccordion = new Accordion();
+        // Chapters
+        VBox chaptersBox = new VBox(10);
         try {
             List<Chapter> chapters = service.getChaptersByCourse(course.getId());
             for (Chapter chapter : chapters) {
-                VBox lessonsBox = new VBox(5);
-                lessonsBox.setPadding(new Insets(5, 10, 5, 10));
-                
-                List<Lesson> lessons = service.getLessonsByChapter(chapter.getId());
-                if (lessons.isEmpty()) {
-                    lessonsBox.getChildren().add(new Label("Aucune leçon pour le moment."));
-                } else {
-                    for (Lesson lesson : lessons) {
-                        Hyperlink lessonLink = new Hyperlink(lesson.getTitle());
-                        lessonLink.setStyle("-fx-text-fill: #3498db; -fx-font-size: 13px;");
-                        lessonLink.setOnAction(e -> showLessonPopup(lesson));
-                        lessonsBox.getChildren().add(lessonLink);
-                    }
-                }
+                VBox chapterContainer = new VBox(5);
+                Label chapterTitle = new Label("Chapitre " + chapter.getOrderIndex() + ": " + chapter.getTitle());
+                chapterTitle.setStyle("-fx-font-weight: bold; -fx-text-fill: #34495e; -fx-font-size: 15px;");
+                chapterContainer.getChildren().add(chapterTitle);
 
-                TitledPane chapterPane = new TitledPane(chapter.getTitle(), lessonsBox);
-                chapterPane.setAnimated(true);
-                chaptersAccordion.getPanes().add(chapterPane);
+                List<Lesson> lessons = service.getLessonsByChapter(chapter.getId());
+                for (Lesson lesson : lessons) {
+                    HBox lessonRow = new HBox(10);
+                    lessonRow.setPadding(new Insets(5, 0, 5, 20));
+                    lessonRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+                    
+                    Label lessonLabel = new Label("• " + lesson.getTitle() + " (" + lesson.getDurationMinutes() + " min)");
+                    lessonLabel.setStyle("-fx-text-fill: #2980b9; -fx-cursor: hand;");
+                    lessonLabel.setOnMouseClicked(e -> showLessonPopup(lesson));
+                    
+                    lessonRow.getChildren().add(lessonLabel);
+                    chapterContainer.getChildren().add(lessonRow);
+                }
+                chaptersBox.getChildren().add(chapterContainer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            card.getChildren().add(new Label("Erreur lors du chargement des chapitres."));
         }
+        content.getChildren().add(chaptersBox);
 
-        VBox.setVgrow(chaptersAccordion, Priority.ALWAYS);
-        card.getChildren().addAll(topRow, levelLabel, descLabel, new Separator(), new Label("Chapitres:"), chaptersAccordion);
-        
-        return card;
+        rowContainer.getChildren().addAll(header, content);
+
+        header.setOnMouseClicked(e -> {
+            boolean isVisible = content.isVisible();
+            content.setVisible(!isVisible);
+            content.setManaged(!isVisible);
+            expandIcon.setText(isVisible ? "▼" : "▲");
+        });
+
+        return rowContainer;
     }
 
     private void onEditCourse(Course course) {

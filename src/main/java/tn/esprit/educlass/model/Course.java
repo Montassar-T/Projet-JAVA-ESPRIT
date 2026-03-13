@@ -8,6 +8,8 @@ public class Course extends BaseEntity {
     private String title;
     private String description;
     private int level;
+    private Long teacherId;
+    private Long classId;
 
     private List<Chapter> chapters = new ArrayList<>();
 
@@ -44,6 +46,22 @@ public class Course extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
     }
 
     public List<Chapter> getChapters() {

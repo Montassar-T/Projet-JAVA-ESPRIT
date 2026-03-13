@@ -30,15 +30,19 @@ public class CourseService {
 
     public long createCourse(Course course) throws SQLException {
         String sql = """
-            INSERT INTO course (title, description, level, creation_date)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO course (title, description, level, teacher_id, school_class_id, creation_date)
+            VALUES (?, ?, ?, ?, ?, ?)
         """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
             ps.setInt(3, course.getLevel());
-            ps.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
+            if (course.getTeacherId() != null) ps.setLong(4, course.getTeacherId());
+            else ps.setNull(4, java.sql.Types.BIGINT);
+            if (course.getClassId() != null) ps.setLong(5, course.getClassId());
+            else ps.setNull(5, java.sql.Types.BIGINT);
+            ps.setTimestamp(6, new java.sql.Timestamp(new java.util.Date().getTime()));
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -95,7 +99,7 @@ public class CourseService {
     public void updateCourse(Course course) throws SQLException {
         String sql = """
             UPDATE course
-            SET title = ?, description = ?, level = ?, creation_date = ?
+            SET title = ?, description = ?, level = ?, teacher_id = ?, school_class_id = ?, creation_date = ?
             WHERE id = ?
         """;
 
@@ -103,8 +107,12 @@ public class CourseService {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getDescription());
             ps.setInt(3, course.getLevel());
-            ps.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
-            ps.setLong(5, course.getId());
+            if (course.getTeacherId() != null) ps.setLong(4, course.getTeacherId());
+            else ps.setNull(4, java.sql.Types.BIGINT);
+            if (course.getClassId() != null) ps.setLong(5, course.getClassId());
+            else ps.setNull(5, java.sql.Types.BIGINT);
+            ps.setTimestamp(6, new java.sql.Timestamp(new java.util.Date().getTime()));
+            ps.setLong(7, course.getId());
             ps.executeUpdate();
             SupervisionLogger.logSuccess("Update course: " + course.getTitle());
         }

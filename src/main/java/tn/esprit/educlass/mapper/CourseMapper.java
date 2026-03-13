@@ -14,6 +14,10 @@ public class CourseMapper {
         course.setTitle(rs.getString("title"));
         course.setDescription(rs.getString("description"));
         course.setLevel(rs.getInt("level"));
+        course.setTeacherId(rs.getLong("teacher_id"));
+        if (rs.wasNull()) course.setTeacherId(null);
+        course.setClassId(rs.getLong("school_class_id"));
+        if (rs.wasNull()) course.setClassId(null);
 
         Date creationDate = rs.getTimestamp("creation_date");
 

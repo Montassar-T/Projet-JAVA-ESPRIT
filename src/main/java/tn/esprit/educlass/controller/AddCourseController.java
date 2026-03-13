@@ -9,10 +9,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import tn.esprit.educlass.enums.Role;
 import tn.esprit.educlass.model.Chapter;
 import tn.esprit.educlass.model.Course;
 import tn.esprit.educlass.model.Lesson;
+import tn.esprit.educlass.model.SchoolClass;
+import tn.esprit.educlass.model.User;
 import tn.esprit.educlass.service.CourseService;
+import tn.esprit.educlass.service.SchoolClassService;
+import tn.esprit.educlass.service.UserService;
+import javafx.util.StringConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,10 +30,14 @@ public class AddCourseController {
 
     @FXML private TextField titleField;
     @FXML private ComboBox<Integer> levelCombo;
+    @FXML private ComboBox<User> teacherCombo;
+    @FXML private ComboBox<SchoolClass> classCombo;
     @FXML private TextArea descriptionArea;
     @FXML private VBox chaptersContainer;
 
     private final CourseService service = new CourseService();
+    private final UserService userService = new UserService();
+    private final SchoolClassService classService = new SchoolClassService();
     private boolean saved = false;
     private Course courseToEdit;
 
@@ -35,6 +45,49 @@ public class AddCourseController {
     public void initialize() {
         levelCombo.getItems().addAll(1, 2, 3, 4, 5);
         levelCombo.getSelectionModel().select(0);
+
+        setupTeacherCombo();
+        setupClassCombo();
+    }
+
+    private void setupTeacherCombo() {
+        try {
+            List<User> teachers = userService.findByRole(Role.TEACHER);
+            teacherCombo.getItems().setAll(teachers);
+            teacherCombo.setConverter(new StringConverter<User>() {
+                @Override
+                public String toString(User user) {
+                    return user == null ? "" : user.getFirstName() + " " + user.getLastName();
+                }
+
+                @Override
+                public User fromString(String string) {
+                    return null;
+                }
+            });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupClassCombo() {
+        try {
+            List<SchoolClass> classes = classService.getAllClasses();
+            classCombo.getItems().setAll(classes);
+            classCombo.setConverter(new StringConverter<SchoolClass>() {
+                @Override
+                public String toString(SchoolClass sc) {
+                    return sc == null ? "" : sc.getName() + " (" + sc.getCode() + ")";
+                }
+
+                @Override
+                public SchoolClass fromString(String string) {
+                    return null;
+                }
+            });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setEditMode(Course course) {
@@ -42,6 +95,24 @@ public class AddCourseController {
         titleField.setText(course.getTitle());
         levelCombo.setValue(course.getLevel());
         descriptionArea.setText(course.getDescription());
+
+        if (course.getTeacherId() != null) {
+            for (User u : teacherCombo.getItems()) {
+                if (u.getId() == course.getTeacherId().intValue()) {
+                    teacherCombo.setValue(u);
+                    break;
+                }
+            }
+        }
+
+        if (course.getClassId() != null) {
+            for (SchoolClass sc : classCombo.getItems()) {
+                if (sc.getId().equals(course.getClassId())) {
+                    classCombo.setValue(sc);
+                    break;
+                }
+            }
+        }
         
         try {
             List<Chapter> chapters = service.getChaptersByCourse(course.getId());
@@ -175,6 +246,18 @@ public class AddCourseController {
             course.setTitle(titleField.getText());
             course.setLevel(levelCombo.getValue());
             course.setDescription(descriptionArea.getText());
+
+            if (teacherCombo.getValue() != null) {
+                course.setTeacherId((long) teacherCombo.getValue().getId());
+            } else {
+                course.setTeacherId(null);
+            }
+
+            if (classCombo.getValue() != null) {
+                course.setClassId(classCombo.getValue().getId());
+            } else {
+                course.setClassId(null);
+            }
 
             if (courseToEdit != null) {
                 service.updateCourse(course);
