@@ -52,9 +52,9 @@
                 <Button fx:id="classesButton" onAction="#showSchoolClasses" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Classes"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit" visible="false" managed="false"/>
-                <Button onAction="#showSupervision" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Supervision"
+                <Button  fx:id="supervisionButton"  onAction="#showSupervision" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Supervision"
                         onMouseEntered="#hoverEnter"
-                        onMouseExited="#hoverExit"/>
+                        onMouseExited="#hoverExit" visible="false" managed="false"/>
                 <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>

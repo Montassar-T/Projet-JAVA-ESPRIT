@@ -49,6 +49,7 @@ public class MainController {
     @FXML private Label roleLabel;
     @FXML private StackPane contentPane;
     @FXML private Button usersButton;
+    @FXML private Button supervisionButton;
     @FXML private Button classesButton;
     @FXML private Button notificationButton;
     @FXML private Label notificationBadge;
@@ -90,6 +91,10 @@ public class MainController {
         if (classesButton != null) {
             classesButton.setVisible(isAdmin);
             classesButton.setManaged(isAdmin);
+        }
+        if (supervisionButton != null) {
+            supervisionButton.setVisible(isAdmin);
+            supervisionButton.setManaged(isAdmin);
         }
     }
 
