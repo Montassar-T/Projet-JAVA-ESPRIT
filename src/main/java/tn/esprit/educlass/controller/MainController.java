@@ -473,7 +473,11 @@ public class MainController {
                 ((UsersController) controller).setCurrentUser(user);
                 ((UsersController) controller).setMainController(this);
             }
-            // Pass current user to DashboardController (student dashboard)
+            // Pass current user to dashboard controller (unified: student / admin / teacher)
+            if (controller instanceof tn.esprit.educlass.controller.UnifiedDashboardController && user != null) {
+                ((tn.esprit.educlass.controller.UnifiedDashboardController) controller).setUser(user);
+            }
+            // Legacy: pass user to standalone DashboardController if ever used
             if (controller instanceof DashboardController && user != null) {
                 ((DashboardController) controller).setUser(user);
             }
