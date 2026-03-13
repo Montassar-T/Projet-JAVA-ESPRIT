@@ -147,11 +147,9 @@
                         <VBox spacing="12" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2); -fx-border-color: #edf2f7; -fx-border-radius: 10;">
                             <Label text="Accès rapide" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
                             <VBox spacing="6">
-                                <Label text="• Utilisateurs — Gestion des comptes et rôles" wrapText="true" style="-fx-text-fill: #4a5568; -fx-font-size: 13px;"/>
-                                <Label text="• Structure académique — Universités, facultés, départements" wrapText="true" style="-fx-text-fill: #4a5568; -fx-font-size: 13px;"/>
-                                <Label text="• Établissements — Création et suivi des établissements" wrapText="true" style="-fx-text-fill: #4a5568; -fx-font-size: 13px;"/>
-                                <Label text="• Supervision — Journal des actions et suivi" wrapText="true" style="-fx-text-fill: #4a5568; -fx-font-size: 13px;"/>
-                                <Label text="• Configuration système — Paramètres de la plateforme" wrapText="true" style="-fx-text-fill: #4a5568; -fx-font-size: 13px;"/>
+                                <Button text="• Utilisateurs — Gestion des comptes et rôles" onAction="#handleQuickAccessUsers" wrapText="true" maxWidth="Infinity" style="-fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-background-color: transparent; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+                                <Button text="• Classes — Gestion des classes étudiantes" onAction="#handleQuickAccessClasses" wrapText="true" maxWidth="Infinity" style="-fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-background-color: transparent; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
+                                <Button text="• Supervision — Journal des actions et suivi" onAction="#handleQuickAccessSupervision" wrapText="true" maxWidth="Infinity" style="-fx-text-fill: #4a5568; -fx-font-size: 13px; -fx-background-color: transparent; -fx-alignment: CENTER_LEFT; -fx-cursor: hand;"/>
                             </VBox>
                         </VBox>
                     </VBox>

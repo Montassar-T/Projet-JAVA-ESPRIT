@@ -437,6 +437,14 @@ public class MainController {
     }
 
     @FXML
+    private void showSupervision(ActionEvent event) {
+        if (user == null || user.getRole() != Role.ADMIN) {
+            return;
+        }
+        loadSection("/view/supervision.fxml");
+    }
+
+    @FXML
     private void showEvaluations(ActionEvent event) {
         loadSection("/view/evaluations.fxml");
     }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="600" prefWidth="1000" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.MainController">
+<BorderPane prefHeight="600" prefWidth="1000" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.educlass.controller.MainController">
 
     <!-- LEFT SIDEBAR -->
     <left>
@@ -52,6 +52,9 @@
                 <Button fx:id="classesButton" onAction="#showSchoolClasses" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Classes"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit" visible="false" managed="false"/>
+                <Button onAction="#showSupervision" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Supervision"
+                        onMouseEntered="#hoverEnter"
+                        onMouseExited="#hoverExit"/>
                 <Button onAction="#showSettings" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Paramètres"
                         onMouseEntered="#hoverEnter"
                         onMouseExited="#hoverExit"/>

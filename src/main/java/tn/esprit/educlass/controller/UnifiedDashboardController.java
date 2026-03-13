@@ -487,10 +487,32 @@ public class UnifiedDashboardController implements Initializable {
 
     @FXML public void adminSwitchToDashboard() { adminContentPane.getChildren().setAll(adminDashboardView); }
     @FXML public void adminSwitchToUsers() { adminLoadView("/view/users.fxml"); }
-    @FXML public void adminSwitchToAcademicStructure() { adminLoadView("/view/academic_structure.fxml"); }
-    @FXML public void adminSwitchToInstitutions() { adminLoadView("/view/institution.fxml"); }
+    @FXML public void adminSwitchToClasses() { adminLoadView("/view/school_classes.fxml"); }
     @FXML public void adminSwitchToSupervision() { adminLoadView("/view/supervision.fxml"); }
-    @FXML public void adminSwitchToSystemConfig() { adminLoadView("/view/system_config.fxml"); }
+
+    private boolean hasAdminAccess() {
+        User user = currentUser != null ? currentUser : SessionManager.getCurrentUser();
+        return user != null && user.getRole() == Role.ADMIN;
+    }
+
+    @FXML
+    public void handleQuickAccessUsers(ActionEvent event) {
+        if (!hasAdminAccess()) return;
+        adminSwitchToUsers();
+    }
+
+    @FXML
+    public void handleQuickAccessClasses(ActionEvent event) {
+        if (!hasAdminAccess()) return;
+        adminSwitchToClasses();
+    }
+
+    @FXML
+    public void handleQuickAccessSupervision(ActionEvent event) {
+        if (!hasAdminAccess()) return;
+        adminSwitchToSupervision();
+    }
+
 
     @FXML
     public void adminHandleLogout(ActionEvent e) {

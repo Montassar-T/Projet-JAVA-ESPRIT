@@ -1,5 +1,9 @@
--- Table: system_config
-CREATE TABLE system_config (
+-- ========================================
+-- admin-management.sql
+-- Non-destructive admin schema setup
+-- ========================================
+
+CREATE TABLE IF NOT EXISTS system_config (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     platform_name VARCHAR(255) NOT NULL,
     default_language VARCHAR(50),
@@ -9,8 +13,7 @@ CREATE TABLE system_config (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: academic_structure
-CREATE TABLE academic_structure (
+CREATE TABLE IF NOT EXISTS academic_structure (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     type VARCHAR(50) NOT NULL,
@@ -20,8 +23,7 @@ CREATE TABLE academic_structure (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table: institution
-CREATE TABLE institution (
+CREATE TABLE IF NOT EXISTS institution (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     code VARCHAR(100),
@@ -33,8 +35,7 @@ CREATE TABLE institution (
     FOREIGN KEY (structure_id) REFERENCES academic_structure(id) ON DELETE CASCADE
 );
 
--- Table: supervision
-CREATE TABLE supervision (
+CREATE TABLE IF NOT EXISTS supervision (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     action VARCHAR(255) NOT NULL,
     user VARCHAR(255),

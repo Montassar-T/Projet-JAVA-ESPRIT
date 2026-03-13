@@ -44,3 +44,10 @@ VALUES
     (5, 2, 16.25),  -- Student 5, Exam 2: 16.25/20
     (4, 3, 19.50),  -- Student 4, Exam 3: 19.50/20
     (5, 3, 14.00);  -- Student 5, Exam 3: 14.00/20
+
+ALTER TABLE `marks`
+    ADD COLUMN IF NOT EXISTS `review_requested` TINYINT(1) NOT NULL DEFAULT 0;
+
+ALTER TABLE `marks`
+    ADD COLUMN IF NOT EXISTS `review_resolved` TINYINT(1) NOT NULL DEFAULT 0;
+

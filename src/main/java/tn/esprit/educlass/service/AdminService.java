@@ -209,7 +209,7 @@ public class AdminService {
   }
 
   public List<Supervision> getAllLogs() throws SQLException {
-    String sql = "SELECT id, action, user, type, result, timestamp FROM supervision ORDER BY timestamp DESC";
+    String sql = "SELECT * FROM supervision ORDER BY 1 DESC";
     List<Supervision> list = new ArrayList<>();
     try (PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery()) {
