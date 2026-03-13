@@ -62,12 +62,9 @@ public class UnifiedDashboardController implements Initializable {
     @FXML private Label studentUsersDetailLabel;
     @FXML private ListView<String> studentCoursesListView;
     @FXML private ListView<String> studentEvaluationsListView;
-    @FXML private ProgressBar studentCourseCompletionBar;
-    @FXML private Label studentCourseCompletionLabel;
+    @FXML private VBox studentPerformanceBox;
     @FXML private ProgressBar studentEvalSuccessBar;
     @FXML private Label studentEvalSuccessLabel;
-    @FXML private ProgressBar studentAttendanceBar;
-    @FXML private Label studentAttendanceLabel;
 
     // Admin (content only – stats and chart from DB)
     @FXML private StackPane adminContentPane;
@@ -79,10 +76,6 @@ public class UnifiedDashboardController implements Initializable {
     @FXML private Label adminCoursesDetailLabel;
     @FXML private Label adminTotalEvaluationsLabel;
     @FXML private Label adminEvaluationsDetailLabel;
-    @FXML private Label adminTotalInstitutionsLabel;
-    @FXML private Label adminInstitutionsDetailLabel;
-    @FXML private Label adminTotalStructuresLabel;
-    @FXML private Label adminStructuresDetailLabel;
     @FXML private javafx.scene.chart.PieChart adminUsersRolePieChart;
     @FXML private ListView<String> adminSupervisionListView;
 
@@ -198,21 +191,30 @@ public class UnifiedDashboardController implements Initializable {
                 Platform.runLater(() -> {
                     if (studentCoursesListView != null) { studentCoursesListView.getItems().clear(); studentCoursesListView.getItems().addAll(courseItems); }
                 });
-                List<String> evalItems = evaluationService.afficher().stream().limit(5)
-                        .map(e -> "📝 " + e.getTitle() + " | " + e.getStatus()).collect(Collectors.toList());
+                List<String> evalItems = evaluationService.afficher().stream()
+                        .filter(e -> e.getStatus() != null && "PUBLISHED".equalsIgnoreCase(e.getStatus()))
+                        .limit(5)
+                        .map(e -> "📝 " + e.getTitle() + (e.getDueDate() != null ? " | " + new SimpleDateFormat("dd/MM/yyyy").format(e.getDueDate()) : ""))
+                        .collect(Collectors.toList());
                 Platform.runLater(() -> {
                     if (studentEvaluationsListView != null) { studentEvaluationsListView.getItems().clear(); studentEvaluationsListView.getItems().addAll(evalItems); }
                 });
-                if (markService != null) {
-                    List<Mark> marks = markService.afficher();
-                    double avg = marks.isEmpty() ? 0 : marks.stream().mapToDouble(m -> m.getMark().doubleValue()).average().orElse(0);
-                    double success = Math.min(1.0, avg / 20.0);
-                    double completion = 0.85;
+                // Performance: only show when we have real data (marks for current student)
+                if (markService != null && currentUser != null) {
+                    List<Mark> studentMarks = markService.findByStudentId(currentUser.getId());
+                    final boolean hasMarks = studentMarks != null && !studentMarks.isEmpty();
+                    final double successRate = hasMarks
+                            ? Math.min(1.0, studentMarks.stream().mapToDouble(m -> m.getMark() != null ? m.getMark().doubleValue() : 0).average().orElse(0) / 20.0)
+                            : 0;
                     Platform.runLater(() -> {
-                        if (studentEvalSuccessBar != null) { studentEvalSuccessBar.setProgress(success); if (studentEvalSuccessLabel != null) studentEvalSuccessLabel.setText(String.format("%.0f%%", success * 100)); }
-                        if (studentCourseCompletionBar != null) { studentCourseCompletionBar.setProgress(completion); if (studentCourseCompletionLabel != null) studentCourseCompletionLabel.setText(String.format("%.0f%%", completion * 100)); }
-                        if (studentAttendanceBar != null) { studentAttendanceBar.setProgress(0.92); if (studentAttendanceLabel != null) studentAttendanceLabel.setText("92%"); }
+                        if (studentPerformanceBox != null) studentPerformanceBox.setVisible(hasMarks);
+                        if (hasMarks && studentEvalSuccessBar != null) {
+                            studentEvalSuccessBar.setProgress(successRate);
+                            if (studentEvalSuccessLabel != null) studentEvalSuccessLabel.setText(String.format("%.0f%%", successRate * 100));
+                        }
                     });
+                } else {
+                    Platform.runLater(() -> { if (studentPerformanceBox != null) studentPerformanceBox.setVisible(false); });
                 }
             } catch (SQLException e) {
                 System.err.println("Error loading student dashboard: " + e.getMessage());
@@ -240,8 +242,6 @@ public class UnifiedDashboardController implements Initializable {
             Map<String, Long> roleCountsForChart = new LinkedHashMap<>();
             int coursesCount = 0;
             int evaluationsCount = 0;
-            int institutionsCount = 0;
-            int structuresCount = 0;
             List<String> logLines = new ArrayList<>();
 
             try {
@@ -280,8 +280,6 @@ public class UnifiedDashboardController implements Initializable {
             }
             try {
                 if (adminService != null) {
-                    institutionsCount = adminService.getAllInstitutions().size();
-                    structuresCount = adminService.getAllStructures().size();
                     SimpleDateFormat logFmt = new SimpleDateFormat("dd/MM HH:mm");
                     for (tn.esprit.educlass.model.Supervision log : adminService.getAllLogs()) {
                         if (logLines.size() >= 15) break;
@@ -299,8 +297,6 @@ public class UnifiedDashboardController implements Initializable {
             final long aCount = activeCount;
             final int cCount = coursesCount;
             final int eCount = evaluationsCount;
-            final int iCount = institutionsCount;
-            final int sCount = structuresCount;
             final Map<String, Long> roleCountsSnapshot = new LinkedHashMap<>(roleCountsForChart);
             Platform.runLater(() -> {
                 if (adminTotalUsersLabel != null) adminTotalUsersLabel.setText(String.valueOf(uCount));
@@ -309,10 +305,6 @@ public class UnifiedDashboardController implements Initializable {
                 if (adminCoursesDetailLabel != null) adminCoursesDetailLabel.setText(cCount + " cours");
                 if (adminTotalEvaluationsLabel != null) adminTotalEvaluationsLabel.setText(String.valueOf(eCount));
                 if (adminEvaluationsDetailLabel != null) adminEvaluationsDetailLabel.setText(eCount + " créées");
-                if (adminTotalInstitutionsLabel != null) adminTotalInstitutionsLabel.setText(String.valueOf(iCount));
-                if (adminInstitutionsDetailLabel != null) adminInstitutionsDetailLabel.setText(iCount + " enregistrés");
-                if (adminTotalStructuresLabel != null) adminTotalStructuresLabel.setText(String.valueOf(sCount));
-                if (adminStructuresDetailLabel != null) adminStructuresDetailLabel.setText(sCount + " éléments");
                 if (adminUsersRolePieChart != null) {
                     javafx.collections.ObservableList<javafx.scene.chart.PieChart.Data> pieData = FXCollections.observableArrayList();
                     long total = roleCountsSnapshot.values().stream().filter(v -> v != null).mapToLong(Long::longValue).sum();
