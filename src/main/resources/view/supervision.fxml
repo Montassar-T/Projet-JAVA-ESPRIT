@@ -23,12 +23,14 @@
             </padding>
             
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <TextField fx:id="supervisionSearchField" promptText="Search logs..." prefWidth="300"
-                           style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+                <TextField fx:id="supervisionSearchField" promptText="Search logs (action, user, type, result)..." prefWidth="320"
+                           style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" onAction="#handleApplySearch"/>
+                <Button text="Apply" fx:id="applySearchBtn" onAction="#handleApplySearch"
+                        style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
                 <Button text="Refresh" fx:id="refreshLogsBtn" onAction="#handleRefreshLogs"
                         style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Export CSV"
+                <Button text="Export CSV" fx:id="exportCsvBtn" onAction="#handleExportCsv"
                         style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
             </HBox>
 

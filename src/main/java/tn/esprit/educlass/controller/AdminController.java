@@ -2,6 +2,7 @@ package tn.esprit.educlass.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import tn.esprit.educlass.model.Institution;
 import tn.esprit.educlass.model.AcademicStructure;
 import tn.esprit.educlass.model.SystemConfig;
@@ -10,9 +11,15 @@ import tn.esprit.educlass.service.AdminService;
 import tn.esprit.educlass.utlis.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +27,7 @@ public class AdminController {
 
   private AdminService service;
   private ObservableList<Supervision> supervisionLogs = FXCollections.observableArrayList();
+  private FilteredList<Supervision> filteredSupervisionLogs;
   private ObservableList<AcademicStructure> academicStructures = FXCollections.observableArrayList();
 
   public AdminController() {
@@ -94,16 +102,19 @@ public class AdminController {
   @FXML
   public void initialize() {
     try {
-      // Setup Supervision Table
+      // Setup Supervision Table with filter
       if (supervisionTable != null) {
+        filteredSupervisionLogs = new FilteredList<>(supervisionLogs, p -> true);
         if (idActionCol != null) idActionCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         if (actionCol != null) actionCol.setCellValueFactory(new PropertyValueFactory<>("action"));
         if (userCol != null) userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
         if (typeActionCol != null) typeActionCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         if (resultatCol != null) resultatCol.setCellValueFactory(new PropertyValueFactory<>("result"));
         if (timestampCol != null) timestampCol.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
-        supervisionTable.setItems(supervisionLogs);
-        
+        supervisionTable.setItems(filteredSupervisionLogs);
+        if (supervisionSearchField != null) {
+          supervisionSearchField.textProperty().addListener((obs, o, n) -> applySearchFilter());
+        }
         handleRefreshLogs();
       }
 
@@ -203,9 +214,67 @@ public class AdminController {
     try {
       List<Supervision> logs = service.getAllLogs();
       supervisionLogs.setAll(logs);
+      applySearchFilter();
     } catch (SQLException e) {
       showAlert("Error loading logs", e.getMessage());
     }
+  }
+
+  private void applySearchFilter() {
+    if (filteredSupervisionLogs == null) return;
+    String query = (supervisionSearchField != null ? supervisionSearchField.getText() : "").trim().toLowerCase();
+    filteredSupervisionLogs.setPredicate(log -> {
+      if (query.isEmpty()) return true;
+      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      String ts = log.getTimestamp() != null ? df.format(log.getTimestamp()) : "";
+      String action = log.getAction() != null ? log.getAction().toLowerCase() : "";
+      String user = log.getUser() != null ? log.getUser().toLowerCase() : "";
+      String type = log.getType() != null ? log.getType().toLowerCase() : "";
+      String result = log.getResult() != null ? log.getResult().toLowerCase() : "";
+      return action.contains(query) || user.contains(query) || type.contains(query) || result.contains(query) || ts.contains(query);
+    });
+  }
+
+  @FXML
+  private void handleApplySearch() {
+    applySearchFilter();
+  }
+
+  @FXML
+  private void handleExportCsv() {
+    if (filteredSupervisionLogs == null) return;
+    FileChooser chooser = new FileChooser();
+    chooser.setTitle("Export supervision logs to CSV");
+    chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+    chooser.setInitialFileName("supervision_logs.csv");
+    File file = chooser.showSaveDialog(supervisionTable != null ? supervisionTable.getScene().getWindow() : null);
+    if (file == null) return;
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    try (BufferedWriter w = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8)) {
+      w.write("id;action;user;type;result;timestamp");
+      w.newLine();
+      for (Supervision log : filteredSupervisionLogs) {
+        String id = log.getId() != null ? String.valueOf(log.getId()) : "";
+        String action = escapeCsv(log.getAction());
+        String user = escapeCsv(log.getUser());
+        String type = escapeCsv(log.getType());
+        String result = escapeCsv(log.getResult());
+        String ts = log.getTimestamp() != null ? df.format(log.getTimestamp()) : "";
+        w.write(String.join(";", id, action, user, type, result, ts));
+        w.newLine();
+      }
+      showAlert("Export done", "Exported " + filteredSupervisionLogs.size() + " log(s) to " + file.getName());
+    } catch (Exception e) {
+      showAlert("Export error", e.getMessage());
+    }
+  }
+
+  private static String escapeCsv(String value) {
+    if (value == null) return "";
+    if (value.contains(";") || value.contains("\"") || value.contains("\n")) {
+      return "\"" + value.replace("\"", "\"\"") + "\"";
+    }
+    return value;
   }
 
   @FXML
