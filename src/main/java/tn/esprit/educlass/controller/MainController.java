@@ -485,10 +485,6 @@ public class MainController {
             if (controller instanceof tn.esprit.educlass.controller.UnifiedDashboardController && user != null) {
                 ((tn.esprit.educlass.controller.UnifiedDashboardController) controller).setUser(user);
             }
-            // Legacy: pass user to standalone DashboardController if ever used
-            if (controller instanceof DashboardController && user != null) {
-                ((DashboardController) controller).setUser(user);
-            }
             contentPane.getChildren().clear();
             contentPane.getChildren().add(view);
             return controller;
