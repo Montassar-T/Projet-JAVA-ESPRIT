@@ -31,6 +31,7 @@ public class StudentResponseService {
         ps.setString(4, sr.getAnswerText());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Submit response student=" + sr.getStudentId() + " question=" + sr.getQuestionId());
         return success;
     }
 

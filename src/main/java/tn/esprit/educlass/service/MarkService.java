@@ -32,6 +32,7 @@ public class MarkService {
         ps.setBoolean(5, m.isReviewResolved());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
+        if (success) SupervisionLogger.logSuccess("Create mark student=" + m.getStudentId() + " exam=" + m.getExamId());
         return success;
     }
 

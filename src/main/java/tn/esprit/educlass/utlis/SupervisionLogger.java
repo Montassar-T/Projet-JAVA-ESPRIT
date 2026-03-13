@@ -10,10 +10,69 @@ import java.sql.SQLException;
 /**
  * Logs mutating actions (create, update, delete) by students and teachers
  * to the supervision table. GET/read actions are not logged.
+ * <p>
+ * Use either:
+ * <ul>
+ *   <li>{@link #logSuccess(String)} / {@link #logFailure(String)} after your code (manual)</li>
+ *   <li>{@link #runSupervised(String, SupervisedAction)} to run a block and log success/failure automatically (decorator)</li>
+ * </ul>
  */
 public final class SupervisionLogger {
 
     private SupervisionLogger() {}
+
+    /**
+     * Action that can throw SQLException (e.g. service create/update/delete).
+     * Used by {@link #runSupervised(String, SupervisedAction)}.
+     */
+    @FunctionalInterface
+    public interface SupervisedAction {
+        void run() throws SQLException;
+    }
+
+    /**
+     * Decorator: runs the given action and logs to supervision on success or failure.
+     * Only logs when current user is STUDENT or TEACHER. Rethrows any exception after logging failure.
+     *
+     * @param actionDescription short description (e.g. "Create course", "Delete mark")
+     * @param action the mutating operation (insert/update/delete)
+     * @throws SQLException if the action throws
+     */
+    public static void runSupervised(String actionDescription, SupervisedAction action) throws SQLException {
+        try {
+            action.run();
+            logSuccess(actionDescription);
+        } catch (SQLException e) {
+            logFailure(actionDescription);
+            throw e;
+        } catch (Exception e) {
+            logFailure(actionDescription);
+            throw new SQLException("Supervised action failed", e);
+        }
+    }
+
+    /**
+     * Same as {@link #runSupervised(String, SupervisedAction)} but returns a value.
+     * Use for methods that return boolean/int (e.g. success or generated id).
+     */
+    @FunctionalInterface
+    public interface SupervisedCallable<T> {
+        T call() throws SQLException;
+    }
+
+    public static <T> T runSupervised(String actionDescription, SupervisedCallable<T> action) throws SQLException {
+        try {
+            T result = action.call();
+            logSuccess(actionDescription);
+            return result;
+        } catch (SQLException e) {
+            logFailure(actionDescription);
+            throw e;
+        } catch (Exception e) {
+            logFailure(actionDescription);
+            throw new SQLException("Supervised action failed", e);
+        }
+    }
 
     /**
      * Log an action to the supervision table.
