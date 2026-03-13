@@ -31,6 +31,7 @@ public class MarksViewController {
     @FXML private TableColumn<Mark, String> examCol;
     @FXML private TableColumn<Mark, Number> markCol;
     @FXML private TableColumn<Mark, String> reviewStatusCol;
+    @FXML private TableColumn<Mark, Void> reviewActionCol;
     @FXML private ComboBox<SchoolClass> classCombo;
     @FXML private ComboBox<User> studentCombo;
     @FXML private ComboBox<Evaluation> examCombo;
@@ -60,9 +61,9 @@ public class MarksViewController {
     public void initialize() {
         try {
             loadStudentsAndExams();
+            configureByRole();
             setupTable();
             setupCombos();
-            configureByRole();
             loadMarks();
             marksTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
                 selectedMark = newVal;
@@ -134,6 +135,66 @@ public class MarksViewController {
                         } else {
                             setStyle("");
                         }
+                    }
+                }
+            });
+        }
+        if (reviewActionCol != null) {
+            reviewActionCol.setCellFactory(col -> new TableCell<>() {
+                private final Button btn = new Button();
+
+                {
+                    btn.setOnAction(e -> {
+                        Mark m = getTableView().getItems().get(getIndex());
+                        if (m == null) return;
+                        if (studentMode) {
+                            requestDoubleCorrection(m);
+                        } else {
+                            resolveDoubleCorrection(m);
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
+                        setGraphic(null);
+                        return;
+                    }
+                    Mark m = getTableView().getItems().get(getIndex());
+                    if (m == null) {
+                        setGraphic(null);
+                        return;
+                    }
+
+                    if (studentMode) {
+                        // Student: can only request on that specific exam/mark row
+                        if (m.isReviewRequested() && m.isReviewResolved()) {
+                            btn.setText("Vérifiée");
+                            btn.setDisable(true);
+                            btn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;");
+                        } else if (m.isReviewRequested()) {
+                            btn.setText("Demandée");
+                            btn.setDisable(true);
+                            btn.setStyle("-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold;");
+                        } else {
+                            btn.setText("Demander");
+                            btn.setDisable(false);
+                            btn.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;");
+                        }
+                        setGraphic(btn);
+                        return;
+                    }
+
+                    // Teacher/admin: only show action when there is a pending request
+                    if (m.isReviewRequested() && !m.isReviewResolved()) {
+                        btn.setText("Marquer vérifiée");
+                        btn.setDisable(false);
+                        btn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;");
+                        setGraphic(btn);
+                    } else {
+                        setGraphic(null);
                     }
                 }
             });
@@ -220,6 +281,10 @@ public class MarksViewController {
             if (deleteMarkBtn != null) {
                 deleteMarkBtn.setVisible(false);
                 deleteMarkBtn.setManaged(false);
+            }
+            if (requestReviewBtn != null) {
+                requestReviewBtn.setVisible(true);
+                requestReviewBtn.setManaged(true);
             }
             if (filterStudentCombo != null) {
                 filterStudentCombo.setVisible(false);
@@ -342,25 +407,7 @@ public class MarksViewController {
     @FXML
     private void onSave() {
         if (studentMode) {
-            // student can only request double correction on their own mark
-            Mark selected = marksTable.getSelectionModel().getSelectedItem();
-            if (selected == null) {
-                showError("Aucune sélection", "Sélectionnez une note pour demander une double correction.");
-                return;
-            }
-            try {
-                selected.setReviewRequested(true);
-                selected.setReviewResolved(false);
-                if (markService.modifier(selected)) {
-                    loadMarks();
-                    showInfo("Demande de double correction envoyée.");
-                } else {
-                    showError("Erreur", "Impossible d'envoyer la demande.");
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                showError("Erreur base de données", ex.getMessage());
-            }
+            showError("Accès refusé", "Les étudiants ne peuvent pas modifier les notes.");
             return;
         }
         User u = studentCombo.getValue();
@@ -487,6 +534,40 @@ public class MarksViewController {
                 showInfo("Examen ajouté. Vous pouvez le sélectionner dans la liste.");
             } else {
                 showError("Erreur", "Impossible d'ajouter l'examen.");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showError("Erreur base de données", ex.getMessage());
+        }
+    }
+
+    private void requestDoubleCorrection(Mark m) {
+        if (!studentMode) return;
+        try {
+            m.setReviewRequested(true);
+            m.setReviewResolved(false);
+            if (markService.modifier(m)) {
+                loadMarks();
+                showInfo("Demande de double correction envoyée.");
+            } else {
+                showError("Erreur", "Impossible d'envoyer la demande.");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showError("Erreur base de données", ex.getMessage());
+        }
+    }
+
+    private void resolveDoubleCorrection(Mark m) {
+        if (studentMode) return;
+        try {
+            m.setReviewRequested(true);
+            m.setReviewResolved(true);
+            if (markService.modifier(m)) {
+                loadMarks();
+                showInfo("Demande vérifiée.");
+            } else {
+                showError("Erreur", "Impossible de marquer comme vérifiée.");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

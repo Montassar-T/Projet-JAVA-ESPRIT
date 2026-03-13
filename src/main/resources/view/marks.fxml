@@ -36,6 +36,7 @@
                         <TableColumn fx:id="examCol" text="Examen" prefWidth="200"/>
                         <TableColumn fx:id="markCol" text="Note /20" prefWidth="80"/>
                         <TableColumn fx:id="reviewStatusCol" text="Revue" prefWidth="60"/>
+                        <TableColumn fx:id="reviewActionCol" text="Action" prefWidth="160"/>
                     </columns>
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
