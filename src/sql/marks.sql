@@ -14,6 +14,10 @@ CREATE TABLE marks (
     student_id INT NOT NULL,
     exam_id INT NOT NULL,
     mark DECIMAL(5,2) NOT NULL CHECK (mark >= 0 AND mark <= 20),
+    -- review_requested: student has requested a double correction
+    review_requested TINYINT(1) NOT NULL DEFAULT 0,
+    -- review_resolved: teacher has checked/reviewed the request
+    review_resolved TINYINT(1) NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     -- Unique constraint: one student can have only one mark per exam

@@ -17,6 +17,22 @@ public class MarkMapper {
         if (markValue != null) {
             m.setMark(markValue);
         }
+        try {
+            boolean requested = rs.getBoolean("review_requested");
+            if (!rs.wasNull()) {
+                m.setReviewRequested(requested);
+            }
+        } catch (SQLException ignored) {
+            // older schema without column
+        }
+        try {
+            boolean resolved = rs.getBoolean("review_resolved");
+            if (!rs.wasNull()) {
+                m.setReviewResolved(resolved);
+            }
+        } catch (SQLException ignored) {
+            // older schema without column
+        }
         return m;
     }
 }

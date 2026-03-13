@@ -23,11 +23,13 @@ public class MarkService {
 
     // CREATE
     public boolean ajouter(Mark m) throws SQLException {
-        String sql = "INSERT INTO marks (student_id, exam_id, mark) VALUES (?,?,?)";
+        String sql = "INSERT INTO marks (student_id, exam_id, mark, review_requested, review_resolved) VALUES (?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, m.getStudentId());
         ps.setInt(2, m.getExamId());
         ps.setBigDecimal(3, m.getMark());
+        ps.setBoolean(4, m.isReviewRequested());
+        ps.setBoolean(5, m.isReviewResolved());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
         return success;
@@ -35,12 +37,14 @@ public class MarkService {
 
     // UPDATE
     public boolean modifier(Mark m) throws SQLException {
-        String sql = "UPDATE marks SET student_id=?, exam_id=?, mark=? WHERE id=?";
+        String sql = "UPDATE marks SET student_id=?, exam_id=?, mark=?, review_requested=?, review_resolved=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, m.getStudentId());
         ps.setInt(2, m.getExamId());
         ps.setBigDecimal(3, m.getMark());
-        ps.setInt(4, m.getId());
+        ps.setBoolean(4, m.isReviewRequested());
+        ps.setBoolean(5, m.isReviewResolved());
+        ps.setInt(6, m.getId());
         boolean success = ps.executeUpdate() > 0;
         ps.close();
         if (success) SupervisionLogger.logSuccess("Update mark id=" + m.getId());
@@ -227,6 +231,9 @@ public class MarkService {
             return existing;
         } else {
             Mark m = new Mark(studentId, evaluationId, calculatedMark);
+            // default: no review requested/resolved
+            m.setReviewRequested(false);
+            m.setReviewResolved(false);
             ajouter(m);
             return m;
         }
