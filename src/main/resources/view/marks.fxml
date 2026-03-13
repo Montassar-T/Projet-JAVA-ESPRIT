@@ -35,8 +35,16 @@
                         <TableColumn fx:id="studentCol" text="Étudiant" prefWidth="180"/>
                         <TableColumn fx:id="examCol" text="Examen" prefWidth="200"/>
                         <TableColumn fx:id="markCol" text="Note /20" prefWidth="80"/>
+                        <TableColumn fx:id="reviewStatusCol" text="Revue" prefWidth="60"/>
                     </columns>
                 </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Légende revue:" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+                    <Label text="●" style="-fx-text-fill: red; -fx-font-size: 14px;"/>
+                    <Label text="= demande de double correction en attente" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+                    <Label text="●" style="-fx-text-fill: green; -fx-font-size: 14px; -fx-padding: 0 0 0 10;"/>
+                    <Label text="= demande vérifiée" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;"/>
+                </HBox>
                 <HBox spacing="10">
                     <Button fx:id="deleteMarkBtn" text="Supprimer la sélection" onAction="#onDelete"
                             style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
@@ -44,25 +52,27 @@
             </VBox>
 
             <!-- Form -->
-            <VBox spacing="18" style="-fx-background-color: #fcfcfc; -fx-padding: 20;">
+            <VBox fx:id="formContainer" spacing="18" style="-fx-background-color: #fcfcfc; -fx-padding: 20;">
                 <Label text="Ajouter / Modifier une note" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                 <GridPane hgap="10" vgap="14">
                     <columnConstraints>
                         <ColumnConstraints minWidth="100" halignment="RIGHT"/>
                         <ColumnConstraints hgrow="ALWAYS"/>
                     </columnConstraints>
-                    <Label text="Étudiant:" GridPane.rowIndex="0"/>
-                    <ComboBox fx:id="studentCombo" prefWidth="260" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                    <Label text="Examen:" GridPane.rowIndex="1"/>
-                    <ComboBox fx:id="examCombo" prefWidth="260" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-                    <Label text="Note (0–20):" GridPane.rowIndex="2"/>
-                    <TextField fx:id="markField" promptText="ex: 14.5" prefWidth="120" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Classe:" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="classCombo" prefWidth="260" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Étudiant:" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="studentCombo" prefWidth="260" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Examen:" GridPane.rowIndex="2"/>
+                    <ComboBox fx:id="examCombo" prefWidth="260" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Note (0–20):" GridPane.rowIndex="3"/>
+                    <TextField fx:id="markField" promptText="ex: 14.5" prefWidth="120" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                 </GridPane>
                 <Separator/>
                 <Label text="Ajouter un examen (sélectionnable plus tard)" style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <TextField fx:id="newExamField" promptText="Nom de l'examen" prefWidth="200"/>
-                    <Button text="Ajouter l'examen" onAction="#onAddExam"
+                    <Button fx:id="addExamButton" text="Ajouter l'examen" onAction="#onAddExam"
                             style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 </HBox>
                 <Region VBox.vgrow="ALWAYS"/>

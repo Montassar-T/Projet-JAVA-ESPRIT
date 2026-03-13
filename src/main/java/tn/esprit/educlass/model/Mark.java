@@ -8,6 +8,10 @@ public class Mark extends BaseEntity {
     private int studentId;
     private int examId;
     private BigDecimal mark;
+    // Student has requested a double correction
+    private boolean reviewRequested;
+    // Teacher has processed the request
+    private boolean reviewResolved;
 
     public Mark() {}
 
@@ -47,5 +51,21 @@ public class Mark extends BaseEntity {
 
     public void setMark(BigDecimal mark) {
         this.mark = mark;
+    }
+
+    public boolean isReviewRequested() {
+        return reviewRequested;
+    }
+
+    public void setReviewRequested(boolean reviewRequested) {
+        this.reviewRequested = reviewRequested;
+    }
+
+    public boolean isReviewResolved() {
+        return reviewResolved;
+    }
+
+    public void setReviewResolved(boolean reviewResolved) {
+        this.reviewResolved = reviewResolved;
     }
 }
